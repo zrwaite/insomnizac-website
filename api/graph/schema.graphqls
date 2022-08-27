@@ -1,0 +1,13 @@
+# GraphQL schema example
+type Project {
+  id: ID!
+  name: String!
+}
+
+type Query {
+  projects: [Project!]!
+}
+
+type Mutation {
+  contact(message: String!): Boolean!
+}

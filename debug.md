@@ -1,9 +1,7 @@
 Invalid ruby version:
 
 ```
-source ~/.zshenv
-rbenv global 3.1.2
-ruby -v
+source ~/.zshenv; rbenv global 3.1.2; ruby -v
 ```
 
 Gem install permissions error:

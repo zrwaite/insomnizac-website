@@ -10,6 +10,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1 or /projects/1.json
   def show
     puts 'hi'
+    helpers.get_github
   end
 
   # GET /projects/new

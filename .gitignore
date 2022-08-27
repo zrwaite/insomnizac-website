@@ -42,3 +42,6 @@ sorbet/rbi/hidden-definitions/errors.txt
 
 #Env
 .env
+
+#sorbet
+sorbet

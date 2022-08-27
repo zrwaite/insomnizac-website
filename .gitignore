@@ -40,3 +40,5 @@ sorbet/rbi/hidden-definitions/errors.txt
 #MacOS
 .DS_Store
 
+#Env
+.env

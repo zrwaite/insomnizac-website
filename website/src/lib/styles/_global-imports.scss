@@ -10,9 +10,16 @@ $colors: (
 	}
 	@return map-get($colors, $key);
 }
+@function textOutline($thickness, $color) {
+	@return $thickness $thickness $color, #{-$thickness} #{-$thickness} $color, $thickness #{-$thickness} $color, #{-$thickness} $thickness $color, 0px $thickness $color, $thickness 0px $color, #{-$thickness} 0px $color, 0px #{-$thickness} $color;
+}
 * {
 	margin: 0;
 	padding: 0;
 	font-family: 'Roboto Mono';
 	color: color('font');
+	// background: rgba(0, 100, 0, 0.1) !important;
+}
+h1 {
+	text-align: center;
 }

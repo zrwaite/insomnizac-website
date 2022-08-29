@@ -9,12 +9,17 @@
 <style global lang="scss">
     body,html,#container {
 		min-height:100vh;
+		overflow:scroll;
+	}
+	body>div {
+		overflow:scroll;
 	}
 	#pageContainer {
 		display: flex;
 		flex-direction: row;
 		height: 100vh;
 		background-color: color('background');
+		overflow:scroll;
 	}
 	#contentContainer {
 		width: 100%;
@@ -26,7 +31,7 @@
 	footer {
 		position: absolute;
 		bottom: 0;
-		width: 100%;
+		width: calc(100% - 4rem);
 		height: auto;
 	}
 
@@ -37,6 +42,6 @@
 		<main>
 			<slot></slot>
 		</main>
-		<footer>Zac Waite</footer>
+		<!-- <footer>Zac Waite</footer> -->
 	</div>
 </section>

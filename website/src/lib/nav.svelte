@@ -40,6 +40,8 @@
 		min-width: 4rem;
 		width: 4rem;
 		height: 100%;
+		position: sticky;
+		top: 0;
 		section {
 			padding: 0;
 			width: 4rem;
@@ -61,8 +63,6 @@
 				// background-color: rgba(250, 250, 250, 0.15);
 				&:hover {
 					background-color: rgba(250, 250, 250, 0.2);
-					h3 {
-					}
 				}
 				#navImg {
 					min-width: 3rem;

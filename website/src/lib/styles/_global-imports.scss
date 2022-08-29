@@ -1,0 +1,18 @@
+$colors: (
+	primary: #007cd4,
+	secondary: #006c41,
+	background: black,
+	font: white
+);
+@function color($key) {
+	@if not map-has-key($colors, $key) {
+		@warn "Color `#{$key}` not found.";
+	}
+	@return map-get($colors, $key);
+}
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'Roboto Mono';
+	color: color('font');
+}

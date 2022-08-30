@@ -12,10 +12,10 @@
 
 ActiveRecord::Schema[7.0].define(version: 2022_08_27_173255) do
   create_table "projects", id: :bigint, default: -> { "unique_rowid()" }, force: :cascade do |t|
-    t.string "name"
-    t.string "slug"
+    t.string "name", null: false
+    t.string "slug", null: false
     t.string "description"
-    t.string "github_name"
+    t.string "github_name", null: false
     t.string "devpost_link"
     t.string "project_link"
     t.datetime "created_at", precision: nil, null: false

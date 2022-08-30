@@ -1,19 +1,30 @@
 package services
 
 import (
+	"fmt"
+
 	"github.com/zrwaite/Insomnizac/database"
 	"github.com/zrwaite/Insomnizac/graph/model"
 )
 
+func GetProjectArgs(project *model.Project) []interface{} {
+	var empty *string = nil
+	return []interface{}{&project.ID, &project.Name, &empty, &empty, &empty, &empty, &empty, &empty, &empty}
+}
+
 func GetProjects() (projects []*model.Project, status int) {
 	rows, err := database.DB.Query("SELECT * FROM projects")
-	defer rows.Close()
 	if err != nil {
 		return nil, 400
 	}
+	defer rows.Close()
 	for rows.Next() {
-		var project *model.Project
-		rows.Scan(&project)
+		project := new(model.Project)
+		err = rows.Scan(GetProjectArgs(project)...)
+		if err != nil {
+			fmt.Println(err)
+			return nil, 400
+		}
 		projects = append(projects, project)
 	}
 	return projects, 200

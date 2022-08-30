@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "nodemon --watch './**/*.go' --signal SIGTERM --exec 'go' run server.go",
-		"generate": "go run github.com/99designs/gqlgen generate && go run graph_addons/search_and_replace.go"
+		"generate": "go run github.com/99designs/gqlgen generate"
 	},
 	"keywords": [],
 	"author": "",

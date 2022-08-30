@@ -1,7 +1,14 @@
 # GraphQL schema example
 type Project {
-  slug: String!
+  id: ID!
   name: String!
+  slug: String!
+  description: String
+  githubName: String!
+  devpostLink: String
+  projectLink: String
+  createdAt: String!
+  updatedAt: String!
 }
 
 type Query {

@@ -1,6 +1,6 @@
 # GraphQL schema example
 type Project {
-  id: ID!
+  slug: String!
   name: String!
 }
 

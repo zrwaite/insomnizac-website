@@ -9,6 +9,7 @@ import (
 
 	"github.com/zrwaite/Insomnizac/graph/generated"
 	"github.com/zrwaite/Insomnizac/graph/model"
+	"github.com/zrwaite/Insomnizac/graph/resolvers"
 )
 
 func (r *mutationResolver) Contact(ctx context.Context, message string) (bool, error) {
@@ -16,7 +17,7 @@ func (r *mutationResolver) Contact(ctx context.Context, message string) (bool, e
 }
 
 func (r *queryResolver) Projects(ctx context.Context) ([]*model.Project, error) {
-	panic(fmt.Errorf("not implemented"))
+	return resolvers.ProjectsResolver(ctx)
 }
 
 // Mutation returns generated.MutationResolver implementation.

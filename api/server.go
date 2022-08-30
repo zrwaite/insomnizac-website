@@ -7,6 +7,8 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/joho/godotenv"
+	"github.com/zrwaite/Insomnizac/database"
 	"github.com/zrwaite/Insomnizac/graph"
 	"github.com/zrwaite/Insomnizac/graph/generated"
 )
@@ -14,10 +16,12 @@ import (
 const defaultPort = "8011"
 
 func main() {
+	godotenv.Load(".env")
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
 	}
+	database.ConnectToDB()
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 

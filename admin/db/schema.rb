@@ -11,12 +11,15 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2022_08_27_173255) do
-  create_table "projects", primary_key: "name", id: :string, force: :cascade do |t|
+  create_table "projects", id: :bigint, default: -> { "unique_rowid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
     t.string "description"
     t.string "github_name"
+    t.string "devpost_link"
+    t.string "project_link"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.bigint "rowid", default: -> { "unique_rowid()" }, null: false
   end
 
   create_table "users", id: :bigint, default: -> { "unique_rowid()" }, force: :cascade do |t|

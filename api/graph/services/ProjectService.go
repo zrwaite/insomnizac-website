@@ -8,8 +8,7 @@ import (
 )
 
 func GetProjectArgs(project *model.Project) []interface{} {
-	var empty *string = nil
-	return []interface{}{&project.ID, &project.Name, &empty, &empty, &empty, &empty, &empty, &empty, &empty}
+	return []interface{}{&project.ID, &project.Name, &project.Slug, &project.Description, &project.GithubName, &project.DevpostLink, &project.ProjectLink, &project.CreatedAt, &project.UpdatedAt}
 }
 
 func GetProjects() (projects []*model.Project, status int) {

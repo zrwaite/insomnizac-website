@@ -1,21 +1,17 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
-	import resumeImg from '$lib/images/resume.svg'
-	import logoImg from '$lib/images/logo.png'
-	const navItems: {name: string; img: string, link: string}[] = [
+	import brainIcon from './icons/brain.svelte'
+	const navItems: {name: string; link: string}[] = [
 		{
 			name: "Zac Waite",
-			img: logoImg,
 			link: "/"
 		},
 		{
 			name: "Projects",
-			img: "https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg",
 			link: "/projects"
 		},
 		{
 			name: "Resume",
-			img: resumeImg,
 			link: "/resume"
 		}
 	]
@@ -26,7 +22,7 @@
 		{#each navItems as navItem}
 			<div id="navItem" on:click={() => goto(navItem.link)}>
 				<div id="navImg">
-					<img src={`${navItem.img}`} alt={navItem.name}>
+					<!-- <img src={`${navItem.img}`} alt={navItem.name}> -->
 				</div>
 				<h3>{navItem.name}</h3>
 			</div>
@@ -41,13 +37,15 @@
 		width: 4rem;
 		height: 100%;
 		position: sticky;
+		margin-right: 1.2rem;
 		top: 0;
 		section {
 			padding: 0;
 			width: 4rem;
 			height: 100%;
 			position: absolute;
-			background-color: color('secondary');
+			box-shadow: 0.2rem 0 1rem 0.2rem color('dark');
+			background-color: color('background');
 			transition: width 0.2s ease-out;
 			overflow: hidden;
 			&:hover {

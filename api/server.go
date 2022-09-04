@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -11,17 +12,23 @@ import (
 	"github.com/zrwaite/Insomnizac/database"
 	"github.com/zrwaite/Insomnizac/graph"
 	"github.com/zrwaite/Insomnizac/graph/generated"
+	"github.com/zrwaite/Insomnizac/graph/services/queries"
+	"github.com/zrwaite/Insomnizac/settings"
 )
 
 const defaultPort = "8011"
 
 func main() {
 	godotenv.Load(".env")
+	settings.InitConfig()
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
 	}
 	database.ConnectToDB()
+
+	query := queries.GenereateRepositoriesQuery([]string{"Insomnizac", "zrwaite", "HomeNode"})
+	fmt.Println(query)
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 

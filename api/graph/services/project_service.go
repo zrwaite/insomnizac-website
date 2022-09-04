@@ -11,6 +11,10 @@ func GetProjectArgs(project *model.Project) []interface{} {
 	return []interface{}{&project.ID, &project.Name, &project.Slug, &project.Description, &project.GithubName, &project.DevpostLink, &project.ProjectLink, &project.CreatedAt, &project.UpdatedAt}
 }
 
+func GetGithubProject(project *model.Project) {
+
+}
+
 func GetProjects() (projects []*model.Project, status int) {
 	rows, err := database.DB.Query("SELECT * FROM projects")
 	if err != nil {

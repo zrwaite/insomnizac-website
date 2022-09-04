@@ -3,8 +3,9 @@ type Project {
   id: ID!
   name: String!
   slug: String!
-  description: String
+  description: String!
   githubName: String!
+  languages: [String!]!
   devpostLink: String
   projectLink: String
   createdAt: String!

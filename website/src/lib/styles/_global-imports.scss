@@ -3,7 +3,8 @@ $colors: (
 	secondary: #006c41,
 	background: #131B1B,
 	dark: #070a0a,
-	font: white
+	font: white,
+	lightGrey: #C4D1CC
 );
 @function color($key) {
 	@if not map-has-key($colors, $key) {

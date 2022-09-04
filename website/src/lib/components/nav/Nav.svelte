@@ -4,7 +4,7 @@
 	import ResumeIcon from '../icons/resume.svelte'
 	import NodeIcon from '../icons/node.svelte'
 	import NavItem from './NavItem.svelte'
-	const navItems: {name: string; icon: any, link?: string, overrideColor?: bool}[] = [
+	const navItems: {name: string; icon: any, link?: string, overrideColor?: boolean}[] = [
 		{
 			name: "ZW",
 			icon: NodeIcon,

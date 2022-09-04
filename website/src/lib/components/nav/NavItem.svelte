@@ -1,17 +1,8 @@
 <script lang="ts">
-import type { LOGNAME } from "$env/static/private";
-
-
-import type { LOGNAME } from "$env/static/private";
-
-
-import A4 from "$lib/pages/404.svelte";
-
-
 	import { goto } from '$app/navigation'
-	import { COLORS } from '../../styles/colors.ts'
-	export let overrideColor: bool = false
-	export let link: string
+	import { COLORS } from '../../styles/colors'
+	export let overrideColor: boolean = false
+	export let link: string | undefined = undefined
 	export let icon: any
 	export let name: string
 	let hover = false
@@ -19,7 +10,6 @@ import A4 from "$lib/pages/404.svelte";
 
 	const mouseEnter = () => {
 		hover = true;
-		console.log(fontColor)
 	}
 	const mouseLeave = () => {
 		hover = false;
@@ -29,7 +19,7 @@ import A4 from "$lib/pages/404.svelte";
 <div 
 	style="--fontColor:{fontColor};"
 	class={`navItem ${link?'':'disableHover'}`}
-	on:click={link?() => goto(link):null}
+	on:click={link ? () => goto(link??'') : null}
 	on:mouseleave={overrideColor?null:mouseLeave}
 	on:mouseenter={overrideColor?null:mouseEnter}
 >

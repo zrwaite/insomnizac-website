@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { goto } from '$app/navigation'
 	import logo from '$lib/images/logo-nobackground.png'
+	import Languages from '$lib/pages/home/Languages.svelte';
 </script>
 <article>
 	<section class="homeHeader">
@@ -13,10 +13,7 @@
 			<img src={logo} alt={'logo'}/>
 		</div>
 	</section>
-	<h1>Zac Waite</h1>
-	<button on:click={() => goto(`/projects`)}>
-		Go to projects
-	</button>
+	<Languages/>
 </article>
 <style lang="scss">
 	article {
@@ -24,12 +21,14 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-start;
+		margin: 1rem;
 	}
 	.homeHeader {
 		display: flex;
 		width: 100%;
+		max-width: 50rem;
 		justify-content:space-around;
-		margin: 2rem;
+		margin: 1rem;
 		h1 {
 			font-size: 3rem;
 			font-weight: bold;

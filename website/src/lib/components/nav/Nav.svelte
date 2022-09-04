@@ -11,7 +11,7 @@
 			overrideColor: true
 		},
 		{
-			name: "Zac Waite",
+			name: "Home",
 			icon: HomeIcon,
 			link: "/"
 		},

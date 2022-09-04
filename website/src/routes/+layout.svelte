@@ -1,5 +1,5 @@
 <script>
-	import Nav from "../lib/components/nav.svelte"
+	import Nav from "../lib/components/nav/Nav.svelte"
 </script>
 
 <svelte:head>

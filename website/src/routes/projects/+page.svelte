@@ -32,7 +32,7 @@
 	loadProjects()
 </script>
 <article>
-	<h1>Projets</h1>
+	<h1>Projects</h1>
 	{#if projectsLoaded}
 		{#each projects as project}
 			<p>{project.name}</p>

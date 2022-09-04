@@ -1,5 +1,5 @@
 $colors: (
-	primary: #007cd4,
+	primary: #50F4B0,
 	secondary: #006c41,
 	background: #131B1B,
 	dark: #070a0a,
@@ -19,7 +19,9 @@ $colors: (
 	padding: 0;
 	font-family: 'Roboto Mono';
 	color: color('font');
-	// background: rgba(0, 100, 0, 0.1) !important;
+
+	// for layout debugging:
+	// background: rgba(0, 100, 0, 0.1) !important; 
 }
 h1 {
 	text-align: center;

@@ -1,17 +1,20 @@
+version: '3'
 services:
     website:
         build: 'website'
         image: 'zrwaite/insomnizac_website:1.0.0'
         ports:
-            - '8010:8010'
+            - '8010:80'
+        depends_on:
+            - "api"
     api:
         build: 'api'
         image: 'zrwaite/insomnizac_api:1.0.0'
         ports:
             - '8011:8011'
-    admin:
-        build: 'admin'
-        command: bundle exec rails s -p 8012 -b '0.0.0.0'
-        image: 'zrwaite/insomnizac_admin:1.0.0'
-        ports:
-            - '8012:8012'
+    # admin:
+    #     build: 'admin'
+    #     command: bundle exec rails s -p 8012 -b '0.0.0.0'
+    #     image: 'zrwaite/insomnizac_admin:1.0.0'
+    #     ports:
+    #         - '8012:8012'

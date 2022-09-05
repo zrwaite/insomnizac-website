@@ -1,6 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import type { UserConfig } from 'vite';
-import path from 'path'
+import path from 'path';
 
 const config: UserConfig = {
 	plugins: [sveltekit()],
@@ -8,7 +8,7 @@ const config: UserConfig = {
 		alias: {
 			'@components': path.resolve('./src/lib/components'),
 			'@lib': path.resolve('./src/lib'),
-			'@utils': path.resolve('./src/lib/utils')	
+			'@utils': path.resolve('./src/lib/utils')
 		}
 	}
 };

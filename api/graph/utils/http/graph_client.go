@@ -1,6 +1,6 @@
-package models
+package httpreq
 
-type GraphQLQuery struct {
+type QueryArgs struct {
 	Query     string `json:"query"`
 	Variables string `json:"variables"`
 }

@@ -1,6 +1,9 @@
 package queries
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 var RepositoryQuery = `
 query ($name: String!) { 
@@ -27,6 +30,7 @@ query ($name: String!) {
 func GenereateRepositoriesQuery(names []string) (query string) {
 	query = `query { `
 	for _, name := range names {
+		queryName := strings.Replace(name, "-", "", -1)
 		query += fmt.Sprintf(`
 		repo%s: repository(name: "%s", owner: "zrwaite") {
 			description
@@ -45,7 +49,7 @@ func GenereateRepositoriesQuery(names []string) (query string) {
 				}
 			}
 		}
-		`, name, name)
+		`, queryName, name)
 	}
 	query += `}`
 	return

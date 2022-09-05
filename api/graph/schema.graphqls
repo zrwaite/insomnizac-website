@@ -1,4 +1,3 @@
-# GraphQL schema example
 type Project {
   id: ID!
   name: String!
@@ -14,6 +13,7 @@ type Project {
 
 type Query {
   projects: [Project!]!
+  project(slug: String!): Project!
 }
 
 type Mutation {

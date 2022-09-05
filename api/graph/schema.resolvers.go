@@ -17,7 +17,11 @@ func (r *mutationResolver) Contact(ctx context.Context, message string) (bool, e
 }
 
 func (r *queryResolver) Projects(ctx context.Context) ([]*model.Project, error) {
-	return resolvers.ProjectsResolver(ctx)
+	return resolvers.ProjectsResolver()
+}
+
+func (r *queryResolver) Project(ctx context.Context, slug string) (*model.Project, error) {
+	return resolvers.ProjectResolver(slug)
 }
 
 // Mutation returns generated.MutationResolver implementation.

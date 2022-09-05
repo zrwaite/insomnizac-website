@@ -1,25 +1,39 @@
 <script>
-	import Nav from "$lib/components/nav/Nav.svelte"
+	import Nav from '$lib/components/nav/Nav.svelte';
 </script>
 
 <svelte:head>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+		rel="stylesheet"
+	/>
 </svelte:head>
+<section id="pageContainer">
+	<Nav />
+	<div id="contentContainer">
+		<main>
+			<slot />
+		</main>
+		<!-- <footer>Zac Waite</footer> -->
+	</div>
+</section>
 
 <style global lang="scss">
-    body,html,#container {
-		min-height:100vh;
-		overflow:scroll;
+	body,
+	html,
+	#container {
+		min-height: 100vh;
+		overflow: scroll;
 	}
-	body>div {
-		overflow:scroll;
+	body > div {
+		overflow: scroll;
 	}
 	#pageContainer {
 		display: flex;
 		flex-direction: row;
 		height: 100vh;
 		background-color: color('background');
-		overflow:scroll;
+		overflow: scroll;
 	}
 	#contentContainer {
 		width: 100%;
@@ -34,14 +48,4 @@
 		width: calc(100% - 4rem);
 		height: auto;
 	}
-
-</style> 
-<section id="pageContainer">
-	<Nav></Nav>
-	<div id="contentContainer">
-		<main>
-			<slot></slot>
-		</main>
-		<!-- <footer>Zac Waite</footer> -->
-	</div>
-</section>
+</style>

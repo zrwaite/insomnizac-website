@@ -1,34 +1,33 @@
 <script lang="ts">
-	import { goto } from '$app/navigation'
-	import { COLORS } from '../../styles/colors'
-	export let overrideColor: boolean = false
-	export let link: string | undefined = undefined
-	export let icon: any
-	export let name: string
-	let hover = false
-	$: fontColor = hover || overrideColor ? COLORS.primary : COLORS.font
+	import { goto } from '$app/navigation';
+	import { COLORS } from '../../styles/colors';
+	export let overrideColor: boolean = false;
+	export let link: string | undefined = undefined;
+	export let icon: any;
+	export let name: string;
+	let hover = false;
+	$: fontColor = hover || overrideColor ? COLORS.primary : COLORS.font;
 
 	const mouseEnter = () => {
 		hover = true;
-	}
+	};
 	const mouseLeave = () => {
 		hover = false;
-	}
+	};
 </script>
 
-<div 
+<div
 	style="--fontColor:{fontColor};"
-	class={`navItem ${link?'':'disableHover'}`}
-	on:click={link ? () => goto(link??'') : null}
-	on:mouseleave={overrideColor?null:mouseLeave}
-	on:mouseenter={overrideColor?null:mouseEnter}
+	class={`navItem ${link ? '' : 'disableHover'}`}
+	on:click={link ? () => goto(link ?? '') : null}
+	on:mouseleave={overrideColor ? null : mouseLeave}
+	on:mouseenter={overrideColor ? null : mouseEnter}
 >
 	<div class="navImg">
-		<svelte:component this={icon} color={fontColor}/>
+		<svelte:component this={icon} color={fontColor} />
 	</div>
 	<h3>{name}</h3>
 </div>
-
 
 <style lang="scss">
 	.navItem {
@@ -37,7 +36,7 @@
 		justify-content: flex-start;
 		padding: 0.5rem;
 		cursor: pointer;
-		margin-bottom:1rem;
+		margin-bottom: 1rem;
 		.navImg {
 			min-width: 3rem;
 			margin-right: 1rem;

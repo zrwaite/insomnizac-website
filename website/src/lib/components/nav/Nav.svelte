@@ -1,37 +1,37 @@
 <script lang="ts">
-	import HomeIcon from '../icons/home.svelte'
-	import ComputerIcon from '../icons/computer.svelte'
-	import ResumeIcon from '../icons/resume.svelte'
-	import NodeIcon from '../icons/node.svelte'
-	import NavItem from './NavItem.svelte'
-	const navItems: {name: string; icon: any, link?: string, overrideColor?: boolean}[] = [
+	import HomeIcon from '../icons/home.svelte';
+	import ComputerIcon from '../icons/computer.svelte';
+	import ResumeIcon from '../icons/resume.svelte';
+	import NodeIcon from '../icons/node.svelte';
+	import NavItem from './NavItem.svelte';
+	const navItems: { name: string; icon: any; link?: string; overrideColor?: boolean }[] = [
 		{
-			name: "ZW",
+			name: 'ZW',
 			icon: NodeIcon,
 			overrideColor: true
 		},
 		{
-			name: "Home",
+			name: 'Home',
 			icon: HomeIcon,
-			link: "/"
+			link: '/'
 		},
 		{
-			name: "Projects",
+			name: 'Projects',
 			icon: ComputerIcon,
-			link: "/projects"
+			link: '/projects'
 		},
 		{
-			name: "Resume",
+			name: 'Resume',
 			icon: ResumeIcon,
-			link: "/resume"
+			link: '/resume'
 		}
-	]
+	];
 </script>
 
 <nav>
 	<section>
 		{#each navItems as navItem}
-			<NavItem {...navItem}/>
+			<NavItem {...navItem} />
 		{/each}
 	</section>
 </nav>
@@ -62,7 +62,7 @@
 				&:hover {
 					background-color: transparent;
 				}
-				margin-bottom:0;
+				margin-bottom: 0;
 			}
 		}
 	}

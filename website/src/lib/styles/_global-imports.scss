@@ -1,10 +1,10 @@
 $colors: (
-	primary: #50F4B0,
+	primary: #50f4b0,
 	secondary: #006c41,
-	background: #131B1B,
+	background: #131b1b,
 	dark: #070a0a,
 	font: white,
-	lightGrey: #C4D1CC
+	lightGrey: #c4d1cc
 );
 @function color($key) {
 	@if not map-has-key($colors, $key) {
@@ -13,7 +13,9 @@ $colors: (
 	@return map-get($colors, $key);
 }
 @function textOutline($thickness, $color) {
-	@return $thickness $thickness $color, #{-$thickness} #{-$thickness} $color, $thickness #{-$thickness} $color, #{-$thickness} $thickness $color, 0px $thickness $color, $thickness 0px $color, #{-$thickness} 0px $color, 0px #{-$thickness} $color;
+	@return $thickness $thickness $color, #{-$thickness} #{-$thickness} $color,
+		$thickness #{-$thickness} $color, #{-$thickness} $thickness $color, 0px $thickness $color,
+		$thickness 0px $color, #{-$thickness} 0px $color, 0px #{-$thickness} $color;
 }
 * {
 	margin: 0;
@@ -22,7 +24,7 @@ $colors: (
 	color: color('font');
 
 	// for layout debugging:
-	// background: rgba(0, 100, 0, 0.1) !important; 
+	// background: rgba(0, 100, 0, 0.1) !important;
 }
 h1 {
 	text-align: center;

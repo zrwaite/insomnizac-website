@@ -1,7 +1,8 @@
 <script lang="ts">
-	import logo from '$lib/images/logo-nobackground.png'
+	import logo from '$lib/images/logo-nobackground.png';
 	import Languages from '$lib/pages/home/Languages.svelte';
 </script>
+
 <article>
 	<section class="homeHeader">
 		<div class="headerText">
@@ -10,11 +11,12 @@
 			<h3 class="comment">//Robotics Programmer</h3>
 		</div>
 		<div class="headerLogo">
-			<img src={logo} alt={'logo'}/>
+			<img src={logo} alt={'logo'} />
 		</div>
 	</section>
-	<Languages/>
+	<Languages />
 </article>
+
 <style lang="scss">
 	article {
 		display: flex;
@@ -27,7 +29,7 @@
 		display: flex;
 		width: 100%;
 		max-width: 50rem;
-		justify-content:space-around;
+		justify-content: space-around;
 		margin: 1rem;
 		h1 {
 			font-size: 3rem;

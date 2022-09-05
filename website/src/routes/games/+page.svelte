@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { GAMES } from "../../data/games";
+	import { GAMES } from '../../data/games';
 </script>
+
 <article>
 	{#each GAMES as game}
 		<div>

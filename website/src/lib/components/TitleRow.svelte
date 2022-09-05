@@ -1,11 +1,13 @@
 <script lang="ts">
-	export let title:string;
-	let width = `${title.length*1.2}rem`
+	export let title: string;
+	let width = `${title.length * 1.2}rem`;
 </script>
+
 <div class="titleRow" style="--width:{width}">
 	<h2>{title}</h2>
-	<hr/>
+	<hr />
 </div>
+
 <style lang="scss">
 	.titleRow {
 		width: 100%;

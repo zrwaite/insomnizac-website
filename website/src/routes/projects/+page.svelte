@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { error } from '@sveltejs/kit';
-	import { graphql } from '../../data/graphql'
-	import { gql } from 'graphql-request'
+	import { graphql } from '../../data/graphql';
+	import { gql } from 'graphql-request';
 
 	import type { ProjectType } from 'src/types';
 
@@ -16,21 +16,22 @@
 				projectLink
 			}
 		}
-	`
-	let projects:ProjectType[] = []
-	let projectsLoaded = false
+	`;
+	let projects: ProjectType[] = [];
+	let projectsLoaded = false;
 	const loadProjects = async () => {
-		await new Promise((resolve) => setTimeout(resolve, 1000))
+		await new Promise((resolve) => setTimeout(resolve, 1000));
 		try {
-			const data = await graphql.request(PROJECTS_QUERY)
-			projects = data.projects
-			projectsLoaded = true
+			const data = await graphql.request(PROJECTS_QUERY);
+			projects = data.projects;
+			projectsLoaded = true;
 		} catch (e) {
 			throw error(400, 'Request failed');
 		}
-	}
-	loadProjects()
+	};
+	loadProjects();
 </script>
+
 <article>
 	<h1>Projects</h1>
 	{#if projectsLoaded}

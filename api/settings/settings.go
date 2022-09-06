@@ -21,4 +21,7 @@ func InitConfig() {
 		log.Fatal("Failed to load environment variables")
 	}
 	CONFIG.GithubAccessToken = os.Getenv("GITHUB_ACCESS_TOKEN")
+	CONFIG.SendgridAPIKey = os.Getenv("SENDGRID_API_KEY")
+	CONFIG.ContactEmail = os.Getenv("CONTACT_EMAIL")
+	CONFIG.FromEmail = os.Getenv("FROM_EMAIL")
 }

@@ -1,9 +1,10 @@
 FROM ruby:3.1.2
-ENV BUNDLER_VERSION=2.3.21
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
-RUN mkdir /app
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
 WORKDIR /app
-ADD Gemfile /app/Gemfile
-ADD Gemfile.lock /app/Gemfile.lock
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
 RUN bundle install
-ADD . /app
+
+COPY . /app
+
+CMD ["rails", "server", "-b", "0.0.0.0", "-p", "8012"]

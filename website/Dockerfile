@@ -1,25 +1,19 @@
-FROM node:16 AS build
+FROM node:16 AS builder
 
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm i
+RUN npm ci
 
 COPY . .
 
-RUN npm run build
+RUN npm run build && npm prune --production
 
-EXPOSE 3000
-CMD ["node", "./build"]
-
-# FROM node:16 AS build
-
-# WORKDIR /app
-
-# COPY package.json ./
-# COPY package-lock.json ./
-# RUN npm install
-# COPY . ./
-# RUN npm run build
-
-# FROM nginx:1.19-alpine
-# COPY --from=build /app/public /usr/share/nginx/html
+FROM node:16
+WORKDIR /app
+USER node:node
+COPY --from=builder --chown=node:node /app/build ./build
+COPY --from=builder --chown=node:node /app/node_modules ./node_modules
+COPY --chown=node:node package.json .
+ENV PORT 8010
+EXPOSE 8010
+CMD ["node", "build"]

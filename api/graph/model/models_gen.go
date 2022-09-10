@@ -13,4 +13,5 @@ type Project struct {
 	ProjectLink *string  `json:"projectLink"`
 	CreatedAt   string   `json:"createdAt"`
 	UpdatedAt   string   `json:"updatedAt"`
+	Image       *string  `json:"image"`
 }

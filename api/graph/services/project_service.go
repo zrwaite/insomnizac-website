@@ -11,11 +11,13 @@ import (
 	"github.com/zrwaite/Insomnizac/database"
 	"github.com/zrwaite/Insomnizac/graph/model"
 	"github.com/zrwaite/Insomnizac/graph/services/queries"
-	httpreq "github.com/zrwaite/Insomnizac/graph/utils/http"
+	"github.com/zrwaite/Insomnizac/graph/utils/httpreq"
 )
 
+var defaultImage = "https://storage.googleapis.com/insomnizac_public/static_assets/projects/DefaultImage.png"
+
 func GetProjectArgs(project *model.Project) []interface{} {
-	return []interface{}{&project.ID, &project.Name, &project.Slug, &project.GithubName, &project.DevpostLink, &project.ProjectLink, &project.CreatedAt, &project.UpdatedAt}
+	return []interface{}{&project.ID, &project.Name, &project.Slug, &project.GithubName, &project.DevpostLink, &project.ProjectLink, &project.CreatedAt, &project.UpdatedAt, &project.Image}
 }
 
 func GetGithubProject(project *model.Project) {
@@ -37,6 +39,9 @@ func GetProject(slug string) (project *model.Project, status int) {
 			log.Fatal(err)
 		}
 	}
+	if project.Image == nil {
+		project.Image = &defaultImage
+	}
 	err = GetRepositoryData(project)
 	if err != nil {
 		fmt.Println(err)
@@ -57,6 +62,9 @@ func GetProjects() (projects []*model.Project, status int) {
 		if err != nil {
 			fmt.Println(err)
 			return nil, 400
+		}
+		if project.Image == nil {
+			project.Image = &defaultImage
 		}
 		projects = append(projects, project)
 	}

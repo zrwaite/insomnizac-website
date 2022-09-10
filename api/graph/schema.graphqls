@@ -9,6 +9,7 @@ type Project {
   projectLink: String
   createdAt: String!
   updatedAt: String!
+  image: String
 }
 
 type Query {

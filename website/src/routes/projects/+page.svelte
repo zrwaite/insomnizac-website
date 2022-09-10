@@ -4,6 +4,7 @@
 	import { gql } from 'graphql-request';
 
 	import type { ProjectType } from 'src/types';
+import HomepageProjectPanel from '$lib/components/ProjectPanel/HomepageProjectPanel.svelte';
 
 	const PROJECTS_QUERY = gql`
 		query {
@@ -14,6 +15,7 @@
 				githubName
 				devpostLink
 				projectLink
+				image
 			}
 		}
 	`;
@@ -25,6 +27,7 @@
 			const data = await graphql.request(PROJECTS_QUERY);
 			projects = data.projects;
 			projectsLoaded = true;
+			console.log(projects)
 		} catch (e) {
 			throw error(400, 'Request failed');
 		}
@@ -34,11 +37,23 @@
 
 <article>
 	<h1>Projects</h1>
-	{#if projectsLoaded}
-		{#each projects as project}
-			<p>{project.name}</p>
-		{/each}
-	{:else}
-		<p>Loading...</p>
-	{/if}
+	<div class="projects">
+		{#if projectsLoaded}
+			{#each projects as project}
+				<HomepageProjectPanel {project} />
+			{/each}
+		{:else}
+			<p>Loading...</p>
+		{/if}
+	</div>
 </article>
+
+<style lang="scss">
+	.projects {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+</style>

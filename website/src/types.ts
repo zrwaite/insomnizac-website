@@ -11,4 +11,5 @@ export interface ProjectType {
 	githubName: string;
 	devpostLink: string;
 	projectLink: string;
+	image: string;
 }

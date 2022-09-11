@@ -8,7 +8,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/joho/godotenv"
-	"github.com/zrwaite/Insomnizac/database"
+	"github.com/zrwaite/Insomnizac/db"
 	"github.com/zrwaite/Insomnizac/graph"
 	"github.com/zrwaite/Insomnizac/graph/generated"
 	"github.com/zrwaite/Insomnizac/settings"
@@ -23,7 +23,9 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
-	database.ConnectToDB()
+
+	db.ConnectToDB()
+	db.ConnectToRedis()
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 

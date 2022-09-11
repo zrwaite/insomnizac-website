@@ -8,7 +8,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/zrwaite/Insomnizac/database"
+	"github.com/zrwaite/Insomnizac/db"
 	"github.com/zrwaite/Insomnizac/graph/model"
 	"github.com/zrwaite/Insomnizac/graph/services/queries"
 	"github.com/zrwaite/Insomnizac/graph/utils/httpreq"
@@ -25,7 +25,7 @@ func GetGithubProject(project *model.Project) {
 }
 
 func GetProject(slug string) (project *model.Project, status int) {
-	row := database.DB.QueryRow("SELECT * FROM projects WHERE slug=$1", slug)
+	row := db.DB.QueryRow("SELECT * FROM projects WHERE slug=$1", slug)
 	if row.Err() != nil {
 		fmt.Println(row.Err())
 		return nil, 400
@@ -51,7 +51,7 @@ func GetProject(slug string) (project *model.Project, status int) {
 }
 
 func GetProjects() (projects []*model.Project, status int) {
-	rows, err := database.DB.Query("SELECT * FROM projects")
+	rows, err := db.DB.Query("SELECT * FROM projects")
 	if err != nil {
 		return nil, 400
 	}
@@ -97,7 +97,7 @@ func GetRepositoriesData(projects []*model.Project) error {
 	for _, project := range projects {
 		repoNames = append(repoNames, project.GithubName)
 	}
-	repoQuery := queries.GenereateRepositoriesQuery(repoNames)
+	repoQuery := queries.GenerateRepositoriesQuery(repoNames)
 	resp, err := httpreq.GithubQuery(repoQuery, "")
 	if err != nil {
 		return err

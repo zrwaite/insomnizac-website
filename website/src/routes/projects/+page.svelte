@@ -4,7 +4,7 @@
 	import { gql } from 'graphql-request';
 
 	import type { ProjectType } from 'src/types';
-import HomepageProjectPanel from '$lib/components/ProjectPanel/HomepageProjectPanel.svelte';
+	import HomepageProjectPanel from '$lib/components/ProjectPanel/HomepageProjectPanel.svelte';
 
 	const PROJECTS_QUERY = gql`
 		query {

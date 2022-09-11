@@ -24,4 +24,5 @@ func InitConfig() {
 	CONFIG.SendgridAPIKey = os.Getenv("SENDGRID_API_KEY")
 	CONFIG.ContactEmail = os.Getenv("CONTACT_EMAIL")
 	CONFIG.FromEmail = os.Getenv("FROM_EMAIL")
+	CONFIG.RedisPassword = os.Getenv("REDIS_PASSWORD")
 }

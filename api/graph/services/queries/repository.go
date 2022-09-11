@@ -27,7 +27,7 @@ query ($name: String!) {
 }
 `
 
-func GenereateRepositoriesQuery(names []string) (query string) {
+func GenerateRepositoriesQuery(names []string) (query string) {
 	query = `query { `
 	for _, name := range names {
 		queryName := strings.Replace(name, "-", "", -1)

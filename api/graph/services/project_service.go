@@ -25,12 +25,18 @@ func GetGithubProject(project *model.Project) {
 }
 
 func GetProject(slug string) (project *model.Project, status int) {
+	cacheKey := "project:" + slug
+	project = new(model.Project)
+	found := db.GetJsonCache(cacheKey, project)
+	if found {
+		return project, 200
+	}
+
 	row := db.DB.QueryRow("SELECT * FROM projects WHERE slug=$1", slug)
 	if row.Err() != nil {
 		fmt.Println(row.Err())
 		return nil, 400
 	}
-	project = new(model.Project)
 	err := row.Scan(GetProjectArgs(project)...)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -47,10 +53,17 @@ func GetProject(slug string) (project *model.Project, status int) {
 		fmt.Println(err)
 		return nil, 400
 	}
+	db.SetJsonCache(cacheKey, project)
 	return project, 200
 }
 
 func GetProjects() (projects []*model.Project, status int) {
+	cacheKey := "projects"
+	found := db.GetJsonCache(cacheKey, &projects)
+	if found {
+		return projects, 200
+	}
+
 	rows, err := db.DB.Query("SELECT * FROM projects")
 	if err != nil {
 		return nil, 400
@@ -72,6 +85,7 @@ func GetProjects() (projects []*model.Project, status int) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	db.SetJsonCache(cacheKey, projects)
 	return projects, 200
 }
 

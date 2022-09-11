@@ -2,7 +2,9 @@ package db
 
 import (
 	"context"
-	"errors"
+	"encoding/json"
+	"fmt"
+	"log"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/zrwaite/Insomnizac/settings"
@@ -18,21 +20,46 @@ func ConnectToRedis() {
 	})
 }
 
-func GetCache(key string) (string, error) {
+func GetCache(key string) (string, bool) {
 	ctx := context.Background()
 	val, err := Cache.Get(ctx, key).Result()
 	if err == redis.Nil {
-		return "", errors.New("key does not exist")
+		return "", false
 	} else if err != nil {
-		return "", err
+		fmt.Println(err)
+		return "", false
 	} else {
-		return val, nil
+		return val, true
 	}
 }
 
 func SetCache(key string, value string) error {
 	ctx := context.Background()
 	err := Cache.Set(ctx, key, value, 0).Err()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func GetJsonCache(key string, target any) bool {
+	cacheJson, found := GetCache(key)
+	if found {
+		err := json.Unmarshal([]byte(cacheJson), target)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return true
+	}
+	return false
+}
+
+func SetJsonCache(key string, value any) error {
+	newJson, err := json.Marshal(value)
+	if err != nil {
+		return err
+	}
+	err = SetCache(key, string(newJson))
 	if err != nil {
 		return err
 	}

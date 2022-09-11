@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GAMES } from '../../data/games';
+	import { GAMES } from '../../lib/data/games';
 </script>
 
 <article>

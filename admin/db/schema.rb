@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_09_032107) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_13_023142) do
   create_table "projects", id: :bigint, default: -> { "unique_rowid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "slug", null: false
@@ -20,6 +20,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_09_032107) do
     t.datetime "created_at", precision: nil, default: -> { "now()" }, null: false
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.string "image"
+    t.boolean "featured", default: false
+    t.string "additional_languages", default: [], array: true
   end
 
   create_table "users", id: :bigint, default: -> { "unique_rowid()" }, force: :cascade do |t|

@@ -4,7 +4,6 @@
 
 	export let data: ProjectsData;
 	$: projects = data.projects;
-	console.log(data);
 
 </script>
 

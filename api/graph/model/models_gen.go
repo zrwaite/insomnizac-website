@@ -14,4 +14,5 @@ type Project struct {
 	CreatedAt   string   `json:"createdAt"`
 	UpdatedAt   string   `json:"updatedAt"`
 	Image       *string  `json:"image"`
+	Featured    bool     `json:"featured"`
 }

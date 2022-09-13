@@ -1,6 +1,13 @@
 <script lang="ts">
+	import HomepageProjectPanel from '$lib/components/ProjectPanel/HomepageProjectPanel.svelte';
+	import TitleRow from '$lib/components/TitleRow.svelte';
+
 	import logo from '$lib/images/logo-nobackground.png';
+	import Graphs from '$lib/pages/home/Graphs.svelte';
 	import Languages from '$lib/pages/home/Languages.svelte';
+	import type { HomeData } from './+page';
+	export let data: HomeData;
+	$: projects = data.projects;
 </script>
 
 <article>
@@ -15,7 +22,16 @@
 		</div>
 	</section>
 	<Languages />
+	<Graphs />
+	<TitleRow title={'Projects'} />
+	<div class="projects">
+		{#each projects as project}
+			<HomepageProjectPanel {project} />
+		{/each}
+	</div>
 </article>
+
+
 
 <style lang="scss">
 	article {
@@ -50,4 +66,11 @@
 		font-weight: 500;
 		color: lightgrey;
 	}
+	.projects {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
 </style>

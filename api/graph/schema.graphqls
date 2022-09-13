@@ -10,6 +10,7 @@ type Project {
   createdAt: String!
   updatedAt: String!
   image: String
+  featured: Boolean!
 }
 
 type Query {

@@ -10,6 +10,7 @@ query {
 		devpostLink
 		projectLink
 		image
+		featured
 	}
 }
 `;

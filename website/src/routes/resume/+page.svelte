@@ -14,13 +14,15 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		height: 100vh;
+		// height: 100vh;
 	}
 	iframe {
 		align-self: center;
 		width: 80%;
-		height: 100%;
-		min-height: 40rem;
+		max-width: 53rem;
+		height: Min(95vw, 70rem);
+
+		// min-height: 40rem;
 		border: 0;
 	}
 	h1 {

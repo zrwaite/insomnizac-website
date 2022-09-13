@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/zrwaite/Insomnizac/settings"
@@ -18,6 +19,10 @@ func ConnectToRedis() {
 		Password: settings.CONFIG.RedisPassword, // no password set
 		DB:       0,                             // use default DB
 	})
+	err := SetCache("test", "test")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func GetCache(key string) (string, bool) {
@@ -35,7 +40,11 @@ func GetCache(key string) (string, bool) {
 
 func SetCache(key string, value string) error {
 	ctx := context.Background()
-	err := Cache.Set(ctx, key, value, 0).Err()
+	duration, err := time.ParseDuration("1h")
+	if err != nil {
+		return err
+	}
+	err = Cache.Set(ctx, key, value, duration).Err()
 	if err != nil {
 		return err
 	}

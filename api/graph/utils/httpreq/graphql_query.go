@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/zrwaite/Insomnizac/settings"
+	"github.com/zrwaite/Insomnizac/config"
 )
 
 func GithubQuery(query string, variables string) (*http.Response, error) {
@@ -13,5 +13,5 @@ func GithubQuery(query string, variables string) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	return AuthorizedRequest("https://api.github.com/graphql", "POST", settings.CONFIG.GithubAccessToken, strings.NewReader(string(gqlMarshalled)))
+	return AuthorizedRequest("https://api.github.com/graphql", "POST", config.CONFIG.GithubAccessToken, strings.NewReader(string(gqlMarshalled)))
 }

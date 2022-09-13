@@ -8,17 +8,17 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/joho/godotenv"
+	"github.com/zrwaite/Insomnizac/config"
 	"github.com/zrwaite/Insomnizac/db"
 	"github.com/zrwaite/Insomnizac/graph"
 	"github.com/zrwaite/Insomnizac/graph/generated"
-	"github.com/zrwaite/Insomnizac/settings"
 )
 
 const defaultPort = "8011"
 
 func main() {
 	godotenv.Load(".env")
-	settings.InitConfig()
+	config.InitConfig()
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort

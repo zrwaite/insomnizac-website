@@ -1,4 +1,4 @@
-package models
+package config
 
 type Config struct {
 	GithubAccessToken string
@@ -7,4 +7,5 @@ type Config struct {
 	ContactEmail      string
 	FromEmail         string
 	Dev               bool
+	Directory         string
 }

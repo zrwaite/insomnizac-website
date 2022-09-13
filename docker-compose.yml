@@ -12,20 +12,40 @@ services:
         image: 'zrwaite/insomnizac_api:1.0.0'
         ports:
             - '8011:8011'
+        depends_on:
+            - "redis"
     admin:
         build: 'admin'
         command: bundle exec rails s -p 8012 -b '0.0.0.0'
         image: 'zrwaite/insomnizac_admin:1.0.0'
         ports:
             - '8012:8012'
-    cache:
-        image: 'redis:6.2-alpine'
+        depends_on:
+            - "redis"
+    redis:
+        build: 'redis'
+        image: 'zrwaite/insomnizac_redis:1.0.0'
+        labels:
+            com.datadoghq.ad.logs: '[{"source": "redis", "service": "redis"}]'
         restart: 'always'
         ports:
             - '6379:6379'
         command: "redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}"
         volumes: 
-            - cache:/data
+            - redis:/data
+    datadog:
+        build: datadog
+        pid: host
+        environment:
+            - DD_API_KEY=${DD_API_KEY}
+            - DD_SITE=datadoghq.com
+            - DD_LOGS_ENABLED=true
+            - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /proc/:/host/proc/:ro
+            - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+            - /var/lib/docker/containers:/var/lib/docker/containers:ro
 volumes:
-    cache:
+    redis:
         driver: local

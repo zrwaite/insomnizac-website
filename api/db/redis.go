@@ -8,16 +8,20 @@ import (
 	"time"
 
 	"github.com/go-redis/redis/v8"
-	"github.com/zrwaite/Insomnizac/settings"
+	"github.com/zrwaite/Insomnizac/config"
 )
 
 var Cache *redis.Client
 
 func ConnectToRedis() {
+	addr := "redis:6379"
+	if config.CONFIG.Dev {
+		addr = "localhost:6379"
+	}
 	Cache = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: settings.CONFIG.RedisPassword, // no password set
-		DB:       0,                             // use default DB
+		Addr:     addr,
+		Password: config.CONFIG.RedisPassword, // no password set
+		DB:       0,                           // use default DB
 	})
 	err := SetCache("test", "test")
 	if err != nil {

@@ -34,7 +34,7 @@ services:
         volumes: 
             - redis:/data
     datadog:
-        build: datadog
+        build: 'datadog'
         image: 'zrwaite/insomnizac_datadog:1.0.1'
         pid: host
         environment:

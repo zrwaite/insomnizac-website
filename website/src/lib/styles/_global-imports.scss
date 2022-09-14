@@ -17,6 +17,11 @@ $colors: (
 		$thickness #{-$thickness} $color, #{-$thickness} $thickness $color, 0px $thickness $color,
 		$thickness 0px $color, #{-$thickness} 0px $color, 0px #{-$thickness} $color;
 }
+@font-face {
+    font-family: 'Roboto Mono';
+    font-style: normal;
+    src: url('/fonts/Roboto_Mono/RobotoMono-VariableFont_wght.ttf');
+}
 * {
 	margin: 0;
 	padding: 0;
@@ -29,3 +34,4 @@ $colors: (
 h1 {
 	text-align: center;
 }
+

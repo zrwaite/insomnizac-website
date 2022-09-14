@@ -2,7 +2,7 @@ version: '3'
 services:
     website:
         build: 'website'
-        image: 'zrwaite/insomnizac_website:1.0.5'
+        image: 'zrwaite/insomnizac_website:1.0.6'
         ports:
             - '8010:8010'
         depends_on:
@@ -10,7 +10,7 @@ services:
     api:
         build: 'api'
         env_file: './.env'
-        image: 'zrwaite/insomnizac_api:1.0.4'
+        image: 'zrwaite/insomnizac_api:1.0.5'
         ports:
             - '8011:8011'
         depends_on:

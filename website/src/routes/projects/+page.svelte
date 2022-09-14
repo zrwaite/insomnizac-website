@@ -1,5 +1,6 @@
 <script lang="ts">
 	import HomepageProjectPanel from '$lib/components/ProjectPanel/HomepageProjectPanel.svelte';
+	import TitleRow from '$lib/components/TitleRow.svelte';
 	import type { ProjectsData } from './+page';
 
 	export let data: ProjectsData;
@@ -8,7 +9,7 @@
 </script>
 
 <article>
-	<h1>Projects</h1>
+	<TitleRow title={'Projects'} />
 	<div class="projects">
 		{#each projects as project}
 			<HomepageProjectPanel {project} />

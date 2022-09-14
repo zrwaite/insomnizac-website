@@ -27,6 +27,6 @@ The answer is that it doesn't.
 
 I had a static website, but I didn't feel the incentive to improve it, because it wasn't a challenge. I wasn't learning anything. It wasn't up to my standards.
 
-So I decided to spend way more time than necessary to make a website that has every integration I could ever hope for. 
+So I decided to spend way more time than necessary to make a website that has every integration I could ever hope for. It's not about the destination, it's about the journey.
 
 Even though the end user sees basically no difference 🤷🏻

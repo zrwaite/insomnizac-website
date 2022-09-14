@@ -16,7 +16,7 @@
 		margin-bottom: 1rem;
 		h2 {
 			font-size: 2rem;
-			min-width: m#{i}n(var(--width), 80vw);
+			min-width: Min(var(--width), calc(80vw - 4rem));
 		}
 		hr {
 			margin: 0 1rem;

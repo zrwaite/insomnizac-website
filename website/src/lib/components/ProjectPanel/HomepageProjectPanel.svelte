@@ -22,8 +22,8 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		width: 22rem;
-		height: 12rem;
+		max-width: 30rem;
+		aspect-ratio: 22/12;
 		background: linear-gradient(180deg, #28372E 0%,#131B1B00 100%);
 		border-radius: 1rem;
 		padding: 1rem;

@@ -2,7 +2,8 @@
 	import HomepageProjectPanel from '$lib/components/ProjectPanel/HomepageProjectPanel.svelte';
 	import TitleRow from '$lib/components/TitleRow.svelte';
 
-	import logo from '$lib/images/logo-nobackground.png';
+	import logo from '$lib/images/logo.png';
+	import construction from '$lib/images/construction_zac.png';
 	import Graphs from '$lib/pages/home/Graphs.svelte';
 	import Languages from '$lib/pages/home/Languages.svelte';
 	import type { HomeData } from './+page';
@@ -16,9 +17,13 @@
 			<h1>Hi, I'm Zac</h1>
 			<h3 class="comment">//Full Stack Web Developer</h3>
 			<h3 class="comment">//Robotics Programmer</h3>
+			<div class="headerDescription">
+				<p>This website is under it's initial construction!</p>
+				<p>Much more to come!</p>
+			</div>
 		</div>
 		<div class="headerLogo">
-			<img src={logo} alt={'logo'} />
+			<img src={construction} alt={'logo'} />
 		</div>
 	</section>
 	<Languages />
@@ -67,10 +72,40 @@
 		color: lightgrey;
 	}
 	.projects {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	flex-wrap: wrap;
-}
+		display: grid;
+		width: 100%;
+		grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+		justify-items: center;
+	}
+	.headerLogo {
+		margin: 0 2rem;
+		height: 14rem;
+		width: 9rem;
+		min-width: 9rem;
+		img {
+			height: 100%;
+			width: 100%;
+		}
+	}
+	.headerDescription {
+		margin: 1rem 0;
+	}
+	@media screen and (max-width: 40rem) {
+		.homeHeader {
+			flex-direction: column;
+			align-items: center;
+			.headerLogo {
+				margin: 1rem 0;
+			}
+		}
+		.projects {
+			grid-template-columns: 1fr;
+		}
+		.headerDescription {
+			p {
+				text-align: center;
+			}
+		}
+	}
+
 </style>

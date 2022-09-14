@@ -2,11 +2,11 @@ name: Docker Compose CI
 
 on:
     push:
-        branches: [master]
+        branches: [main]
         paths:
             - 'docker-compose.yml'
     pull_request:
-        branches: [master]
+        branches: [main]
 
 jobs:
     build:

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import HomepageProjectPanel from '$lib/components/ProjectPanel/HomepageProjectPanel.svelte';
+	import ProjectsGrid from '$lib/components/ProjectPanel/ProjectsGrid.svelte';
 	import TitleRow from '$lib/components/TitleRow.svelte';
 	import type { ProjectsData } from './+page';
 
@@ -9,20 +10,14 @@
 </script>
 
 <article>
-	<TitleRow title={'Projects'} />
-	<div class="projects">
-		{#each projects as project}
-			<HomepageProjectPanel {project} />
-		{/each}
+	<div class="projectsHeader">
+		<TitleRow title={'Projects'} variant={'h1'}/>
 	</div>
+	<ProjectsGrid projects={projects} />
 </article>
 
 <style lang="scss">
-	.projects {
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-		flex-wrap: wrap;
+	.projectsHeader {
+		margin: 1rem;
 	}
 </style>

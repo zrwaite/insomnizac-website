@@ -3,13 +3,13 @@
 </script>
 
 <section id="pageContainer">
+	<Nav />
 	<div id="contentContainer">
 		<main>
 			<slot />
 		</main>
 		<!-- <footer>Zac Waite</footer> -->
 	</div>
-	<Nav />
 </section>
 
 <style global lang="scss">
@@ -17,24 +17,20 @@
 	html,
 	#container {
 		min-height: 100vh;
-		overflow: scroll;
-	}
-	body > div {
-		overflow: scroll;
+		background-color: color('background');
 	}
 	#pageContainer {
 		display: flex;
-		flex-direction: row-reverse;
+		flex-direction: row;
 		height: 100vh;
-		background-color: color('background');
-		overflow: scroll;
 	}
 	#contentContainer {
 		width: 100%;
-		height: 100%;
+		margin-left: 5rem;
 	}
 	main {
 		min-height: 95%;
+		width: 100%;
 	}
 	footer {
 		position: absolute;
@@ -47,9 +43,15 @@
 			flex-direction: column;
 		}
 		#contentContainer {
-			width: 100%;
-			height: auto;
-			padding-bottom: 4rem;
+			margin-left: 0;
+			margin-top: 5rem;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+			padding: 0 0.5rem;
+			width: calc(100% - 1rem);
 		}
 	}
 </style>

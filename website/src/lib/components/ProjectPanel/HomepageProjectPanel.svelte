@@ -23,6 +23,7 @@
 		justify-content: center;
 		align-items: center;
 		max-width: 30rem;
+		width: calc(100% - 4rem);
 		aspect-ratio: 22/12;
 		background: linear-gradient(180deg, #28372E 0%,#131B1B00 100%);
 		border-radius: 1rem;

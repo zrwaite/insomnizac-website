@@ -42,7 +42,7 @@
 		min-width: 4rem;
 		width: 4rem;
 		height: 100%;
-		position: sticky;
+		position: fixed;
 		margin-right: 1.2rem;
 		top: 0;
 		section {
@@ -70,16 +70,15 @@
 	}
 	@media screen and (max-width: 30rem) {
 		nav {
-			position: absolute;
+			position: fixed;
 			width: 100%;
 			height: 4rem;
-			top: auto;
-			bottom: 0;
 			min-height: 4rem;
 			section {
 				flex-direction: row;
 				align-items: center;
 				justify-content: center;
+				box-shadow: 0 0.2rem 1rem 0.2rem color('dark');
 				width: 100%;
 				&:hover {
 					width: 100%;

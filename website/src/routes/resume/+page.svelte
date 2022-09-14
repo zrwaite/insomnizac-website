@@ -14,16 +14,14 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		width: 100%;
 		// height: 100vh;
 	}
 	iframe {
 		align-self: center;
-		width: 80%;
+		width: 95%;
 		max-width: 53rem;
-		height: Min(95vw, 70rem);
-
-		// min-height: 40rem;
-		border: 0;
+		aspect-ratio: 3/4;
 	}
 	h1 {
 		font-size: 4rem;

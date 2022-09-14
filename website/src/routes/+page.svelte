@@ -7,6 +7,7 @@
 	import Graphs from '$lib/pages/home/Graphs.svelte';
 	import Languages from '$lib/pages/home/Languages.svelte';
 	import type { HomeData } from './+page';
+	import ProjectsGrid from '$lib/components/ProjectPanel/ProjectsGrid.svelte';
 	export let data: HomeData;
 	$: projects = data.projects;
 </script>
@@ -29,11 +30,8 @@
 	<Languages />
 	<Graphs />
 	<TitleRow title={'Projects'} />
-	<div class="projects">
-		{#each projects as project}
-			<HomepageProjectPanel {project} />
-		{/each}
-	</div>
+	<ProjectsGrid projects={projects}/>
+	
 </article>
 
 
@@ -51,7 +49,7 @@
 		width: 100%;
 		max-width: 50rem;
 		justify-content: space-around;
-		margin: 1rem;
+		margin: 0 1rem;
 		h1 {
 			font-size: 3rem;
 			font-weight: bold;
@@ -71,12 +69,7 @@
 		font-weight: 500;
 		color: lightgrey;
 	}
-	.projects {
-		display: grid;
-		width: 100%;
-		grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
-		justify-items: center;
-	}
+	
 	.headerLogo {
 		margin: 0 2rem;
 		height: 14rem;
@@ -97,9 +90,6 @@
 			.headerLogo {
 				margin: 1rem 0;
 			}
-		}
-		.projects {
-			grid-template-columns: 1fr;
 		}
 		.headerDescription {
 			p {

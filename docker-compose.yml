@@ -2,14 +2,14 @@ version: '3'
 services:
     website:
         build: 'website'
-        image: 'zrwaite/insomnizac_website:1.0.2'
+        image: 'zrwaite/insomnizac_website:1.0.3'
         ports:
             - '8010:8010'
         depends_on:
             - "api"
     api:
         build: 'api'
-        image: 'zrwaite/insomnizac_api:1.0.2'
+        image: 'zrwaite/insomnizac_api:1.0.3'
         ports:
             - '8011:8011'
         depends_on:
@@ -17,14 +17,14 @@ services:
     admin:
         build: 'admin'
         command: bundle exec rails s -p 8012 -b '0.0.0.0'
-        image: 'zrwaite/insomnizac_admin:1.0.2'
+        image: 'zrwaite/insomnizac_admin:1.0.3'
         ports:
             - '8012:8012'
         depends_on:
             - "redis"
     redis:
         build: 'redis'
-        image: 'zrwaite/insomnizac_redis:1.0.2'
+        image: 'zrwaite/insomnizac_redis:1.0.3'
         labels:
             com.datadoghq.ad.logs: '[{"source": "redis", "service": "redis"}]'
         restart: 'always'
@@ -35,7 +35,7 @@ services:
             - redis:/data
     datadog:
         build: 'datadog'
-        image: 'zrwaite/insomnizac_datadog:1.0.2'
+        image: 'zrwaite/insomnizac_datadog:1.0.3'
         pid: host
         environment:
             - DD_API_KEY=${DD_API_KEY}

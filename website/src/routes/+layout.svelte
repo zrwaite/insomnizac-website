@@ -48,4 +48,9 @@
 		width: calc(100% - 4rem);
 		height: auto;
 	}
+	@media screen and (max-width: 30rem) {
+		#pageContainer {
+			flex-direction: column-reverse;
+		}
+	}
 </style>

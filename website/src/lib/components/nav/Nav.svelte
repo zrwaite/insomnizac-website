@@ -46,6 +46,8 @@
 		margin-right: 1.2rem;
 		top: 0;
 		section {
+			display: flex;
+			flex-direction: column;
 			padding: 0;
 			width: 4rem;
 			height: 100%;
@@ -63,6 +65,25 @@
 					background-color: transparent;
 				}
 				margin-bottom: 0;
+			}
+		}
+	}
+	@media screen and (max-width: 30rem) {
+		nav {
+			position: absolute;
+			width: 100%;
+			height: 4rem;
+			top: auto;
+			bottom: 0;
+			min-height: 4rem;
+			section {
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				&:hover {
+					width: 100%;
+				}
 			}
 		}
 	}

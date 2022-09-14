@@ -17,7 +17,8 @@ import (
 var defaultImage = "https://storage.googleapis.com/insomnizac_public/static_assets/projects/DefaultImage.png"
 
 func GetProjectArgs(project *model.Project) []interface{} {
-	return []interface{}{&project.ID, &project.Name, &project.Slug, &project.GithubName, &project.DevpostLink, &project.ProjectLink, &project.CreatedAt, &project.UpdatedAt, &project.Image, &project.Featured, &project.Languages}
+	languages := new([]uint8)
+	return []interface{}{&project.ID, &project.Name, &project.Slug, &project.GithubName, &project.DevpostLink, &project.ProjectLink, &project.CreatedAt, &project.UpdatedAt, &project.Image, &project.Featured, &languages}
 }
 
 func GetGithubProject(project *model.Project) {

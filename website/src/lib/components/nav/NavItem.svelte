@@ -18,7 +18,7 @@
 
 <div
 	style="--fontColor:{fontColor};"
-	class={`navItem ${link ? '' : 'disableHover'}`}
+	class={`navItem ${!link && 'disableHover'}`}
 	on:click={link ? () => goto(link ?? '') : null}
 	on:mouseleave={overrideColor ? null : mouseLeave}
 	on:mouseenter={overrideColor ? null : mouseEnter}
@@ -38,13 +38,17 @@
 		cursor: pointer;
 		margin-bottom: 1rem;
 		.navImg {
-			min-width: 3rem;
+			min-width: 2rem;
+			padding: 0.5rem;
 			margin-right: 1rem;
 			display: flex;
 			flex-direction: row;
 			justify-content: center;
-			img {
-				height: 3rem;
+		}
+		&:first-child {
+			.navImg {
+				min-width: 3rem;
+				padding: 0;
 			}
 		}
 		h3 {
@@ -56,5 +60,21 @@
 	}
 	.disableHover {
 		cursor: default;
+	}
+	@media screen and (max-width: 30rem) {
+		.navItem {
+			height: 4rem;
+			max-width: 4rem;
+			margin-bottom: 0;
+			h3 {
+				display: none;
+			}
+			&:first-child {
+				display: none;
+			}
+			.navImg {
+				height: 2rem;
+			}
+		}
 	}
 </style>

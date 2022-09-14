@@ -1,6 +1,6 @@
 package model
 
-type Language struct {
+type GitHubLanguage struct {
 	Size int `json:"size"`
 	Node struct {
 		Color string `json:"color"`
@@ -13,8 +13,8 @@ type GithubRepoResponse struct {
 		Repository struct {
 			Description string `json:"description"`
 			Languages   struct {
-				TotalSize int        `json:"totalSize"`
-				Edges     []Language `json:"edges"`
+				TotalSize int              `json:"totalSize"`
+				Edges     []GitHubLanguage `json:"edges"`
 			}
 		} `json:"repository"`
 	} `json:"data"`

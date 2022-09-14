@@ -7,11 +7,12 @@
 </script>
 
 <div class="projectPanel">
-	<div style="flex:1">
-		<img class="projectImage" src={project.image} alt={project.name} />
+	<div class="projectImage" style="flex:5">
+		<img src={project.image} alt={project.name} />
 	</div>
-	<div style="flex:1">
-		<h2>{project.name}</h2>
+	<div class="projectDetails" style="flex:6">
+		<h3>{project.name}</h3>
+		<p>{project.description}</p>
 	</div>
 </div>
 
@@ -23,11 +24,11 @@
 		align-items: center;
 		width: 22rem;
 		height: 12rem;
-		background-color: #fff;
+		background: linear-gradient(180deg, #28372E 0%,#131B1B00 100%);
 		border-radius: 1rem;
-		padding: 1.5rem;
+		padding: 1rem;
 		margin: 1rem;
-		box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+		box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
 		transition: all 0.2s ease-in-out;
 		&:hover {
 			transform: translateY(-5px);
@@ -39,9 +40,20 @@
 		}
 	}	
 	.projectImage {
-		width: 100%;
-		height: 100%;
-		border-radius: 1rem;
-		object-fit: cover;
+		img {
+			width: 100%;
+			height: 100%;
+			border-radius: 1rem;
+			object-fit: cover;
+		}
+		margin-right: 1rem;
+	}
+	.projectDetails {
+		h3 {
+			margin-bottom: 1rem;
+		}
+		p {
+			font-size: 0.7rem;
+		}
 	}
 </style>

@@ -4,6 +4,6 @@
 	export let color = COLORS.font;
 </script>
 
-<svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
 	<path d="M0 18V6L8 0L16 6V18H10V11H6V18H0ZM2 16H4V9H12V16H14V7L8 2.5L2 7V16Z" fill={color} />
 </svg>

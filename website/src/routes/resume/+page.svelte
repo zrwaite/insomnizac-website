@@ -5,7 +5,7 @@
 		frameborder="0"
 		width="100%"
 		height="100%"
-		src="https://storage.googleapis.com/insomnizac_public/static_assets/Resume.pdf"
+		src="https://storage.googleapis.com/insomnizac_public/dynamic/resume.pdf"
 	/>
 </article>
 

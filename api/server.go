@@ -17,7 +17,7 @@ import (
 const defaultPort = "8011"
 
 func main() {
-	godotenv.Load(".env")
+	godotenv.Load("../.env")
 	config.InitConfig()
 	port := os.Getenv("PORT")
 	if port == "" {

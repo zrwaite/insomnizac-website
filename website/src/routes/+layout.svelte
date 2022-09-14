@@ -9,13 +9,13 @@
 	/>
 </svelte:head>
 <section id="pageContainer">
-	<Nav />
 	<div id="contentContainer">
 		<main>
 			<slot />
 		</main>
 		<!-- <footer>Zac Waite</footer> -->
 	</div>
+	<Nav />
 </section>
 
 <style global lang="scss">
@@ -30,7 +30,7 @@
 	}
 	#pageContainer {
 		display: flex;
-		flex-direction: row;
+		flex-direction: row-reverse;
 		height: 100vh;
 		background-color: color('background');
 		overflow: scroll;
@@ -50,7 +50,12 @@
 	}
 	@media screen and (max-width: 30rem) {
 		#pageContainer {
-			flex-direction: column-reverse;
+			flex-direction: column;
+		}
+		#contentContainer {
+			width: 100%;
+			height: auto;
+			padding-bottom: 4rem;
 		}
 	}
 </style>

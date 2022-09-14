@@ -14,7 +14,7 @@ import (
 	"github.com/zrwaite/Insomnizac/graph/utils/httpreq"
 )
 
-var defaultImage = "https://storage.googleapis.com/insomnizac_public/static_assets/projects/DefaultImage.png"
+var defaultImage = "https://storage.googleapis.com/insomnizac_public/static/default_project.png"
 
 func GetProjectArgs(project *model.Project) []interface{} {
 	languages := new([]uint8)

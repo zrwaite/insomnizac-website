@@ -10,7 +10,7 @@ services:
     api:
         build: 'api'
         env_file: './.env'
-        image: 'zrwaite/insomnizac_api:1.0.3'
+        image: 'zrwaite/insomnizac_api:1.0.4'
         ports:
             - '8011:8011'
         depends_on:

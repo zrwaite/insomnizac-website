@@ -12,6 +12,7 @@ export async function load(): Promise<HomeData> {
 		const data = await graphql.request(PROJECTS_QUERY);
 		return data;
 	} catch (e) {
+		console.log(e);
 		throw error(400, 'Request failed');
 	}
 }

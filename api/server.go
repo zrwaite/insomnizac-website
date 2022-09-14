@@ -16,6 +16,13 @@ import (
 
 const defaultPort = "8011"
 
+func serverMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 	godotenv.Load(".env")
 	config.InitConfig()
@@ -30,7 +37,7 @@ func main() {
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 
 	http.Handle("/graphql_playground", playground.Handler("GraphQL playground", "/graphql"))
-	http.Handle("/graphql", srv)
+	http.Handle("/graphql", serverMiddleware(srv))
 
 	log.Printf("connect to http://localhost:%s/graphql_playground for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))

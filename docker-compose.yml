@@ -9,6 +9,7 @@ services:
             - "api"
     api:
         build: 'api'
+        env_file: './api/.env'
         image: 'zrwaite/insomnizac_api:1.0.3'
         ports:
             - '8011:8011'

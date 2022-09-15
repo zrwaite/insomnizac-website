@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ProjectType } from "src/types";
+	import type { ProjectType } from "$lib/types";
 	import HomepageProjectPanel from "./HomepageProjectPanel.svelte";
 
 	export let projects : ProjectType[]

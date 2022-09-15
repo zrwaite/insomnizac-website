@@ -1,11 +1,22 @@
+<script lang="ts">
+	import Newtab from "$lib/components/icons/newtab.svelte";
+
+	let resumeSrc = "https://storage.googleapis.com/insomnizac_public/dynamic/resume.pdf"
+</script>
 <article>
 	<h1>Resume</h1>
+	<a href={resumeSrc} target="_blank" class="resumeLink">
+		<p>
+			Open in new tab 
+		</p>
+		<div class="newtabIcon">
+			<Newtab/>
+		</div>
+	</a>
 	<iframe
 		title="Zac Waite Resume"
 		frameborder="0"
-		width="100%"
-		height="100%"
-		src="https://storage.googleapis.com/insomnizac_public/dynamic/resume.pdf"
+		src={resumeSrc}
 	/>
 </article>
 
@@ -15,7 +26,6 @@
 		flex-direction: column;
 		align-items: center;
 		width: 100%;
-		// height: 100vh;
 	}
 	iframe {
 		align-self: center;
@@ -25,6 +35,18 @@
 	}
 	h1 {
 		font-size: 4rem;
-		margin: 1rem 0 2rem;
+		margin: 1rem 0 1rem;
+	}
+	.resumeLink {
+		display: flex;
+		align-items: center;
+		margin: 1rem;
+		p {
+			font-size: 1.5rem;
+		}
+		div {
+			height: 1.5rem;
+			margin-left: 0.5rem;
+		}
 	}
 </style>

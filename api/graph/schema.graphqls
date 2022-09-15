@@ -9,6 +9,7 @@ type Project {
   slug: String!
   description: String!
   githubName: String!
+  githubLink: String!
   languages: [Language!]!
   devpostLink: String
   projectLink: String

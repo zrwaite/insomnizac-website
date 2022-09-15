@@ -2,12 +2,13 @@ package queries
 
 import (
 	"fmt"
-	"strings"
+
+	"github.com/zrwaite/Insomnizac/graph/utils"
 )
 
 var RepositoryQuery = `
-query ($name: String!) { 
-	repository(name: $name, owner: "zrwaite") {
+query ($name: String!, $owner: String!) { 
+	repository(name: $name, owner: $owner) {
 		description
 		languages(first: 10, orderBy: {
 			direction: DESC,
@@ -27,12 +28,13 @@ query ($name: String!) {
 }
 `
 
-func GenerateRepositoriesQuery(names []string) (query string) {
+func GenerateRepositoriesQuery(githubNames []string) (query string) {
 	query = `query { `
-	for _, name := range names {
-		queryName := strings.Replace(name, "-", "", -1)
+	for _, githubName := range githubNames {
+		username, projectName := utils.GetProjectNames(githubName)
+		queryName := utils.GetQueryName(githubName)
 		query += fmt.Sprintf(`
-		repo%s: repository(name: "%s", owner: "zrwaite") {
+		%s: repository(name: "%s", owner: "%s") {
 			description
 			languages(first: 10, orderBy: {
 				direction: DESC,
@@ -49,7 +51,7 @@ func GenerateRepositoriesQuery(names []string) (query string) {
 				}
 			}
 		}
-		`, queryName, name)
+		`, queryName, projectName, username)
 	}
 	query += `}`
 	return

@@ -18,6 +18,7 @@
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/googlecloud/googlecloud-original.svg" alt="googlecloud" width="50rem" height="50rem" />
 </div>
 
+## [Insomnizac.xyz](https://www.insomnizac.xyz) - *This website is running on a **self-hosted linux server**, so it may be slow or even down at times.*
 
 The valid question to be posed when viewing this project is: 
 

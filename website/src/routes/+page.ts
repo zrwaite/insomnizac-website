@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
-import type { ProjectType } from 'src/types';
+import type { ProjectType } from '$lib/types';
 import { graphql } from '$lib/data/graphql';
-import { PROJECTS_QUERY } from '$lib/queries/projects';
+import { PROJECTS_QUERY } from '$lib/data/queries/projects';
 
 export interface HomeData {	
 	projects: ProjectType[];

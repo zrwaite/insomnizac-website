@@ -13,6 +13,7 @@ type Project struct {
 	Slug        string      `json:"slug"`
 	Description string      `json:"description"`
 	GithubName  string      `json:"githubName"`
+	GithubLink  string      `json:"githubLink"`
 	Languages   []*Language `json:"languages"`
 	DevpostLink *string     `json:"devpostLink"`
 	ProjectLink *string     `json:"projectLink"`

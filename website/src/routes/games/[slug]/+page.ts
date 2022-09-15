@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { GAMES } from '../../../lib/data/games';
-import type { GameType } from 'src/types';
+import type { GameType } from '$lib/types';
 
 /** @type {import('./$types').PageLoad} */
 interface loadParams {

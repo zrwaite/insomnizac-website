@@ -6,15 +6,16 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"strings"
 
 	"github.com/zrwaite/Insomnizac/db"
 	"github.com/zrwaite/Insomnizac/graph/model"
 	"github.com/zrwaite/Insomnizac/graph/services/queries"
+	"github.com/zrwaite/Insomnizac/graph/utils"
 	"github.com/zrwaite/Insomnizac/graph/utils/httpreq"
 )
 
 var defaultImage = "https://storage.googleapis.com/insomnizac_public/static/default_project.png"
+var emptyMap = map[string]string{}
 
 func GetProjectArgs(project *model.Project) []interface{} {
 	languages := new([]uint8)
@@ -49,6 +50,7 @@ func GetProject(slug string) (project *model.Project, status int) {
 	if project.Image == nil {
 		project.Image = &defaultImage
 	}
+	project.ParseProject()
 	err = GetRepositoryData(project)
 	if err != nil {
 		fmt.Println(err)
@@ -80,6 +82,7 @@ func GetProjects() (projects []*model.Project, status int) {
 		if project.Image == nil {
 			project.Image = &defaultImage
 		}
+		project.ParseProject()
 		projects = append(projects, project)
 	}
 	err = GetRepositoriesData(projects)
@@ -91,7 +94,9 @@ func GetProjects() (projects []*model.Project, status int) {
 }
 
 func GetRepositoryData(project *model.Project) error {
-	resp, err := httpreq.GithubQuery(queries.RepositoryQuery, `{"name": "`+project.GithubName+`"}`)
+	username, projectName := utils.GetProjectNames(project.GithubName)
+	variables := map[string]string{"owner": username, "name": projectName}
+	resp, err := httpreq.GithubQuery(queries.RepositoryQuery, variables)
 	if err != nil {
 		return err
 	}
@@ -108,12 +113,12 @@ func GetRepositoryData(project *model.Project) error {
 }
 
 func GetRepositoriesData(projects []*model.Project) error {
-	repoNames := []string{}
+	repoGithubNames := []string{}
 	for _, project := range projects {
-		repoNames = append(repoNames, project.GithubName)
+		repoGithubNames = append(repoGithubNames, project.GithubName)
 	}
-	repoQuery := queries.GenerateRepositoriesQuery(repoNames)
-	resp, err := httpreq.GithubQuery(repoQuery, "")
+	repoQuery := queries.GenerateRepositoriesQuery(repoGithubNames)
+	resp, err := httpreq.GithubQuery(repoQuery, emptyMap)
 	if err != nil {
 		return err
 	}
@@ -127,7 +132,7 @@ func GetRepositoriesData(projects []*model.Project) error {
 	}
 	data := body["data"].(map[string]interface{})
 	for _, project := range projects {
-		key := "repo" + strings.Replace(project.GithubName, "-", "", -1)
+		key := utils.GetQueryName(project.GithubName)
 		repo := data[key].(map[string]interface{})
 		project.Description = repo["description"].(string)
 	}

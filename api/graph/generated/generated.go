@@ -58,6 +58,7 @@ type ComplexityRoot struct {
 		Description func(childComplexity int) int
 		DevpostLink func(childComplexity int) int
 		Featured    func(childComplexity int) int
+		GithubLink  func(childComplexity int) int
 		GithubName  func(childComplexity int) int
 		ID          func(childComplexity int) int
 		Image       func(childComplexity int) int
@@ -150,6 +151,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Project.Featured(childComplexity), true
+
+	case "Project.githubLink":
+		if e.complexity.Project.GithubLink == nil {
+			break
+		}
+
+		return e.complexity.Project.GithubLink(childComplexity), true
 
 	case "Project.githubName":
 		if e.complexity.Project.GithubName == nil {
@@ -304,6 +312,7 @@ type Project {
   slug: String!
   description: String!
   githubName: String!
+  githubLink: String!
   languages: [Language!]!
   devpostLink: String
   projectLink: String
@@ -775,6 +784,50 @@ func (ec *executionContext) fieldContext_Project_githubName(ctx context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _Project_githubLink(ctx context.Context, field graphql.CollectedField, obj *model.Project) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Project_githubLink(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.GithubLink, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Project_githubLink(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Project",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Project_languages(ctx context.Context, field graphql.CollectedField, obj *model.Project) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Project_languages(ctx, field)
 	if err != nil {
@@ -1129,6 +1182,8 @@ func (ec *executionContext) fieldContext_Query_projects(ctx context.Context, fie
 				return ec.fieldContext_Project_description(ctx, field)
 			case "githubName":
 				return ec.fieldContext_Project_githubName(ctx, field)
+			case "githubLink":
+				return ec.fieldContext_Project_githubLink(ctx, field)
 			case "languages":
 				return ec.fieldContext_Project_languages(ctx, field)
 			case "devpostLink":
@@ -1199,6 +1254,8 @@ func (ec *executionContext) fieldContext_Query_project(ctx context.Context, fiel
 				return ec.fieldContext_Project_description(ctx, field)
 			case "githubName":
 				return ec.fieldContext_Project_githubName(ctx, field)
+			case "githubLink":
+				return ec.fieldContext_Project_githubLink(ctx, field)
 			case "languages":
 				return ec.fieldContext_Project_languages(ctx, field)
 			case "devpostLink":
@@ -3256,6 +3313,13 @@ func (ec *executionContext) _Project(ctx context.Context, sel ast.SelectionSet, 
 		case "githubName":
 
 			out.Values[i] = ec._Project_githubName(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "githubLink":
+
+			out.Values[i] = ec._Project_githubLink(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++

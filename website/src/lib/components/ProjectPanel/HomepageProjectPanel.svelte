@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { ProjectType } from "src/types";
-
+	import type { ProjectType } from "$lib/types";
 
 	export let project: ProjectType;
 
+	const link = project.devpostLink || project.githubLink;
 </script>
 
-<div class="projectPanel">
+<a class="projectPanel" href={link} target="_blank">
 	<div class="projectImage" style="flex:5">
 		<img src={project.image} alt={project.name} />
 	</div>
@@ -14,10 +14,11 @@
 		<h3>{project.name}</h3>
 		<p>{project.description}</p>
 	</div>
-</div>
+</a>
 
 <style lang="scss">
 	.projectPanel {
+		cursor: pointer;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;

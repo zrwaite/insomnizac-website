@@ -34,6 +34,7 @@ func main() {
 
 	db.ConnectToDB()
 	db.ConnectToRedis()
+	db.ClearCache()
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 

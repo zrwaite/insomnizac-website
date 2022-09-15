@@ -29,6 +29,11 @@ func ConnectToRedis() {
 	}
 }
 
+func ClearCache() {
+	ctx := context.Background()
+	Cache.FlushDB(ctx)
+}
+
 func GetCache(key string) (string, bool) {
 	ctx := context.Background()
 	val, err := Cache.Get(ctx, key).Result()

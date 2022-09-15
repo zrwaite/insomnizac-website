@@ -6,7 +6,7 @@ query {
 		name
 		slug
 		description
-		githubName
+		githubLink
 		devpostLink
 		projectLink
 		image

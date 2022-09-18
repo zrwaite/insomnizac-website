@@ -8,6 +8,8 @@
 	import Languages from '$lib/pages/home/Languages.svelte';
 	import type { HomeData } from './+page';
 	import ProjectsGrid from '$lib/components/ProjectPanel/ProjectsGrid.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import { goto } from '$app/navigation';
 	export let data: HomeData;
 	$: projects = data.projects;
 </script>
@@ -31,6 +33,9 @@
 	<Graphs />
 	<TitleRow title={'Projects'} />
 	<ProjectsGrid projects={projects}/>
+	<Button onClick={() => goto("/projects")} >
+		<p class={"allProjectsButtonText"}>View all Projects</p>
+	</Button>
 	
 </article>
 
@@ -82,6 +87,9 @@
 	}
 	.headerDescription {
 		margin: 1rem 0;
+	}
+	.allProjectsButtonText {
+		color: color('primary');
 	}
 	@media screen and (max-width: 40rem) {
 		.homeHeader {

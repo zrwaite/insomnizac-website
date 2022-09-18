@@ -12,6 +12,7 @@
 	import { goto } from '$app/navigation';
 	export let data: HomeData;
 	$: projects = data.projects;
+	if (projects.length > 6) projects.slice(0, 6)
 </script>
 
 <article>

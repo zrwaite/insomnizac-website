@@ -7,6 +7,10 @@ export interface HomeData {
 	projects: ProjectType[];
 }
 
+export const defaultHomeData: HomeData = {
+	projects: []
+};
+
 export async function load(): Promise<HomeData> {
 	try {
 		const data = await graphql.request(PROJECTS_QUERY);

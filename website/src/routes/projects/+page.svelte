@@ -13,7 +13,7 @@
 	<div class="projectsHeader">
 		<TitleRow title={'Projects'} variant={'h1'}/>
 	</div>
-	<ProjectsGrid projects={projects} />
+	<ProjectsGrid projects={projects} panelType={"project"} />
 </article>
 
 <style lang="scss">

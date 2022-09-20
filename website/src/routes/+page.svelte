@@ -6,13 +6,13 @@
 	import construction from '$lib/images/construction_zac.png';
 	import Graphs from '$lib/pages/home/Graphs.svelte';
 	import Languages from '$lib/pages/home/Languages.svelte';
-	import type { HomeData } from './+page';
+	import { defaultHomeData, type HomeData } from './+page';
 	import ProjectsGrid from '$lib/components/ProjectPanel/ProjectsGrid.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { goto } from '$app/navigation';
-	export let data: HomeData;
-	$: projects = data.projects;
-	if (projects.length > 6) projects.slice(0, 6)
+	export let data: HomeData = defaultHomeData;
+	$: projects = data.projects.slice(0, 6);
+	console.log(['a'].slice(0, 6));
 </script>
 
 <article>
@@ -33,10 +33,12 @@
 	<Languages />
 	<Graphs />
 	<TitleRow title={'Projects'} />
-	<ProjectsGrid projects={projects}/>
-	<Button onClick={() => goto("/projects")} >
-		<p class={"allProjectsButtonText"}>View all Projects</p>
-	</Button>
+	<ProjectsGrid projects={projects} panelType={"homepage"}/>
+	<div class="buttonMargin">
+		<Button onClick={() => goto("/projects")} >
+			<p class={"allProjectsButtonText"}>View all Projects</p>
+		</Button>
+	</div>
 	
 </article>
 
@@ -104,6 +106,9 @@
 			p {
 				text-align: center;
 			}
+		}
+		.buttonMargin {
+			padding: 1rem 0;
 		}
 	}
 

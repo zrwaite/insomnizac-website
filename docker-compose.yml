@@ -2,7 +2,7 @@ version: '3'
 services:
     website:
         build: 'website'
-        image: 'zrwaite/insomnizac_website:1.0.9'
+        image: 'zrwaite/insomnizac_website:1.1.0'
         ports:
             - '8010:8010'
         depends_on:
@@ -18,7 +18,7 @@ services:
     admin:
         build: 'admin'
         command: bundle exec rails s -p 8012 -b '0.0.0.0'
-        image: 'zrwaite/insomnizac_admin:1.0.5'
+        image: 'zrwaite/insomnizac_admin:1.0.6'
         ports:
             - '8012:8012'
         depends_on:

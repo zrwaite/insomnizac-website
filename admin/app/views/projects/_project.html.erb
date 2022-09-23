@@ -1,4 +1,4 @@
-<div id="<%= dom_id project %>">
+<div id="<%= dom_id project %>" >
   <p>
     <strong>Name:</strong>
     <%= project.name %>
@@ -7,14 +7,10 @@
     <strong>Github name:</strong>
     <%= project.github_name %>
   </p>
-    <strong>Github name:</strong>
-    <%= project.image %>
-    <% if project.image %>
-      <%= image_tag(project.image, :class => "projectImage") %>
-    <% else %> 
-      <p>No image</p>
-    <% end %> 
-
-  </p>
+  <% if project.image %>
+    <%= image_tag(project.image, :class => "projectImage") %>
+  <% else %> 
+    <p>No image</p>
+  <% end %> 
 
 </div>

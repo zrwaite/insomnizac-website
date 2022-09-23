@@ -4,7 +4,6 @@ class ProjectsController < ApplicationController
   # GET /projects or /projects.json
   def index
     @projects = Project.all
-    helpers.format_projects(@projects)
   end
 
   # GET /projects/1 or /projects/1.json
@@ -24,8 +23,7 @@ class ProjectsController < ApplicationController
 
   # POST /projects or /projects.json
   def create
-    new_params = helpers.create_project_params(project_params)
-    @project = Project.new(new_params)
+    @project = Project.new(project_params)
 
     respond_to do |format|
       if @project.save
@@ -64,12 +62,11 @@ class ProjectsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project
-      @project = Project.where(name: params[:id]).first
-      helpers.format_project(@project)
+      @project = Project.find_by!(slug: params[:slug])
     end
 
     # Only allow a list of trusted parameters through.
     def project_params
-      params.require(:project).permit(:name, :description, :github_name)
+      params.require(:project).permit(:name, :description, :github_name, :slug)
     end
 end

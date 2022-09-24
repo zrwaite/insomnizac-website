@@ -17,6 +17,7 @@ services:
             - "redis"
     admin:
         build: 'admin'
+        env_file: './.env'
         command: bundle exec rails s -p 8012 -b '0.0.0.0'
         image: 'zrwaite/insomnizac_admin:1.0.7'
         ports:

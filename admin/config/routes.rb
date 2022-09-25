@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get "/users/login", to: "users#login"
+  post "/users", to: "users#signup"
   resources :users 
 
   resources :projects, param: :slug

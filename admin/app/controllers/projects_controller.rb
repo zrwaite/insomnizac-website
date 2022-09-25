@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[ show edit update destroy ]
+  before_action :authenticate
 
   # GET /projects or /projects.json
   def index
@@ -68,5 +69,13 @@ class ProjectsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def project_params
       params.require(:project).permit(:name, :description, :github_name, :slug)
+    end
+
+    def authenticate
+      if cookies[:hello] != 'world2'
+        redirect_to users_login_url
+      else 
+        puts 'ayo'
+      end
     end
 end

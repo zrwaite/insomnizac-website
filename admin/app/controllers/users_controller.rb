@@ -20,8 +20,12 @@ class UsersController < ApplicationController
   end
 
   # POST /users or /users.json
-  def create
-    @user = User.new(user_params)
+  def signup
+    puts user_all_params
+    @user = User.new({
+      email: user_all_params['email'],  
+      password_hash: 'test',  
+    })
 
     respond_to do |format|
       if @user.save
@@ -59,7 +63,7 @@ class UsersController < ApplicationController
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
+      format.html { redirect_to home_url, notice: "User was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -67,11 +71,21 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = filter_user_params(User.find(params[:id]))
+    end
+
+    def filter_user_params(user)
+      user.password_hash = ''
+      return user
     end
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:email, :password_hash, :confirmed)
+      params.require(:user).permit(:email)
+    end
+
+    # Only allow a list of trusted parameters through.
+    def user_all_params
+      params.require(:user).permit(:email, :password, :confirm_password)
     end
 end

@@ -26,12 +26,12 @@ class UsersController < ApplicationController
     respond_to do |format|
       if params[:password] != params[:confirm_password]
         @user.errors.add(:password, ': passwords dont match')
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :bad_request }
+        format.json { render json: @user.errors, status: :bad_request }
       elsif User.find_by(email: params[:email])
         @user.errors.add(:email, ': email in use')
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :bad_request }
+        format.json { render json: @user.errors, status: :bad_request }
       else 
         @user.email = params[:email]
         @user.password = params[:password]
@@ -41,11 +41,15 @@ class UsersController < ApplicationController
           cookies[:token] = helpers.encode_jwt({
             user_id: @user.id
           })
-          format.html { redirect_to home_url, notice: "User was successfully created." }
-          format.json { render :home, status: :created, location: @user }
+          puts 'redirecting'
+          # redirect_to home_url
+          format.html do
+            redirect_to home_url
+          end
+          format.json { render :new, status: :created }
         else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :bad_request }
+          format.json { render json: @user.errors, status: :bad_request }
         end
       end
     end
@@ -66,8 +70,8 @@ class UsersController < ApplicationController
       if !db_user 
         @user.errors.add(":email", ': User not found')
         puts 'User not found'
-        format.html { render :login, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.html { render :login, status: :bad_request }
+        format.json { render json: @user.errors, status: :bad_request }
       else
         if db_user.password == params_user.password
           puts 'Success!'
@@ -75,11 +79,11 @@ class UsersController < ApplicationController
             user_id: db_user.id
           })
           format.html { redirect_to home_url, notice: "Login succesful." }
-          format.json { render :home, status: :created, location: @user }
+          format.json { render json: @user, status: :created }
         else
           @user.errors.add(":password", ': Invalid')
-          format.html { render :login, status: :unprocessable_entity }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
+          format.html { render :login, status: :bad_request }
+          format.json { render json: @user.errors, status: :bad_request }
         end
       end
 

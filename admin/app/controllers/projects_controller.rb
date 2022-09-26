@@ -76,8 +76,12 @@ class ProjectsController < ApplicationController
       if !jwt_result[:success]
         redirect_to users_login_url
       else 
-        puts 'ayo'
-        puts jwt_result[:user]
+        user = User.find(jwt_result[:user]['user_id'])
+        if !user.confirmed
+          redirect_to user
+        else 
+          puts 'ayo'
+        end
       end
     end
 end

@@ -40,9 +40,12 @@ class UsersController < ApplicationController
 
   # GET /users/login or /users/login.json
   def login
-    @user = User.new
+    @login = helpers.new_login
+  end
 
-    puts @user
+  def login_handler
+    login_params
+    
   end
 
   # PATCH/PUT /users/1 or /users/1.json
@@ -87,5 +90,10 @@ class UsersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def user_all_params
       params.require(:user).permit(:email, :password, :confirm_password)
+    end
+
+    def login_params
+      params.require(:email)
+      params.require(:password)
     end
 end

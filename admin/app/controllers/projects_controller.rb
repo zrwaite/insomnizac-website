@@ -72,7 +72,7 @@ class ProjectsController < ApplicationController
     end
 
     def authenticate
-      if cookies[:hello] != 'world2'
+      if cookies[:token] != 'world'
         redirect_to users_login_url
       else 
         puts 'ayo'

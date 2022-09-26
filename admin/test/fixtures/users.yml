@@ -2,10 +2,10 @@
 
 one:
   email: MyString
-  password_hash: MyString
+  password_digest: MyString
   confirmed: false
 
 two:
   email: MyString
-  password_hash: MyString
+  password_digest: MyString
   confirmed: false

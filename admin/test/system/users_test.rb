@@ -16,7 +16,7 @@ class UsersTest < ApplicationSystemTestCase
 
     check "Confirmed" if @user.confirmed
     fill_in "Email", with: @user.email
-    fill_in "Password hash", with: @user.password_hash
+    fill_in "Password hash", with: @user.password_digest
     click_on "Create User"
 
     assert_text "User was successfully created"
@@ -29,7 +29,7 @@ class UsersTest < ApplicationSystemTestCase
 
     check "Confirmed" if @user.confirmed
     fill_in "Email", with: @user.email
-    fill_in "Password hash", with: @user.password_hash
+    fill_in "Password hash", with: @user.password_digest
     click_on "Update User"
 
     assert_text "User was successfully updated"

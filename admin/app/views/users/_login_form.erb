@@ -1,10 +1,10 @@
 <%= form_with do |form| %>
-  <% if login.errors.any? %>
+  <% if user.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
       <ul>
-        <% login.errors.each do |error| %>
+        <% user.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>

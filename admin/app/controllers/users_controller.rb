@@ -21,30 +21,74 @@ class UsersController < ApplicationController
 
   # POST /users or /users.json
   def signup
-    puts user_all_params
-    @user = User.new({
-      email: user_all_params['email'],  
-      password_hash: 'test',  
-    })
-
+    params = user_all_params
+    @user = User.new
     respond_to do |format|
-      if @user.save
-        format.html { redirect_to user_url(@user), notice: "User was successfully created." }
-        format.json { render :show, status: :created, location: @user }
-      else
+      if params[:password] != params[:confirm_password]
+        @user.errors.add(:password, ': passwords dont match')
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
+      elsif User.find_by(email: params[:email])
+        @user.errors.add(:email, ': email in use')
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      else 
+        @user.email = params[:email]
+        @user.password = params[:password]
+        if @user.save
+          # Success
+          @user.errors.clear
+          cookies[:token] = helpers.encode_jwt({
+            user_id: @user.id
+          })
+          format.html { redirect_to home_url, notice: "User was successfully created." }
+          format.json { render :home, status: :created, location: @user }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
 
   # GET /users/login or /users/login.json
   def login
-    @login = helpers.new_login
+    @user = User.new
   end
 
   def login_handler
-    login_params
+    @user = User.new
+
+    db_user = User.find_by(email: params[:email])
+    params_user = User.new(login_params)
+
+    respond_to do |format|
+      if !db_user 
+        @user.errors.add(":email", ': User not found')
+        puts 'User not found'
+        format.html { render :login, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      else
+        if db_user.password == params_user.password
+          puts 'Success!'
+          cookies[:token] = helpers.encode_jwt({
+            user_id: db_user.id
+          })
+          format.html { redirect_to home_url, notice: "Login succesful." }
+          format.json { render :home, status: :created, location: @user }
+        else
+          @user.errors.add(":password", ': Invalid')
+          format.html { render :login, status: :unprocessable_entity }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
+      end
+
+    end
+
+    # if user.password == login_params[:password] 
+    #   puts 'wtf'
+    # end
+
     
   end
 
@@ -78,7 +122,7 @@ class UsersController < ApplicationController
     end
 
     def filter_user_params(user)
-      user.password_hash = ''
+      user.password_digest = ''
       return user
     end
 
@@ -95,5 +139,6 @@ class UsersController < ApplicationController
     def login_params
       params.require(:email)
       params.require(:password)
+      params.permit(:password, :email)
     end
 end

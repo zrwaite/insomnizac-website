@@ -72,10 +72,12 @@ class ProjectsController < ApplicationController
     end
 
     def authenticate
-      if cookies[:token] != 'world'
+      jwt_result = helpers.decode_jwt(cookies[:token])
+      if !jwt_result[:success]
         redirect_to users_login_url
       else 
         puts 'ayo'
+        puts jwt_result[:user]
       end
     end
 end

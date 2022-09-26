@@ -1,12 +1,7 @@
+require 'jwt'
 module UsersHelper
-	class Login
-		attr_accessor :errors
-		def initialize() 
-			@errors = Array.new
-		end
+	def encode_jwt(payload)
+		return JWT.encode payload, ENV["JWT_SECRET"], 'HS256'
 	end
-	
-	def new_login() 
-		return Login.new
-	end
+
 end

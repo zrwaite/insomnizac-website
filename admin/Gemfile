@@ -11,6 +11,10 @@ gem 'devise', '~> 4.8', '>= 4.8.1'
 
 gem "sprockets-rails"
 
+gem 'jwt'
+
+gem 'bcrypt'
+
 # gem "sqlite3", "~> 1.4"
 gem 'pg'
 
@@ -39,6 +43,7 @@ group :development do
 end
 
 group :test do
+  #okay i pull up
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"

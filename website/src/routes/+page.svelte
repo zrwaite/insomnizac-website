@@ -1,18 +1,16 @@
 <script lang="ts">
-	import HomepageProjectPanel from '$lib/components/ProjectPanel/HomepageProjectPanel.svelte';
 	import TitleRow from '$lib/components/TitleRow.svelte';
 
-	import logo from '$lib/images/logo.png';
 	import construction from '$lib/images/construction_zac.png';
 	import Graphs from '$lib/pages/home/Graphs.svelte';
-	import Languages from '$lib/pages/home/Languages.svelte';
 	import { defaultHomeData, type HomeData } from './+page';
 	import ProjectsGrid from '$lib/components/ProjectPanel/ProjectsGrid.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { goto } from '$app/navigation';
+	import Skills from '$lib/pages/home/Skills.svelte';
 	export let data: HomeData = defaultHomeData;
 	$: projects = data.projects.slice(0, 6);
-	console.log(['a'].slice(0, 6));
+	$: skills = data.skills
 </script>
 
 <article>
@@ -30,7 +28,7 @@
 			<img src={construction} alt={'logo'} />
 		</div>
 	</section>
-	<Languages />
+	<Skills skills={skills} />
 	<Graphs />
 	<TitleRow title={'Projects'} />
 	<ProjectsGrid projects={projects} panelType={"homepage"}/>

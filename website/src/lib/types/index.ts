@@ -14,3 +14,8 @@ export interface ProjectType {
 	image: string
 	featured: boolean
 }
+
+export interface SkillType {
+	name: string
+	image: string 
+}

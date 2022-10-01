@@ -28,3 +28,7 @@ func ProjectResolver(slug string) (*model.Project, error) {
 		return nil, errors.New("project query failed")
 	}
 }
+
+func ProjectSkillsResolver(obj *model.Project) ([]*model.Skill, error) {
+	return services.GetProjectSkills(obj)
+}

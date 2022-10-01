@@ -7,19 +7,19 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/lib/pq"
 	"github.com/zrwaite/Insomnizac/db"
 	"github.com/zrwaite/Insomnizac/graph/model"
 	"github.com/zrwaite/Insomnizac/graph/services/queries"
-	"github.com/zrwaite/Insomnizac/graph/utils"
-	"github.com/zrwaite/Insomnizac/graph/utils/httpreq"
+	"github.com/zrwaite/Insomnizac/utils"
+	"github.com/zrwaite/Insomnizac/utils/httpreq"
 )
 
 var defaultImage = "https://storage.googleapis.com/insomnizac_public/static/default_project.png"
 var emptyMap = map[string]string{}
 
 func GetProjectArgs(project *model.Project) []interface{} {
-	languages := new([]uint8)
-	return []interface{}{&project.ID, &project.Name, &project.Slug, &project.GithubName, &project.DevpostLink, &project.ProjectLink, &project.CreatedAt, &project.UpdatedAt, &project.Image, &project.Featured, &languages}
+	return []interface{}{&project.ID, &project.Name, &project.Slug, &project.GithubName, &project.DevpostLink, &project.ProjectLink, &project.CreatedAt, &project.UpdatedAt, &project.Image, &project.Featured, pq.Array(&project.SkillIds)}
 }
 
 func GetGithubProject(project *model.Project) {
@@ -137,4 +137,20 @@ func GetRepositoriesData(projects []*model.Project) error {
 		project.Description = repo["description"].(string)
 	}
 	return nil
+}
+
+func GetProjectSkills(obj *model.Project) ([]*model.Skill, error) {
+	skills := []*model.Skill{}
+	allSkills, status := GetSkills()
+	if status != 200 {
+		return nil, errors.New("failed to get all skills")
+	}
+	for _, skillId := range obj.SkillIds {
+		found, index := utils.SkillBinarySearch(allSkills, &model.Skill{ID: skillId})
+		if !found {
+			return nil, errors.New("failed to find skill")
+		}
+		skills = append(skills, allSkills[index])
+	}
+	return skills, nil
 }

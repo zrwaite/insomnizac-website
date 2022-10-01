@@ -17,7 +17,7 @@ func (r *mutationResolver) Contact(ctx context.Context, message string) (bool, e
 }
 
 func (r *projectResolver) Skills(ctx context.Context, obj *model.Project) ([]*model.Skill, error) {
-	panic(fmt.Errorf("not implemented"))
+	return resolvers.ProjectSkillsResolver(obj)
 }
 
 func (r *queryResolver) Projects(ctx context.Context) ([]*model.Project, error) {

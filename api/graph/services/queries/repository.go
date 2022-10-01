@@ -3,7 +3,7 @@ package queries
 import (
 	"fmt"
 
-	"github.com/zrwaite/Insomnizac/graph/utils"
+	"github.com/zrwaite/Insomnizac/utils"
 )
 
 var RepositoryQuery = `

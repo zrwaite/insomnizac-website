@@ -60,6 +60,7 @@ type ComplexityRoot struct {
 		Image       func(childComplexity int) int
 		Name        func(childComplexity int) int
 		ProjectLink func(childComplexity int) int
+		SkillIds    func(childComplexity int) int
 		Skills      func(childComplexity int) int
 		Slug        func(childComplexity int) int
 		UpdatedAt   func(childComplexity int) int
@@ -72,6 +73,7 @@ type ComplexityRoot struct {
 	}
 
 	Skill struct {
+		ID    func(childComplexity int) int
 		Image func(childComplexity int) int
 		Name  func(childComplexity int) int
 	}
@@ -186,6 +188,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Project.ProjectLink(childComplexity), true
 
+	case "Project.skill_ids":
+		if e.complexity.Project.SkillIds == nil {
+			break
+		}
+
+		return e.complexity.Project.SkillIds(childComplexity), true
+
 	case "Project.skills":
 		if e.complexity.Project.Skills == nil {
 			break
@@ -232,6 +241,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.Skills(childComplexity), true
+
+	case "Skill.id":
+		if e.complexity.Skill.ID == nil {
+			break
+		}
+
+		return e.complexity.Skill.ID(childComplexity), true
 
 	case "Skill.image":
 		if e.complexity.Skill.Image == nil {
@@ -315,6 +331,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 
 var sources = []*ast.Source{
 	{Name: "../schema.graphqls", Input: `type Skill {
+  id: ID!
   name: String!
   image: String!
 }
@@ -327,6 +344,7 @@ type Project {
   githubName: String!
   githubLink: String!
   skills: [Skill!]!
+  skill_ids: [ID!]!
   devpostLink: String
   projectLink: String
   createdAt: String!
@@ -793,12 +811,58 @@ func (ec *executionContext) fieldContext_Project_skills(ctx context.Context, fie
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
+			case "id":
+				return ec.fieldContext_Skill_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Skill_name(ctx, field)
 			case "image":
 				return ec.fieldContext_Skill_image(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Skill", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Project_skill_ids(ctx context.Context, field graphql.CollectedField, obj *model.Project) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Project_skill_ids(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SkillIds, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalNID2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Project_skill_ids(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Project",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
 		},
 	}
 	return fc, nil
@@ -1112,6 +1176,8 @@ func (ec *executionContext) fieldContext_Query_projects(ctx context.Context, fie
 				return ec.fieldContext_Project_githubLink(ctx, field)
 			case "skills":
 				return ec.fieldContext_Project_skills(ctx, field)
+			case "skill_ids":
+				return ec.fieldContext_Project_skill_ids(ctx, field)
 			case "devpostLink":
 				return ec.fieldContext_Project_devpostLink(ctx, field)
 			case "projectLink":
@@ -1184,6 +1250,8 @@ func (ec *executionContext) fieldContext_Query_project(ctx context.Context, fiel
 				return ec.fieldContext_Project_githubLink(ctx, field)
 			case "skills":
 				return ec.fieldContext_Project_skills(ctx, field)
+			case "skill_ids":
+				return ec.fieldContext_Project_skill_ids(ctx, field)
 			case "devpostLink":
 				return ec.fieldContext_Project_devpostLink(ctx, field)
 			case "projectLink":
@@ -1253,6 +1321,8 @@ func (ec *executionContext) fieldContext_Query_skills(ctx context.Context, field
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
+			case "id":
+				return ec.fieldContext_Skill_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Skill_name(ctx, field)
 			case "image":
@@ -1388,6 +1458,50 @@ func (ec *executionContext) fieldContext_Query___schema(ctx context.Context, fie
 				return ec.fieldContext___Schema_directives(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Schema", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Skill_id(ctx context.Context, field graphql.CollectedField, obj *model.Skill) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Skill_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Skill_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Skill",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
 		},
 	}
 	return fc, nil
@@ -3373,6 +3487,13 @@ func (ec *executionContext) _Project(ctx context.Context, sel ast.SelectionSet, 
 				return innerFunc(ctx)
 
 			})
+		case "skill_ids":
+
+			out.Values[i] = ec._Project_skill_ids(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&invalids, 1)
+			}
 		case "devpostLink":
 
 			out.Values[i] = ec._Project_devpostLink(ctx, field, obj)
@@ -3538,6 +3659,13 @@ func (ec *executionContext) _Skill(ctx context.Context, sel ast.SelectionSet, ob
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Skill")
+		case "id":
+
+			out.Values[i] = ec._Skill_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "name":
 
 			out.Values[i] = ec._Skill_name(ctx, field, obj)
@@ -3909,6 +4037,38 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) unmarshalNID2ᚕstringᚄ(ctx context.Context, v interface{}) ([]string, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]string, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNID2string(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalNID2ᚕstringᚄ(ctx context.Context, sel ast.SelectionSet, v []string) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalNID2string(ctx, sel, v[i])
+	}
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) marshalNProject2githubᚗcomᚋzrwaiteᚋInsomnizacᚋgraphᚋmodelᚐProject(ctx context.Context, sel ast.SelectionSet, v model.Project) graphql.Marshaler {

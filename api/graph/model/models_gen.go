@@ -10,6 +10,7 @@ type Project struct {
 	GithubName  string   `json:"githubName"`
 	GithubLink  string   `json:"githubLink"`
 	Skills      []*Skill `json:"skills"`
+	SkillIds    []string `json:"skill_ids"`
 	DevpostLink *string  `json:"devpostLink"`
 	ProjectLink *string  `json:"projectLink"`
 	CreatedAt   string   `json:"createdAt"`
@@ -19,6 +20,7 @@ type Project struct {
 }
 
 type Skill struct {
+	ID    string `json:"id"`
 	Name  string `json:"name"`
 	Image string `json:"image"`
 }

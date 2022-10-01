@@ -16,9 +16,10 @@
 <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="github" width="50rem" height="50rem" />
 <img src="https://pipedream.com/s.v0/app_168hBq/logo/orig" alt="datadog" width="50rem" height="50rem" />
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/googlecloud/googlecloud-original.svg" alt="googlecloud" width="50rem" height="50rem" />
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="aws" width="50rem" height="50rem" />
 </div>
 
-## [Insomnizac.xyz](https://www.insomnizac.xyz) - *This website is running on a **self-hosted linux server**, so it may be slow or even down at times.*
+## [Insomnizac.xyz](https://www.insomnizac.xyz)
 
 The valid question to be posed when viewing this project is: 
 

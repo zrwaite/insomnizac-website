@@ -1,4 +1,4 @@
-type Language {
+type Skill {
   name: String!
   image: String!
 }
@@ -10,7 +10,7 @@ type Project {
   description: String!
   githubName: String!
   githubLink: String!
-  languages: [Language!]!
+  skills: [Skill!]!
   devpostLink: String
   projectLink: String
   createdAt: String!
@@ -22,6 +22,7 @@ type Project {
 type Query {
   projects: [Project!]!
   project(slug: String!): Project!
+  skills: [Skill!]!
 }
 
 type Mutation {

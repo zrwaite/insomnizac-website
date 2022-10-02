@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
+  include Authentication
   before_action :set_project, only: %i[ show edit update destroy ]
-  before_action :authenticate
+  before_action :auth
 
   # GET /projects or /projects.json
   def index
@@ -71,17 +72,8 @@ class ProjectsController < ApplicationController
       params.require(:project).permit(:name, :description, :github_name, :slug)
     end
 
-    def authenticate
-      jwt_result = helpers.decode_jwt(cookies[:token])
-      if !jwt_result[:success]
-        redirect_to users_login_url
-      else 
-        user = User.find(jwt_result[:user]['user_id'])
-        if !user.confirmed
-          redirect_to user
-        else 
-          puts 'ayo'
-        end
-      end
-    end
+  def auth
+    helpers.authenticate
+  end
+
 end

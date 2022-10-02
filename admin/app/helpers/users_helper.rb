@@ -1,7 +1,14 @@
-require 'jwt'
 module UsersHelper
-	def encode_jwt(payload)
-		return JWT.encode payload, ENV["JWT_SECRET"], 'HS256'
-	end
-
+  include Authentication
+  def redirect_with_authentication
+    jwt_result = decode_jwt(cookies[:token])
+    if jwt_result[:success]
+      begin
+        user = User.find(jwt_result[:user]['user_id'])
+        redirect_to user
+      rescue
+        sign_out
+      end
+    end
+  end
 end

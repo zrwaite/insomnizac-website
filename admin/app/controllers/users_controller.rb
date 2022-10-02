@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  include Authentication
   before_action :set_user, only: %i[ show edit update destroy ]
 
   # GET /users or /users.json
@@ -13,6 +14,7 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+    helpers.redirect_with_authentication
   end
 
   # GET /users/1/edit
@@ -34,19 +36,16 @@ class UsersController < ApplicationController
         format.json { render json: @user.errors, status: :bad_request }
       else 
         @user.email = params[:email]
-        @user.password = params[:password]
+        @user.password_digest = BCrypt::Password.create(params[:password])
         if @user.save
           # Success
           @user.errors.clear
-          cookies[:token] = helpers.encode_jwt({
+          cookies[:token] = encode_jwt({
             user_id: @user.id
           })
           puts 'redirecting'
-          # redirect_to home_url
-          format.html do
-            redirect_to home_url
-          end
-          format.json { render :new, status: :created }
+          format.html { render :'home/index', status: :created, notice: "Login succesful." }
+          format.json { render json: @user, status: :created }
         else
           format.html { render :new, status: :bad_request }
           format.json { render json: @user.errors, status: :bad_request }
@@ -58,13 +57,13 @@ class UsersController < ApplicationController
   # GET /users/login or /users/login.json
   def login
     @user = User.new
+    helpers.redirect_with_authentication
   end
 
   def login_handler
     @user = User.new
 
     db_user = User.find_by(email: params[:email])
-    params_user = User.new(login_params)
 
     respond_to do |format|
       if !db_user 
@@ -73,12 +72,12 @@ class UsersController < ApplicationController
         format.html { render :login, status: :bad_request }
         format.json { render json: @user.errors, status: :bad_request }
       else
-        if db_user.password == params_user.password
+        if BCrypt::Password.new(db_user.password_digest) == params[:password]
           puts 'Success!'
-          cookies[:token] = helpers.encode_jwt({
+          cookies[:token] = encode_jwt({
             user_id: db_user.id
           })
-          format.html { redirect_to home_url, notice: "Login succesful." }
+          format.html { render 'home/index', status: :created, notice: "Login succesful." }
           format.json { render json: @user, status: :created }
         else
           @user.errors.add(":password", ': Invalid')
@@ -127,7 +126,7 @@ class UsersController < ApplicationController
 
     def filter_user_params(user)
       user.password_digest = ''
-      return user
+      user
     end
 
     # Only allow a list of trusted parameters through.
@@ -145,4 +144,5 @@ class UsersController < ApplicationController
       params.require(:password)
       params.permit(:password, :email)
     end
+
 end

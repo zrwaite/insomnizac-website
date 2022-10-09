@@ -10,7 +10,7 @@ services:
     api:
         build: 'api'
         env_file: './.env'
-        image: 'zrwaite/insomnizac_api:1.0.6'
+        image: 'zrwaite/insomnizac_api:1.0.7'
         ports:
             - '8011:8011'
         depends_on:
@@ -26,29 +26,29 @@ services:
             - "redis"
     redis:
         build: 'redis'
-        image: 'zrwaite/insomnizac_redis:1.0.3'
+        image: 'zrwaite/insomnizac_redis:1.1'
         labels:
             com.datadoghq.ad.logs: '[{"source": "redis", "service": "redis"}]'
         restart: 'always'
         ports:
-            - '8013:6379'
+            - '6000:6379'
         command: "redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}"
         volumes: 
             - redis:/data
-    datadog:
-        build: 'datadog'
-        image: 'zrwaite/insomnizac_datadog:1.0.3'
-        pid: host
-        environment:
-            - DD_API_KEY=${DD_API_KEY}
-            - DD_SITE=datadoghq.com
-            - DD_LOGS_ENABLED=true
-            - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - /proc/:/host/proc/:ro
-            - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
-            - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    # datadog:
+    #     build: 'datadog'
+    #     image: 'zrwaite/insomnizac_datadog:1.0.3'
+    #     pid: host
+    #     environment:
+    #         - DD_API_KEY=${DD_API_KEY}
+    #         - DD_SITE=datadoghq.com
+    #         - DD_LOGS_ENABLED=true
+    #         - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+    #     volumes:
+    #         - /var/run/docker.sock:/var/run/docker.sock
+    #         - /proc/:/host/proc/:ro
+    #         - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+    #         - /var/lib/docker/containers:/var/lib/docker/containers:ro
 volumes:
     redis:
         driver: local

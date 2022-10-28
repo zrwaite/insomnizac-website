@@ -9,21 +9,22 @@ module ProjectsHelper
 		puts res.body  if res.is_a?(Net::HTTPSuccess)
 	end
 
-	def authenticate
+	def authenticate_redirect
 		jwt_result = decode_jwt(cookies[:token])
 		if !jwt_result[:success]
-			redirect_to users_login_url
+			return users_login_url
 		else
 			begin
 				user = User.find(jwt_result[:user]['user_id'])
 				unless user.confirmed
-					redirect_to user
+					return user
 				end
 			rescue => error
 				sign_out
-				redirect_to users_login_url
+				return users_login_url
 			end
 		end
+		return nil
 	end
 
 end

@@ -19,7 +19,6 @@ module Authentication
         success: true
       }
     rescue => error
-      puts error
       return {
         user: nil,
         success: false

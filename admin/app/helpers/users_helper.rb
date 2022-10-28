@@ -5,10 +5,11 @@ module UsersHelper
     if jwt_result[:success]
       begin
         user = User.find(jwt_result[:user]['user_id'])
-        redirect_to user
+        return user
       rescue
         sign_out
       end
     end
+    return nil
   end
 end

@@ -73,7 +73,10 @@ class ProjectsController < ApplicationController
     end
 
   def auth
-    helpers.authenticate
+    redirect = helpers.authenticate_redirect
+    if redirect != nil 
+      redirect_to redirect
+    end
   end
 
 end

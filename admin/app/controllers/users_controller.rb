@@ -14,7 +14,10 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
-    helpers.redirect_with_authentication
+    redirect = helpers.redirect_with_authentication
+    if redirect != nil
+      redirect_to redirect
+    end
   end
 
   # GET /users/1/edit
@@ -57,7 +60,10 @@ class UsersController < ApplicationController
   # GET /users/login or /users/login.json
   def login
     @user = User.new
-    helpers.redirect_with_authentication
+    redirect = helpers.redirect_with_authentication
+    if redirect != nil
+      redirect_to redirect
+    end
   end
 
   def login_handler

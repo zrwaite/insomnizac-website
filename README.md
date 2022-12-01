@@ -14,8 +14,6 @@
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" alt="docker" width="50rem" height="50rem" />
 <img src=".github/images/twilio-svg.svg" alt="twilio" width="50rem" height="50rem" />
 <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="github" width="50rem" height="50rem" />
-<img src="https://pipedream.com/s.v0/app_168hBq/logo/orig" alt="datadog" width="50rem" height="50rem" />
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/googlecloud/googlecloud-original.svg" alt="googlecloud" width="50rem" height="50rem" />
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original.svg" alt="aws" width="50rem" height="50rem" />
 </div>
 

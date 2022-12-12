@@ -6,6 +6,13 @@ class ProjectsController < ApplicationController
   # GET /projects or /projects.json
   def index
     @projects = Project.all
+    # for each project, find all the skills by project.skill_ids
+    @projects.each do |project|
+      project.update_attribute :skills, []
+      project.skill_ids.each do |skill_id|
+        project.skills.push(Skill.find(skill_id))
+      end
+    end
   end
 
   # GET /projects/1 or /projects/1.json

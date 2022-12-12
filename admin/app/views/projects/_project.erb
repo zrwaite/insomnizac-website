@@ -7,6 +7,19 @@
     <strong>Github name:</strong>
     <%= project.github_name %>
   </p>
+  <%# Loop over the project.skill_ids and list them: %>
+  <div>
+    <strong>Skills:</strong>
+    <ul class="projectSkillList">
+      <% project.skills.each do |skill| %>
+        <%# Skill.find (skill_id).name %>
+        <li>
+          <%= skill.name %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
   <% if project.image %>
     <%= image_tag(project.image, :class => "projectImage") %>
   <% else %> 

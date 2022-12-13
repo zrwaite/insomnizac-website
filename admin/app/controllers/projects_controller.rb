@@ -72,6 +72,10 @@ class ProjectsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_project
       @project = Project.find_by!(slug: params[:slug])
+      @project.update_attribute :skills, []
+      @project.skill_ids.each do |skill_id|
+        @project.skills.push(Skill.find(skill_id))
+      end
     end
 
     # Only allow a list of trusted parameters through.

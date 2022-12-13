@@ -26,6 +26,26 @@
     <%= form.text_field :slug %>
   </div>
 
+  <%# List of existing skills %>
+  <div>
+    <%= form.label :skills, style: "display: block" %>
+
+    <%# display all skills, with option to remove each one %>
+    <% project.skills.each do |skill| %>
+      <div>
+        <%= skill.name %>
+        <%= form.check_box :skills, { multiple: true, checked: true }, skill.id, nil %>
+      </div>
+    <% end %>
+
+    <%# select input and add button to add a new skill to the list %>
+    <div>
+      <%= form.select :skills, Skill.all.map { |skill| [skill.name, skill.id] }, { include_blank: true }, { multiple: true } %>
+      <%= form.button "Add" %>
+    </div>
+  </div>
+
+
   <div>
     <%= form.submit %>
   </div>

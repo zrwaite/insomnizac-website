@@ -3,5 +3,8 @@
 		"godotenv",
 		"httpreq",
 		"Sendgrid"
+	],
+	"rust-analyzer.linkedProjects": [
+        "admin/console/Cargo.toml",
 	]
 }

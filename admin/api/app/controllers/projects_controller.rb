@@ -1,71 +1,50 @@
 class ProjectsController < ApplicationController
   include Authentication
-  before_action :set_project, only: %i[ show edit update destroy ]
+  before_action :set_project, only: %i[ show update destroy ]
   before_action :auth
 
-  # GET /projects or /projects.json
+  # GET /projects
   def index
     @projects = Project.all
-    # for each project, find all the skills by project.skill_ids
     @projects.each do |project|
       project.update_attribute :skills, []
       project.skill_ids.each do |skill_id|
         project.skills.push(Skill.find(skill_id))
       end
     end
+
+    render json: @projects
   end
 
-  # GET /projects/1 or /projects/1.json
+  # GET /projects/1
   def show
-    puts 'hi'
     helpers.get_github
+    render json: @project
   end
 
-  # GET /projects/new
-  def new
-    @project = Project.new
-  end
-
-  # GET /projects/1/edit
-  def edit
-  end
-
-  # POST /projects or /projects.json
+  # POST /projects
   def create
     @project = Project.new(project_params)
-    
-    respond_to do |format|
-      if @project.save
-        format.html { redirect_to project_url(@project), notice: "Project was successfully created." }
-        format.json { render :show, status: :created, location: @project }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
-      end
+
+    if @project.save
+      render json: @project, status: :created, location: @project
+    else
+      render json: @project.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /projects/1 or /projects/1.json
+  # PATCH/PUT /projects/1
   def update
-    respond_to do |format|
-      if @project.update(project_params)
-        format.html { redirect_to project_url(@project), notice: "Project was successfully updated." }
-        format.json { render :show, status: :ok, location: @project }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
-      end
+    if @project.update(project_params)
+      render json: @project
+    else
+      render json: @project.errors, status: :unprocessable_entity
     end
   end
 
-  # DELETE /projects/1 or /projects/1.json
+  # DELETE /projects/1
   def destroy
     @project.destroy
-
-    respond_to do |format|
-      format.html { redirect_to projects_url, notice: "Project was successfully destroyed." }
-      format.json { head :no_content }
-    end
   end
 
   private
@@ -80,14 +59,15 @@ class ProjectsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def project_params
+      # params.fetch(:project, {})
       params.require(:project).permit(:name, :description, :github_name, :slug)
     end
 
-  def auth
-    redirect = helpers.authenticate_redirect
-    if redirect != nil 
-      redirect_to redirect
+    def auth
+      redirect = helpers.authenticate_redirect
+      if redirect != nil 
+        redirect_to redirect
+      end
     end
-  end
 
 end

@@ -29,20 +29,5 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
-/public/assets
-
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-
-#Sorbet
-sorbet/rbi/hidden-definitions/errors.txt
-
-#MacOS
-.DS_Store
-
-#Env
-.env
-
-#dev
-sorbet
-routes.txt

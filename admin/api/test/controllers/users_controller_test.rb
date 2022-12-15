@@ -6,43 +6,33 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get users_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_user_url
+    get users_url, as: :json
     assert_response :success
   end
 
   test "should create user" do
     assert_difference("User.count") do
-      post users_url, params: { user: { confirmed: @user.confirmed, email: @user.email, password_digest: @user.password_digest } }
+      post users_url, params: { user: {  } }, as: :json
     end
 
-    assert_redirected_to user_url(User.last)
+    assert_response :created
   end
 
   test "should show user" do
-    get user_url(@user)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_user_url(@user)
+    get user_url(@user), as: :json
     assert_response :success
   end
 
   test "should update user" do
-    patch user_url(@user), params: { user: { confirmed: @user.confirmed, email: @user.email, password_digest: @user.password_digest } }
-    assert_redirected_to user_url(@user)
+    patch user_url(@user), params: { user: {  } }, as: :json
+    assert_response :success
   end
 
   test "should destroy user" do
     assert_difference("User.count", -1) do
-      delete user_url(@user)
+      delete user_url(@user), as: :json
     end
 
-    assert_redirected_to users_url
+    assert_response :no_content
   end
 end

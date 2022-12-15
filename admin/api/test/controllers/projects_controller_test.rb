@@ -6,43 +6,33 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get projects_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_project_url
+    get projects_url, as: :json
     assert_response :success
   end
 
   test "should create project" do
     assert_difference("Project.count") do
-      post projects_url, params: { project: { description: @project.description, github_name: @project.github_name, name: @project.name } }
+      post projects_url, params: { project: {  } }, as: :json
     end
 
-    assert_redirected_to project_url(Project.last)
+    assert_response :created
   end
 
   test "should show project" do
-    get project_url(@project)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_project_url(@project)
+    get project_url(@project), as: :json
     assert_response :success
   end
 
   test "should update project" do
-    patch project_url(@project), params: { project: { description: @project.description, github_name: @project.github_name, name: @project.name } }
-    assert_redirected_to project_url(@project)
+    patch project_url(@project), params: { project: {  } }, as: :json
+    assert_response :success
   end
 
   test "should destroy project" do
     assert_difference("Project.count", -1) do
-      delete project_url(@project)
+      delete project_url(@project), as: :json
     end
 
-    assert_redirected_to projects_url
+    assert_response :no_content
   end
 end

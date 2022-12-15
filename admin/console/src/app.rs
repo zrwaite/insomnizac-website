@@ -1,11 +1,14 @@
 use yew::{Callback, html, Html, function_component};
 use yew_router::{BrowserRouter, Switch, Routable};
 use yew_router::prelude::use_navigator;
+use crate::pages::{Error404, Projects};
 
 #[derive(Debug, Clone, Copy, PartialEq, Routable)]
 enum Route {
     #[at("/")]
     Home,
+    #[at("/projects")]
+    Projects,
     #[at("/secure")]
     Secure,
     #[not_found]
@@ -40,10 +43,9 @@ fn switch(routes: Route) -> Html {
             {
                 match routes {
                     Route::Home => html! { <h1>{ "Home" }</h1> },
-                    Route::Secure => html! {
-                        <Secure />
-                    },
-                    Route::NotFound => html! { <h1>{ "404" }</h1> },
+                    Route::Secure => html! {<Secure />},
+                    Route::NotFound => html! { <Error404 /> },
+                    Route::Projects => html! { <Projects /> },
                 }
             }
         </main>

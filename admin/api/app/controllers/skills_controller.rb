@@ -1,60 +1,41 @@
 class SkillsController < ApplicationController
-  before_action :set_skill, only: %i[ show edit update destroy ]
+  before_action :set_skill, only: %i[ show update destroy ]
 
-  # GET /skills or /skills.json
+  # GET /skills
   def index
     @skills = Skill.all
+
+    render json: @skills
   end
 
-  # GET /skills/1 or /skills/1.json
+  # GET /skills/1
   def show
+    render json: @skill
   end
 
-  # GET /skills/new
-  def new
-    @skill = Skill.new
-  end
-
-  # GET /skills/1/edit
-  def edit
-  end
-
-  # POST /skills or /skills.json
+  # POST /skills
   def create
     @skill = Skill.new(skill_params)
 
-    respond_to do |format|
-      if @skill.save
-        format.html { redirect_to skill_url(@skill), notice: "Skill was successfully created." }
-        format.json { render :show, status: :created, location: @skill }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @skill.errors, status: :unprocessable_entity }
-      end
+    if @skill.save
+      render json: @skill, status: :created, location: @skill
+    else
+      render json: @skill.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /skills/1 or /skills/1.json
+  # PATCH/PUT /skills/1
   def update
-    respond_to do |format|
-      if @skill.update(skill_params)
-        format.html { redirect_to skill_url(@skill), notice: "Skill was successfully updated." }
-        format.json { render :show, status: :ok, location: @skill }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @skill.errors, status: :unprocessable_entity }
-      end
+    if @skill.update(skill_params)
+      render json: @skill
+    else
+      render json: @skill.errors, status: :unprocessable_entity
     end
   end
 
-  # DELETE /skills/1 or /skills/1.json
+  # DELETE /skills/1
   def destroy
     @skill.destroy
-
-    respond_to do |format|
-      format.html { redirect_to skills_url, notice: "Skill was successfully destroyed." }
-      format.json { head :no_content }
-    end
   end
 
   private
@@ -65,6 +46,7 @@ class SkillsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def skill_params
+      # params.fetch(:skill, {})
       params.require(:skill).permit(:name, :image)
     end
 end

@@ -6,43 +6,33 @@ class SkillsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get skills_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_skill_url
+    get skills_url, as: :json
     assert_response :success
   end
 
   test "should create skill" do
     assert_difference("Skill.count") do
-      post skills_url, params: { skill: { image: @skill.image, name: @skill.name } }
+      post skills_url, params: { skill: {  } }, as: :json
     end
 
-    assert_redirected_to skill_url(Skill.last)
+    assert_response :created
   end
 
   test "should show skill" do
-    get skill_url(@skill)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_skill_url(@skill)
+    get skill_url(@skill), as: :json
     assert_response :success
   end
 
   test "should update skill" do
-    patch skill_url(@skill), params: { skill: { image: @skill.image, name: @skill.name } }
-    assert_redirected_to skill_url(@skill)
+    patch skill_url(@skill), params: { skill: {  } }, as: :json
+    assert_response :success
   end
 
   test "should destroy skill" do
     assert_difference("Skill.count", -1) do
-      delete skill_url(@skill)
+      delete skill_url(@skill), as: :json
     end
 
-    assert_redirected_to skills_url
+    assert_response :no_content
   end
 end

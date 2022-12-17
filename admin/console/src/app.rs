@@ -1,20 +1,7 @@
 use yew::{Callback, html, Html, function_component};
-use yew_router::{BrowserRouter, Switch, Routable};
+use yew_router::{BrowserRouter, Switch};
 use yew_router::prelude::use_navigator;
-use crate::pages::{Error404, Projects};
-
-#[derive(Debug, Clone, Copy, PartialEq, Routable)]
-enum Route {
-    #[at("/")]
-    Home,
-    #[at("/projects")]
-    Projects,
-    #[at("/secure")]
-    Secure,
-    #[not_found]
-    #[at("/404")]
-    NotFound,
-}
+use crate::pages::{Error404, Projects, Route};
 
 #[function_component(Secure)]
 fn secure() -> Html {

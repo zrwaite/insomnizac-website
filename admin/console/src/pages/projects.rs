@@ -123,12 +123,12 @@ pub fn projects() -> Html {
                             <div class="project">
                                 <div class="name">{project.name.to_owned()}</div>
                                 <div class="image"><img src={project.image.to_owned()}/></div>
-                                <div class="description">{project.devpost_link.to_owned()}</div>
-                                <div class="description">{project.project_link.to_owned()}</div>
-                                <div class="description">{project.created_at.to_owned()}</div>
-                                <div class="description">{project.updated_at.to_owned()}</div>
-                                <div class="description">{project.featured.to_owned()}</div>
-                                <div class="description">{project.skill_ids.to_owned()}</div>
+                                <a class="description" href={project.devpost_link.to_owned()}>{project.devpost_link.to_owned()}</a>
+                                <a class="description" href={project.project_link.to_owned()}>{project.project_link.to_owned()}</a>
+                                <div class="description">{"Featured: "}{project.featured.to_owned()}</div>
+                                <div class="description">{"Skills: "}{project.skill_ids.to_owned()}</div>
+                                <div class="description">{"Created At: "}{project.created_at.to_owned()}</div>
+                                <div class="description">{"Updated At: "}{project.updated_at.to_owned()}</div>
                             </div>
                         }
                     })

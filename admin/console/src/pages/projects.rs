@@ -1,8 +1,9 @@
 use yew::{html, Html, function_component, Properties};
 use reqwasm::http::Request;
-use yew::{Callback, MouseEvent};
+use yew::{use_effect_with_deps, UseStateHandle};
 use yew::prelude::use_state;
 use serde::{Deserialize, Serialize};
+use log::info;
 
 
 #[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
@@ -38,6 +39,21 @@ struct PeriodComponentProps {
     pub period: Period,
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+struct Project {
+    pub id: i64,
+    pub name: String,
+    pub slug: String,
+    pub github_name: String,
+    pub devpost_link: Option<String>,
+    pub project_link: Option<String>,
+    pub created_at: String,
+    pub updated_at: String,
+    pub image: Option<String>,
+    pub featured: bool,
+    pub skill_ids: Vec<String>,
+}
+
 #[function_component(PeriodComponent)]
 fn period_component(props: &PeriodComponentProps) -> Html {
     let PeriodComponentProps { period } = props;
@@ -54,81 +70,68 @@ fn period_component(props: &PeriodComponentProps) -> Html {
 
 #[function_component(Projects)]
 pub fn projects() -> Html {
-    let forecast = Box::new(use_state(|| None));
+
     let error = Box::new(use_state(|| None));
 
-    let retry: Callback<MouseEvent> = {
-        let forecast = forecast.clone();
-        let error = error.clone();
-        Callback::from(move |_:_| {
-            let forecast = forecast.clone();
-            let error = error.clone();
-            wasm_bindgen_futures::spawn_local(async move {
-                let forecast_endpoint = format!(
-                    "https://api.weather.gov/gridpoints/{office}/{x},{y}/forecast",
-                    office = "DTX",
-                    x = 65,
-                    y = 33
-                );
-                let fetched_forecast = Request::get(&forecast_endpoint).send().await;
+    let projects: Box<UseStateHandle<Vec<Project>>> = Box::new(use_state(|| vec![]));
 
-                match fetched_forecast {
+    {
+        let projects = projects.clone();
+        let error = error.clone();
+        use_effect_with_deps(move |_| {
+            let projects = projects.clone();
+            let error = error.clone();
+            
+            wasm_bindgen_futures::spawn_local(async move {
+                let projects_endpoint = format!(
+                    "http://localhost:3000/projects"
+                );
+                let fetched_projects = Request::get(&projects_endpoint).send().await;
+        
+                match fetched_projects {
                     Ok(response) => {
-                        let json: Result<Forecast, _> = response.json().await;
+                        let json: Result<Vec<Project>, _> = response.json().await;
                         match json {
                             Ok(f) => {
-                                forecast.set(Some(f));
+                                info!("Success!");
+                                projects.set(f);
                             }
-                            Err(e) => error.set(Some(e.to_string())),
+                            Err(e) => {
+                                info!("Error! {}", e.to_string());
+                                error.set(Some(e.to_string()));
+                            }
                         }
                     }
-                    Err(e) => error.set(Some(e.to_string())),
+                    Err(e) => {
+                        info!("Error! {}", e.to_string());
+                        error.set(Some(e.to_string()))
+                    }
                 }
             });
-        })
-    };
-
-    // let onclick = Callback::from(move |_| {
-    //     let greeting = String::from("Hi there");
-    //     // web_sys::console::log_1(&greeting.into()); // if uncommented will print
-    // });
+            || ()
+        }, ());
+    }
     
     html! {
         <div>
-            <h1>{ "Projects" }</h1>
+            <h1>{ "Projects Page" }</h1>
             // <button onclick={retry}>{ "Retry" }</button>
             <div>
                 {
-                    match (*forecast).as_ref() {
-                        Some(f) => f
-                            .properties
-                            .periods
-                            .iter()
-                            .map(|period| {
-                                html! {
-                                    <PeriodComponent period={period.clone()}/>
-                                }
-                            })
-                            .collect(),
-                        None => match (*error).as_ref() {
-                            Some(e) => {
-                                html! {
-                                    <>
-                                        {"error"} {e}
-                                        // <button onclick={retry}>{"retry"}</button>
-                                    </>
-                                }
-                            }
-                            None => {
-                                html! {
-                                    <>
-                                        {"No data yet"}
-                                        <button onclick={retry}>{"Call API"}</button>
-                                    </>
-                                }
-                            }
-                        },
-                    }
+                    for projects.iter().map(|project| {
+                        html! {
+                            <div class="project">
+                                <div class="name">{project.name.to_owned()}</div>
+                                <div class="image"><img src={project.image.to_owned()}/></div>
+                                <div class="description">{project.devpost_link.to_owned()}</div>
+                                <div class="description">{project.project_link.to_owned()}</div>
+                                <div class="description">{project.created_at.to_owned()}</div>
+                                <div class="description">{project.updated_at.to_owned()}</div>
+                                <div class="description">{project.featured.to_owned()}</div>
+                                <div class="description">{project.skill_ids.to_owned()}</div>
+                            </div>
+                        }
+                    })
                 }
             </div>
         </div>

@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   include Authentication
   before_action :set_project, only: %i[ show update destroy ]
-  before_action :auth
+  before_action :auth, only: %i[ create update destroy ]
 
   # GET /projects
   def index

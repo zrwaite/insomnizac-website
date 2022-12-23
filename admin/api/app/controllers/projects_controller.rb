@@ -13,7 +13,7 @@ class ProjectsController < ApplicationController
       end
     end
 
-    render json: @projects
+    render json: @projects, methods: ['skills']
   end
 
   # GET /projects/1

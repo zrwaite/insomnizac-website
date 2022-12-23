@@ -5,10 +5,6 @@ body {
 }
 
 body {
-  // align-items: center;
-  // display: flex;
-  // justify-content: center;
-
   background: linear-gradient(to bottom right, #444444, #009a5b);
   font-size: 1.5rem;
 }
@@ -19,13 +15,9 @@ main {
   text-align: center;
 }
 
-.logo {
-  height: 20em;
-}
-
-h1 + .subtitle {
-  display: block;
-  margin-top: -1em;
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
 }
 
 .project {
@@ -34,9 +26,10 @@ h1 + .subtitle {
   align-items: center;
   background-color: white;
   margin: 1rem;
+  padding: 1rem;
   color: black;
   img {
-    width: 5rem;
+    width: 15rem;
     margin-right: 0.5em;
   }
 }

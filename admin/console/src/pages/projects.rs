@@ -5,6 +5,8 @@ use yew::prelude::use_state;
 use serde::{Deserialize, Serialize};
 use log::info;
 
+use crate::models::Project;
+
 
 #[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -39,20 +41,7 @@ struct PeriodComponentProps {
     pub period: Period,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-struct Project {
-    pub id: i64,
-    pub name: String,
-    pub slug: String,
-    pub github_name: String,
-    pub devpost_link: Option<String>,
-    pub project_link: Option<String>,
-    pub created_at: String,
-    pub updated_at: String,
-    pub image: Option<String>,
-    pub featured: bool,
-    pub skill_ids: Vec<String>,
-}
+
 
 #[function_component(PeriodComponent)]
 fn period_component(props: &PeriodComponentProps) -> Html {
@@ -115,8 +104,7 @@ pub fn projects() -> Html {
     html! {
         <div>
             <h1>{ "Projects Page" }</h1>
-            // <button onclick={retry}>{ "Retry" }</button>
-            <div>
+            <div class="projectGrid">
                 {
                     for projects.iter().map(|project| {
                         html! {
@@ -126,7 +114,18 @@ pub fn projects() -> Html {
                                 <a class="description" href={project.devpost_link.to_owned()}>{project.devpost_link.to_owned()}</a>
                                 <a class="description" href={project.project_link.to_owned()}>{project.project_link.to_owned()}</a>
                                 <div class="description">{"Featured: "}{project.featured.to_owned()}</div>
-                                <div class="description">{"Skills: "}{project.skill_ids.to_owned()}</div>
+                                <div class="description">
+                                    <h4>{"Skills: "}</h4>
+                                    <ul>
+                                        {
+                                            for project.skills.iter().map(|skill| {
+                                                html! {
+                                                    <li>{skill.name.to_owned()}</li>
+                                                }
+                                            })
+                                        }
+                                    </ul>
+                                </div>
                                 <div class="description">{"Created At: "}{project.created_at.to_owned()}</div>
                                 <div class="description">{"Updated At: "}{project.updated_at.to_owned()}</div>
                             </div>

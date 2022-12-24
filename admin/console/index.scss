@@ -1,35 +1,21 @@
+@import 'src/styles/projects', 'src/styles/home';
 html,
 body {
-  min-height: 100%;
-  margin: 0;
+	min-height: 100%;
+	margin: 0;
+}
+
+* {
+	margin: 0;
 }
 
 body {
-  background: linear-gradient(to bottom right, #444444, #009a5b);
-  font-size: 1.5rem;
+	background: linear-gradient(to bottom right, #444444, #009a5b);
+	font-size: 1.5rem;
 }
 
 main {
-  color: #fff6d5;
-  font-family: sans-serif;
-  text-align: center;
-}
-
-.projectGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-}
-
-.project {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: white;
-  margin: 1rem;
-  padding: 1rem;
-  color: black;
-  img {
-    width: 15rem;
-    margin-right: 0.5em;
-  }
+	color: #fff6d5;
+	font-family: sans-serif;
+	text-align: center;
 }

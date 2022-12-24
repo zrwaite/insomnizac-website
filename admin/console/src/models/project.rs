@@ -2,7 +2,7 @@ use serde::{Serialize, Deserialize};
 
 use super::Skill;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct Project {
     pub id: i64,
     pub name: String,

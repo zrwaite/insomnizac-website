@@ -4,8 +4,10 @@ use yew::{use_effect_with_deps, UseStateHandle};
 use yew::prelude::use_state;
 use serde::{Deserialize, Serialize};
 use log::info;
+// use sass_rs::{compile_string};
 
 use crate::models::Project;
+use crate::components::ProjectPanel;
 
 
 #[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
@@ -102,37 +104,26 @@ pub fn projects() -> Html {
     }
     
     html! {
-        <div>
-            <h1>{ "Projects Page" }</h1>
-            <div class="projectGrid">
-                {
-                    for projects.iter().map(|project| {
-                        html! {
-                            <div class="project">
-                                <div class="name">{project.name.to_owned()}</div>
-                                <div class="image"><img src={project.image.to_owned()}/></div>
-                                <a class="description" href={project.devpost_link.to_owned()}>{project.devpost_link.to_owned()}</a>
-                                <a class="description" href={project.project_link.to_owned()}>{project.project_link.to_owned()}</a>
-                                <div class="description">{"Featured: "}{project.featured.to_owned()}</div>
-                                <div class="description">
-                                    <h4>{"Skills: "}</h4>
-                                    <ul>
-                                        {
-                                            for project.skills.iter().map(|skill| {
-                                                html! {
-                                                    <li>{skill.name.to_owned()}</li>
-                                                }
-                                            })
-                                        }
-                                    </ul>
-                                </div>
-                                <div class="description">{"Created At: "}{project.created_at.to_owned()}</div>
-                                <div class="description">{"Updated At: "}{project.updated_at.to_owned()}</div>
-                            </div>
+        <>  
+            <head>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            </head>
+            <body>
+
+                <div>
+                    <h1>{ "Projects Page" }</h1>
+                    <div class="projectGrid">
+                        {
+                            for projects.iter().map(|project| {
+                                html!{
+                                    <ProjectPanel project={project.clone()}/>
+                                }
+                            })
                         }
-                    })
-                }
-            </div>
-        </div>
+                    </div>
+                </div>
+            </body>
+
+        </>
     }
 }

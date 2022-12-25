@@ -8,11 +8,18 @@
 	flex-direction: column;
 	align-items: center;
 	background-color: white;
+	border-radius: 2rem;
+	border: 0.2rem solid black;
 	margin: 1rem;
 	padding: 1rem;
 	color: black;
 	img {
 		width: 15rem;
 		margin-right: 0.5em;
+	}
+	.header {
+		display: grid;
+		grid-template-columns: 1fr 3fr 1fr;
+		width: 100%;
 	}
 }

@@ -1,6 +1,7 @@
-use yew::{function_component, Html, Properties, html};
+use yew::{function_component, Html, Properties, html, Callback, MouseEvent};
+use yew_router::prelude::use_navigator;
 
-use crate::models::Project;
+use crate::{models::Project, pages::Route};
 
 #[derive(PartialEq, Properties)]
 pub struct ProjectPanelProps {
@@ -11,11 +12,26 @@ pub struct ProjectPanelProps {
 #[function_component(ProjectPanel)]
 pub fn project_panel(props: &ProjectPanelProps) -> Html {
     let ProjectPanelProps { project } = props;
+	let navigator = use_navigator().unwrap();
+    // let edit: Box<UseStateHandle<bool>> = Box::new(use_state(|| false));
+	let slug = project.slug.clone();
+
+	let edit_button: Callback<MouseEvent> = {
+		let slug = slug.clone();
+		Callback::from(move |_| {
+			// link to /edit/{project.slug}
+			// use yew_router to link
+			// navigator.push(&Route::EditProject { slug });
+
+		})
+    };
+
 	html! {
 		<div class="project">
 			<div class="header">
-				
+				<p></p>
 				<h3>{project.name.to_owned()}</h3>
+				<button onclick={edit_button}>{"Edit"}</button>
 			</div>
 			<div class="image"><img src={project.image.to_owned()}/></div>
 			<a class="description" href={project.devpost_link.to_owned()}>{project.devpost_link.to_owned()}</a>
@@ -33,6 +49,7 @@ pub fn project_panel(props: &ProjectPanelProps) -> Html {
 			</div>
 			<div class="description">{"Created At: "}{project.created_at.to_owned()}</div>
 			<div class="description">{"Updated At: "}{project.updated_at.to_owned()}</div>
+
 		</div>
 	}
 }

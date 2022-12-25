@@ -19,7 +19,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   def show
     helpers.get_github
-    render json: @project
+    render json: @project, methods: ['skills']
   end
 
   # POST /projects

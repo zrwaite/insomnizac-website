@@ -1,7 +1,7 @@
 use yew::{Callback, html, Html, function_component};
 use yew_router::{BrowserRouter, Switch};
 use yew_router::prelude::use_navigator;
-use crate::pages::{Error404, Projects, Route};
+use crate::pages::{Error404, Projects, Route, EditProject};
 
 #[function_component(Secure)]
 fn secure() -> Html {
@@ -33,6 +33,7 @@ fn switch(routes: Route) -> Html {
                     Route::Secure => html! {<Secure />},
                     Route::NotFound => html! { <Error404 /> },
                     Route::Projects => html! { <Projects /> },
+                    Route::EditProject { slug } => html! { <EditProject slug={slug} /> },
                 }
             }
         </main>

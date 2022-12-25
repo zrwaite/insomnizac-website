@@ -19,10 +19,7 @@ pub fn project_panel(props: &ProjectPanelProps) -> Html {
 	let edit_button: Callback<MouseEvent> = {
 		let slug = slug.clone();
 		Callback::from(move |_| {
-			// link to /edit/{project.slug}
-			// use yew_router to link
-			// navigator.push(&Route::EditProject { slug });
-
+			navigator.push(&Route::EditProject { slug: slug.clone() });
 		})
     };
 

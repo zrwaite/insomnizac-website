@@ -45,9 +45,13 @@
 		align-items: center;
 		margin: 0.5rem 0;
 		>* {
-			margin: 0 0.5rem;
+			margin-right: 0.5rem;
 		}	
 		list-style: none;
+		>img {
+			width: 2rem;
+			height: 2rem;
+		}
 	}
 	img {
 		width: 15rem;

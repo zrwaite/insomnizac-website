@@ -18,6 +18,10 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
     let error = Box::new(use_state(|| None));
     let project_skills = Box::new(use_state(|| project.skills.clone()));
 	let new_skill: Box<UseStateHandle<Option<Skill>>> = Box::new(use_state(|| None));
+	let parsed_project_skills = (*(*project_skills).clone()).clone();
+	let unused_skills = skills.to_vec().into_iter().filter(|s| 
+		!parsed_project_skills.iter().any(|ps| ps.id == s.id)
+	).collect::<Vec<Skill>>();
 
 	let save_button: Callback<MouseEvent> = {
 		let slug = slug.clone();
@@ -56,13 +60,15 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
     };
 
 	let add_skill_button: Callback<MouseEvent> = {
+		let parsed_project_skills = parsed_project_skills.clone();
 		let project_skills = project_skills.clone();
 		let new_skill = new_skill.clone();
 		Callback::from(move |_| {
-			let mut new_skills = (*(*project_skills.clone()).clone()).clone();
+			let mut new_skills = parsed_project_skills.clone();
 			let parsed_new_skill = (*(*new_skill).clone()).clone().unwrap();
 			new_skills.push(parsed_new_skill.clone());
 			project_skills.set(new_skills.to_vec());
+			new_skill.set(None);
 		})
 	};
 
@@ -91,40 +97,53 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 			<div>
 				<label for="skills">{"Skills: "}</label>
 				<ul>
-				{for project_skills.iter().map(|skill| {
+				{for parsed_project_skills.clone().iter().map(|skill| {
+					let project_skills = project_skills.clone();
 					let delete_skill_button: Callback<MouseEvent> = {
+						let parsed_project_skills = parsed_project_skills.clone();
 						let project_skills = project_skills.clone();
 						let skill = skill.clone();
 						Callback::from(move |_| {
-							let new_skills: Vec<Skill> = (&**project_skills.clone()).clone().into_iter().filter(|s| s.id != skill.id.clone()).collect();
+							let new_skills: Vec<Skill> = parsed_project_skills.clone().into_iter().filter(|s| s.id != skill.id.clone()).collect();
 							project_skills.set(new_skills)
 						})
 					};
 					html! {
 						<li>
+							<img src={skill.image.to_owned()}/>
 							<p>{skill.name.to_owned()}</p>
 							<button onclick={delete_skill_button}>{"Delete"}</button>
 						</li>
 					}
 				})}
 				</ul>
-				<label for="new_skill">{"New Skill: "}</label>
-				<select name="new_skill" >
-					<option disabled=true selected=true>{"Select a skill"}</option>
-					{for skills.iter().map(|skill| {
-						let new_skill = new_skill.clone();
-						let skill_copy = skill.clone();
-						let skill = skill.clone();
-						html! {
-							<option value={skill.name.to_owned()} onclick={Callback::from(move |_| {
-								let new_skill = new_skill.clone();
-								let skill = skill.clone();
-								new_skill.set(Some(skill.clone()))
-							})}>{skill_copy.name.clone()}</option>
-						}
-					})}
+				<div>
+					<label for="new_skill">{"New Skill: "}</label>
+					<select name="new_skill" >
+						<option disabled=true selected=true>{"Select a skill"}</option>
+						{for (*unused_skills).to_vec().iter().map(|skill| {
+							let new_skill = new_skill.clone();
+							let skill_copy = skill.clone();
+							let skill = skill.clone();
+							html! {
+								<option value={skill.name.to_owned()} onclick={Callback::from(move |_| {
+									let new_skill = new_skill.clone();
+									let skill = skill.clone();
+									new_skill.set(Some(skill.clone()))
+								})}>{skill_copy.name.clone()}</option>
+							}
+						})}
 
-				</select>
+					</select>
+					// match (*project).as_ref() {
+					{if let Some(_skill) = (*new_skill).as_ref() {
+						html! {
+							<button onclick={add_skill_button}>{"Add Skill"}</button>
+						}
+					} else {
+						html! {}
+					}}
+				</div>
 
 			</div>
 			<div class="description">{"Created At: "}{project.created_at.to_owned()}</div>

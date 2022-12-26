@@ -6,16 +6,17 @@ use crate::{models::{Project, Skill}};
 
 #[derive(PartialEq, Properties)]
 pub struct ProjectPanelProps {
-    pub project: Project
+    pub project: Project,
+	pub skills: Vec<Skill>
 }
 
 
 #[function_component(EditProjectForm)]
 pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
-    let ProjectPanelProps { project } = props;
+    let ProjectPanelProps { project, skills } = props;
 	let slug = project.slug.clone();
     let error = Box::new(use_state(|| None));
-    let skills = Box::new(use_state(|| project.skills.clone()));
+    let project_skills = Box::new(use_state(|| project.skills.clone()));
 	let new_skill: Box<UseStateHandle<Option<Skill>>> = Box::new(use_state(|| None));
 
 	let save_button: Callback<MouseEvent> = {
@@ -55,12 +56,13 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
     };
 
 	let add_skill_button: Callback<MouseEvent> = {
-		let skills = skills.clone();
+		let project_skills = project_skills.clone();
+		let new_skill = new_skill.clone();
 		Callback::from(move |_| {
-			let mut new_skills = (*(*skills.clone()).clone()).clone();
+			let mut new_skills = (*(*project_skills.clone()).clone()).clone();
 			let parsed_new_skill = (*(*new_skill).clone()).clone().unwrap();
 			new_skills.push(parsed_new_skill.clone());
-			skills.set(new_skills.to_vec());
+			project_skills.set(new_skills.to_vec());
 		})
 	};
 
@@ -89,13 +91,13 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 			<div>
 				<label for="skills">{"Skills: "}</label>
 				<ul>
-				{for skills.iter().map(|skill| {
+				{for project_skills.iter().map(|skill| {
 					let delete_skill_button: Callback<MouseEvent> = {
-						let skills = skills.clone();
+						let project_skills = project_skills.clone();
 						let skill = skill.clone();
 						Callback::from(move |_| {
-							let new_skills: Vec<Skill> = (&**skills.clone()).clone().into_iter().filter(|s| s.id != skill.id.clone()).collect();
-							skills.set(new_skills)
+							let new_skills: Vec<Skill> = (&**project_skills.clone()).clone().into_iter().filter(|s| s.id != skill.id.clone()).collect();
+							project_skills.set(new_skills)
 						})
 					};
 					html! {
@@ -107,8 +109,20 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 				})}
 				</ul>
 				<label for="new_skill">{"New Skill: "}</label>
-				<select name="new_skill">
-					// {for 
+				<select name="new_skill" >
+					<option disabled=true selected=true>{"Select a skill"}</option>
+					{for skills.iter().map(|skill| {
+						let new_skill = new_skill.clone();
+						let skill_copy = skill.clone();
+						let skill = skill.clone();
+						html! {
+							<option value={skill.name.to_owned()} onclick={Callback::from(move |_| {
+								let new_skill = new_skill.clone();
+								let skill = skill.clone();
+								new_skill.set(Some(skill.clone()))
+							})}>{skill_copy.name.clone()}</option>
+						}
+					})}
 
 				</select>
 

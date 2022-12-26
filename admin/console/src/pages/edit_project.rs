@@ -4,6 +4,7 @@ use yew::{use_effect_with_deps, UseStateHandle};
 use yew::prelude::use_state;
 use log::info;
 
+use crate::components::EditProjectForm;
 use crate::models::Project;
 
 #[derive(PartialEq, Properties)]
@@ -18,6 +19,8 @@ pub fn edit_project(props: &EditProjectProps) -> Html {
     let error = Box::new(use_state(|| None));
 
     let project: Box<UseStateHandle<Option<Project>>> = Box::new(use_state(|| None));
+
+    let skills: Box<UseStateHandle<Vec<String>>> = Box::new(use_state(|| vec![]));
 
     {
         let project = project.clone();
@@ -59,15 +62,13 @@ pub fn edit_project(props: &EditProjectProps) -> Html {
     
     html! {
 		<div>
-			<h1>{ "Projects Page" }</h1>
+			<h1>{ format!("Edit Project: {}", props.slug.clone()) }</h1>
 			<div class="projectGrid">
 				{
 					match (*project).as_ref() {
 						Some(p) => {
 							html! {
-								<div>
-									<h1>{ p.name.clone() }</h1>
-								</div>
+								<EditProjectForm project={(*p).clone()}/>
 							}
 						}
 						None => {

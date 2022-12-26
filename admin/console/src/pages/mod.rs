@@ -6,3 +6,5 @@ pub mod routing;
 pub use routing::*;
 pub mod edit_project;
 pub use edit_project::*;
+pub mod home;
+pub use home::*;

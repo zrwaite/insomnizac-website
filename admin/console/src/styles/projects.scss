@@ -23,3 +23,34 @@
 		width: 100%;
 	}
 }
+
+.edit_project {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin: 1rem;
+	padding: 1rem;
+	>div {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin: 0.5rem 0;
+		>* {
+			margin: 0 0.5rem;
+		}
+	}
+	li {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin: 0.5rem 0;
+		>* {
+			margin: 0 0.5rem;
+		}	
+		list-style: none;
+	}
+	img {
+		width: 15rem;
+		margin-right: 0.5em;
+	}
+}

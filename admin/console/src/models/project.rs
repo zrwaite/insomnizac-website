@@ -14,6 +14,6 @@ pub struct Project {
     pub updated_at: String,
     pub image: Option<String>,
     pub featured: bool,
-    pub skill_ids: Vec<String>,
+    pub skill_ids: Vec<i64>,
 	pub skills: Vec<Skill>
 }

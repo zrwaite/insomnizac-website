@@ -64,10 +64,15 @@ class ProjectsController < ApplicationController
     end
 
     def auth
-      redirect = helpers.authenticate_redirect
-      if redirect != nil 
-        redirect_to redirect
+      # get the Authorization header
+      # split the token into two parts
+      begin
+        token = request.headers['Authorization'].split(' ').last
+      rescue
+        raise "Invalid Authentication"
       end
+
+      helpers.authenticate_redirect(token)
     end
 
 end

@@ -10,33 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_15_074043) do
-  create_table "projects", force: :cascade do |t|
+ActiveRecord::Schema[7.0].define(version: 2022_12_26_230858) do
+  create_table "projects", id: :bigint, default: -> { "unique_rowid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "slug", null: false
     t.string "github_name", null: false
     t.string "devpost_link"
     t.string "project_link"
+    t.datetime "created_at", precision: nil, default: -> { "now()" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.string "image"
     t.boolean "featured", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "skill_ids"
+    t.bigint "skill_ids", array: true
   end
 
-  create_table "skills", force: :cascade do |t|
+  create_table "skills", id: :bigint, default: -> { "unique_rowid()" }, force: :cascade do |t|
     t.string "name"
     t.string "image"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, default: -> { "now()" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :bigint, default: -> { "unique_rowid()" }, force: :cascade do |t|
     t.string "email"
-    t.string "password_digest"
     t.boolean "confirmed", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "password_digest"
   end
 
 end

@@ -1,8 +1,10 @@
+use wasm_bindgen::JsValue;
+use wasm_bindgen_futures::JsFuture;
 use yew::{function_component, Html, Properties, html, Callback, MouseEvent, UseStateHandle, use_state};
-use reqwasm::http::Request;
+use reqwasm::http::{Request, Response};
 use log::info;
 
-use crate::{models::{Project, Skill}};
+use crate::{models::{Project, Skill, RailsError}};
 
 #[derive(PartialEq, Properties)]
 pub struct ProjectPanelProps {
@@ -25,34 +27,52 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 
 	let save_button: Callback<MouseEvent> = {
 		let slug = slug.clone();
-		let project = project.clone();
+		let error = error.clone();
+		let saved_project = project.clone();
+		let parsed_project_skills = parsed_project_skills.clone();
 		Callback::from(move |_| {
 			let slug = slug.clone();
-			let project = project.clone();
+			let mut saved_project = saved_project.clone();
+			saved_project.skill_ids = parsed_project_skills.clone().into_iter().map(|s| s.id).collect();
 			let error = error.clone();
 			wasm_bindgen_futures::spawn_local(async move {
                 let projects_endpoint = format!(
                     "http://localhost:3000/projects/{}", slug.clone()
                 );
-                let fetched_projects = Request::post(&projects_endpoint).send().await;
+                let mut update_request = Request::put(&projects_endpoint);
+				// update_request.header("Content-Type", "application/json");
+				update_request = update_request.body(serde_json::to_string(&saved_project).unwrap());
+
+				let update_response = update_request.send().await;
         
-                match fetched_projects {
+                match update_response {
                     Ok(response) => {
-                        let json: Result<Project, _> = response.json().await;
-                        match json {
+                        let text = response.text().await.unwrap();
+						let project_response: Result<Project, _> = serde_json::from_str(&text.clone());
+						let error_response: Result<RailsError, _> = serde_json::from_str(&text.clone());
+                        match project_response {
                             Ok(p) => {
                                 info!("Success!");
-                                // project_state.set(Some(p));
                             }
-                            Err(e) => {
-                                info!("Error! {}", e.to_string());
-                                error.set(Some(e.to_string()));
+                            Err(_) => {
+                                match error_response {
+									Ok(e) => {
+										error.set(Some(
+											format!("Error: {}, {}, {}", e.status, e.error, e.exception)
+										));
+									}
+									Err(e) => {
+										error.set(Some(
+											format!("Unknown Error: {}", e.to_string())
+										));
+									}
+								}
                             }
                         }
                     }
                     Err(e) => {
                         info!("Error! {}", e.to_string());
-                        error.set(Some(e.to_string()))
+                        error.set(Some(format!("Error! {}", e.to_string())));
                     }
                 }
             });
@@ -148,7 +168,14 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 			</div>
 			<div class="description">{"Created At: "}{project.created_at.to_owned()}</div>
 			<div class="description">{"Updated At: "}{project.updated_at.to_owned()}</div>
-
+			<button onclick={save_button}>{"Save"}</button>
+			{if let Some(error) = (*error).as_ref() {
+				html! {
+					<div class="error">{error.to_owned()}</div>
+				}
+			} else {
+				html! {}
+			}}
 		</div>
 	}
 }

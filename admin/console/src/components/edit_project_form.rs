@@ -1,10 +1,7 @@
-use wasm_bindgen::JsValue;
-use wasm_bindgen_futures::JsFuture;
 use yew::{function_component, Html, Properties, html, Callback, MouseEvent, UseStateHandle, use_state};
-use reqwasm::http::{Request, Response};
 use log::info;
 
-use crate::{models::{Project, Skill, RailsError}};
+use crate::{models::{Project, Skill}, utils::{http_request, HttpResponse}};
 
 #[derive(PartialEq, Properties)]
 pub struct ProjectPanelProps {
@@ -17,8 +14,8 @@ pub struct ProjectPanelProps {
 pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
     let ProjectPanelProps { project, skills } = props;
 	let slug = project.slug.clone();
-    let error = Box::new(use_state(|| None));
     let project_skills = Box::new(use_state(|| project.skills.clone()));
+    let error: Box<UseStateHandle<Option<String>>> = Box::new(use_state(|| None));
 	let new_skill: Box<UseStateHandle<Option<Skill>>> = Box::new(use_state(|| None));
 	let parsed_project_skills = (*(*project_skills).clone()).clone();
 	let unused_skills = skills.to_vec().into_iter().filter(|s| 
@@ -36,46 +33,22 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 			saved_project.skill_ids = parsed_project_skills.clone().into_iter().map(|s| s.id).collect();
 			let error = error.clone();
 			wasm_bindgen_futures::spawn_local(async move {
-                let projects_endpoint = format!(
-                    "http://localhost:3000/projects/{}", slug.clone()
-                );
-                let mut update_request = Request::put(&projects_endpoint);
-				// update_request.header("Content-Type", "application/json");
-				update_request = update_request.body(serde_json::to_string(&saved_project).unwrap());
-
-				let update_response = update_request.send().await;
-        
-                match update_response {
-                    Ok(response) => {
-                        let text = response.text().await.unwrap();
-						let project_response: Result<Project, _> = serde_json::from_str(&text.clone());
-						let error_response: Result<RailsError, _> = serde_json::from_str(&text.clone());
-                        match project_response {
-                            Ok(p) => {
-                                info!("Success!");
-                            }
-                            Err(_) => {
-                                match error_response {
-									Ok(e) => {
-										error.set(Some(
-											format!("Error: {}, {}, {}", e.status, e.error, e.exception)
-										));
-									}
-									Err(e) => {
-										error.set(Some(
-											format!("Unknown Error: {}", e.to_string())
-										));
-									}
-								}
-                            }
-                        }
-                    }
-                    Err(e) => {
-                        info!("Error! {}", e.to_string());
-                        error.set(Some(format!("Error! {}", e.to_string())));
-                    }
-                }
-            });
+				match http_request::<Project>(
+					format!("http://localhost:3000/projects/{}", slug.clone()), 
+					crate::utils::HttpMethod::PUT, 
+					Some(serde_json::to_string(&saved_project).unwrap())
+				).await {
+					HttpResponse::Success(_p) => {info!("Success!")},
+					HttpResponse::Error(e) => {
+						error.set(Some(
+							format!("Error: {}, {}, {}", e.status, e.error, e.exception)
+						));
+					}
+					HttpResponse::Unknown(e) => {
+						error.set(Some(e.to_string()));
+					}
+				}
+			});
 		})
     };
 

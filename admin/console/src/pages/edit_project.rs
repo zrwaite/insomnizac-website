@@ -15,11 +15,8 @@ pub struct EditProjectProps {
 
 #[function_component(EditProject)]
 pub fn edit_project(props: &EditProjectProps) -> Html {
-
     let error = Box::new(use_state(|| None));
-
     let project: Box<UseStateHandle<Option<Project>>> = Box::new(use_state(|| None));
-
     let skills: Box<UseStateHandle<Vec<Skill>>> = Box::new(use_state(|| vec![]));
 
     {

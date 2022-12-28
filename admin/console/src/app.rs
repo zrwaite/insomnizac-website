@@ -34,6 +34,8 @@ fn switch(routes: Route) -> Html {
                     Route::NotFound => html! { <Error404 /> },
                     Route::Projects => html! { <Projects /> },
                     Route::EditProject { slug } => html! { <EditProject slug={slug} /> },
+                    Route::Login => html! { <Login /> },
+                    Route::SignUp => html! { <SignUp /> },
                 }
             }
         </main>

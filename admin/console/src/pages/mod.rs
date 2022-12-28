@@ -8,3 +8,7 @@ pub mod edit_project;
 pub use edit_project::*;
 pub mod home;
 pub use home::*;
+pub mod login;
+pub use login::*;
+pub mod signup;
+pub use signup::*;

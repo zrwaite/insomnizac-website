@@ -12,4 +12,8 @@ pub enum Route {
     NotFound,
     #[at("/project/edit/:slug")]
     EditProject { slug: String },
+    #[at("/login")]
+    Login,
+    #[at("/signup")]
+    SignUp,
 }

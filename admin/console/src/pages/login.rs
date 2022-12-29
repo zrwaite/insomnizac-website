@@ -2,12 +2,13 @@ use log::info;
 use web_sys::MouseEvent;
 use yew::{html, Html, function_component, Callback, use_state};
 
-use crate::{utils::{http_request, HttpResponse}, models::User};
+use crate::{utils::{http_request, HttpResponse}, models::{User, LoginBody}};
 // use yew_router::prelude::use_navigator;
 
 #[function_component(Login)]
 pub fn login() -> Html {
     let error = Box::new(use_state(|| None));
+	let login_body_state = Box::new(use_state(|| LoginBody::new()));
 
 	// let navigator = use_navigator().unwrap();
 	// let signup_button: Callback<MouseEvent> = {

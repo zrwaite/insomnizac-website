@@ -5,6 +5,7 @@ use yew::html::onchange::Event;
 use log::info;
 use wasm_bindgen::JsCast;
 
+use crate::utils::parse_state;
 use crate::{models::{Project, Skill}, utils::{http_request, HttpResponse}};
 
 #[derive(PartialEq, Properties)]
@@ -17,13 +18,13 @@ pub struct ProjectPanelProps {
 #[function_component(EditProjectForm)]
 pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
     let ProjectPanelProps { project, skills } = props;
-	let slug = project.slug.clone();
-	let edited_project = Box::new(use_state(|| project.clone()));
-	let parsed_project = (*(*edited_project).clone()).clone();
-    let project_skills = Box::new(use_state(|| project.skills.clone()));
     let error: Box<UseStateHandle<Option<String>>> = Box::new(use_state(|| None));
-	let new_skill: Box<UseStateHandle<Option<Skill>>> = Box::new(use_state(|| None));
-	let parsed_project_skills = (*(*project_skills).clone()).clone();
+	let edited_project = Box::new(use_state(|| project.clone()));
+    let project_skills = Box::new(use_state(|| project.skills.clone()));
+	let new_skill = Box::new(use_state(|| None));
+	let slug = project.slug.clone();
+	let parsed_project = parse_state(edited_project.clone());
+	let parsed_project_skills = parse_state(project_skills.clone());
 	let unused_skills = skills.to_vec().into_iter().filter(|s| 
 		!parsed_project_skills.iter().any(|ps| ps.id == s.id)
 	).collect::<Vec<Skill>>();
@@ -114,7 +115,7 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 		let new_skill = new_skill.clone();
 		Callback::from(move |_| {
 			let mut new_skills = parsed_project_skills.clone();
-			let parsed_new_skill = (*(*new_skill).clone()).clone().unwrap();
+			let parsed_new_skill: Skill = parse_state(new_skill.clone()).unwrap();
 			new_skills.push(parsed_new_skill.clone());
 			project_skills.set(new_skills.to_vec());
 			new_skill.set(None);

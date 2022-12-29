@@ -6,6 +6,15 @@ pub struct LoginBody {
 	pub password: String,
 }
 
+impl LoginBody {
+	pub fn new() -> Self {
+		Self {
+			email: "".to_string(),
+			password: "".to_string(),
+		}
+	}
+}
+
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct User {

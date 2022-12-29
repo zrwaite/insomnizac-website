@@ -11,8 +11,7 @@ use crate::utils::{HttpResponse, get_request};
 pub fn projects() -> Html {
 
     let error = Box::new(use_state(|| None));
-
-    let projects: Box<UseStateHandle<Vec<Project>>> = Box::new(use_state(|| vec![]));
+    let projects = Box::new(use_state(|| vec![]));
 
     {
         let projects = projects.clone();

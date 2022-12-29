@@ -13,7 +13,6 @@ pub struct ProjectPanelProps {
 pub fn project_panel(props: &ProjectPanelProps) -> Html {
     let ProjectPanelProps { project } = props;
 	let navigator = use_navigator().unwrap();
-    // let edit: Box<UseStateHandle<bool>> = Box::new(use_state(|| false));
 	let slug = project.slug.clone();
 
 	let edit_button: Callback<MouseEvent> = {

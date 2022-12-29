@@ -5,7 +5,7 @@ use log::info;
 
 use crate::components::EditProjectForm;
 use crate::models::{Project, Skill};
-use crate::utils::{HttpResponse, get_request};
+use crate::utils::{HttpResponse, get_request, parse_state};
 
 #[derive(PartialEq, Properties)]
 pub struct EditProjectProps {
@@ -64,7 +64,7 @@ pub fn edit_project(props: &EditProjectProps) -> Html {
 				{
 					match (*project).as_ref() {
 						Some(p) => {
-                            let passed_skills = (*(*skills).clone()).clone();
+                            let passed_skills = parse_state(skills.clone());
 							html! {
 								<EditProjectForm project={(*p).clone()} skills={passed_skills}/>
 							}

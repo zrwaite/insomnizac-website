@@ -17,6 +17,10 @@ pub enum HttpResponse<T> {
 	Unknown(String),
 }
 
+pub async fn get_request<T: for<'a> Deserialize<'a>>(endpoint: String) -> HttpResponse<T> {
+	return http_request::<T>(endpoint, HttpMethod::GET, None).await;
+}
+
 pub async fn http_request<T: for<'a> Deserialize<'a>>(endpoint: String, method: HttpMethod, body: Option<String>) -> HttpResponse<T> {
 	let mut request = match method {
 		HttpMethod::GET => Request::get(&endpoint),

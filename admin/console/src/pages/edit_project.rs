@@ -1,11 +1,11 @@
 use yew::{html, Html, function_component, Properties};
-use reqwasm::http::Request;
 use yew::{use_effect_with_deps, UseStateHandle};
 use yew::prelude::use_state;
 use log::info;
 
 use crate::components::EditProjectForm;
 use crate::models::{Project, Skill};
+use crate::utils::{HttpResponse, get_request};
 
 #[derive(PartialEq, Properties)]
 pub struct EditProjectProps {
@@ -28,54 +28,30 @@ pub fn edit_project(props: &EditProjectProps) -> Html {
             let project = project.clone();
             let skills = skills.clone();
             let error = error.clone();
-            
             wasm_bindgen_futures::spawn_local(async move {
-                let project_endpoint = format!(
-                    "http://localhost:3000/projects/{}",slug.clone()
-                );
-                let skills_endpoint = format!("http://localhost:3000/skills");
-                let fetched_project = Request::get(&project_endpoint).send().await;
-                match fetched_project {
-                    Ok(project_response) => {
-                        let json: Result<Project, _> = project_response.json().await;
-                        match json {
-                            Ok(f) => {
+                match get_request::<Project>(
+					format!("http://localhost:3000/projects/{}", slug.clone()), 
+				).await {
+					HttpResponse::Success(p) => {
+                        match get_request::<Vec<Skill>>(
+                            "http://localhost:3000/skills".to_string()
+                        ).await {
+                            HttpResponse::Success(s) => {
                                 info!("Success!");
-
-                                let fetched_skills = Request::get(&skills_endpoint).send().await;
-                                match fetched_skills {
-                                    Ok(skills_response) => {
-                                        let json: Result<Vec<Skill>, _> = skills_response.json().await;
-                                        match json {
-                                            Ok(s) => {
-                                                info!("Success!");
-                                                skills.set(s);
-                                            }
-                                            Err(e) => {
-                                                info!("Error! {}", e.to_string());
-                                                error.set(Some(e.to_string()));
-                                            }
-                                        }
-                                    }
-                                    Err(e) => {
-                                        info!("Error! {}", e.to_string());
-                                        error.set(Some(e.to_string()))
-                                    }
-                                }
-
-                                project.set(Some(f));
-                            }
-                            Err(e) => {
-                                info!("Error! {}", e.to_string());
-                                error.set(Some(e.to_string()));
-                            }
+                                skills.set(s);
+                                project.set(Some(p));
+                            },
+                            HttpResponse::Error(e) => error.set(Some(
+                                format!("Error: {}, {}, {}", e.status, e.error, e.exception)
+                            )),
+                            HttpResponse::Unknown(e) => error.set(Some(e.to_string()))
                         }
-                    }
-                    Err(e) => {
-                        info!("Error! {}", e.to_string());
-                        error.set(Some(e.to_string()))
-                    }
-                }
+                    },
+					HttpResponse::Error(e) => error.set(Some(
+                        format!("Error: {}, {}, {}", e.status, e.error, e.exception)
+                    )),
+					HttpResponse::Unknown(e) => error.set(Some(e.to_string())),
+				}
             });
             || ()
         }, ());

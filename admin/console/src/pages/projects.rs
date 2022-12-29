@@ -1,11 +1,11 @@
 use yew::{html, Html, function_component};
-use reqwasm::http::Request;
 use yew::{use_effect_with_deps, UseStateHandle};
 use yew::prelude::use_state;
 use log::info;
 
 use crate::models::Project;
 use crate::components::ProjectPanel;
+use crate::utils::{HttpResponse, get_request};
 
 #[function_component(Projects)]
 pub fn projects() -> Html {
@@ -22,29 +22,17 @@ pub fn projects() -> Html {
             let error = error.clone();
             
             wasm_bindgen_futures::spawn_local(async move {
-                let projects_endpoint = format!(
-                    "http://localhost:3000/projects"
-                );
-                let fetched_projects = Request::get(&projects_endpoint).send().await;
-        
-                match fetched_projects {
-                    Ok(response) => {
-                        let json: Result<Vec<Project>, _> = response.json().await;
-                        match json {
-                            Ok(f) => {
-                                info!("Success!");
-                                projects.set(f);
-                            }
-                            Err(e) => {
-                                info!("Error! {}", e.to_string());
-                                error.set(Some(e.to_string()));
-                            }
-                        }
-                    }
-                    Err(e) => {
-                        info!("Error! {}", e.to_string());
-                        error.set(Some(e.to_string()))
-                    }
+                match get_request::<Vec<Project>>(
+                    "http://localhost:3000/projects".to_string()
+                ).await {
+                    HttpResponse::Success(p) => {
+                        info!("Success!");
+                        projects.set(p);
+                    },
+                    HttpResponse::Error(e) => error.set(Some(
+                        format!("Error: {}, {}, {}", e.status, e.error, e.exception)
+                    )),
+                    HttpResponse::Unknown(e) => error.set(Some(e.to_string()))
                 }
             });
             || ()

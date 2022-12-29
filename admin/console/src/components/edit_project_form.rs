@@ -1,5 +1,9 @@
-use yew::{function_component, Html, Properties, html, Callback, MouseEvent, UseStateHandle, use_state};
+use web_sys::{EventTarget, HtmlInputElement};
+use yew::{function_component, Html, Properties, Callback, MouseEvent, UseStateHandle, use_state};
+use yew::html;
+use yew::html::onchange::Event;
 use log::info;
+use wasm_bindgen::JsCast;
 
 use crate::{models::{Project, Skill}, utils::{http_request, HttpResponse}};
 
@@ -14,6 +18,8 @@ pub struct ProjectPanelProps {
 pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
     let ProjectPanelProps { project, skills } = props;
 	let slug = project.slug.clone();
+	let edited_project = Box::new(use_state(|| project.clone()));
+	let parsed_project = (*(*edited_project).clone()).clone();
     let project_skills = Box::new(use_state(|| project.skills.clone()));
     let error: Box<UseStateHandle<Option<String>>> = Box::new(use_state(|| None));
 	let new_skill: Box<UseStateHandle<Option<Skill>>> = Box::new(use_state(|| None));
@@ -21,6 +27,56 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 	let unused_skills = skills.to_vec().into_iter().filter(|s| 
 		!parsed_project_skills.iter().any(|ps| ps.id == s.id)
 	).collect::<Vec<Skill>>();
+
+	let on_text_change = {
+		let edited_project = edited_project.clone();
+		let parsed_project = parsed_project.clone();
+		Callback::from(move |e: Event| {
+			let edited_project = edited_project.clone();
+			let mut new_project = parsed_project.clone();
+			let target: EventTarget = e
+				.target()
+				.expect("Event should have a target when dispatched");
+			let name = target.clone().unchecked_into::<HtmlInputElement>().name();
+
+			match name.as_str() {
+				"name" => new_project.name = target.unchecked_into::<HtmlInputElement>().value(),
+				"slug" => new_project.slug = target.unchecked_into::<HtmlInputElement>().value(),
+				"devpost_link" => {
+					let devpost_link = target.unchecked_into::<HtmlInputElement>().value();
+					new_project.devpost_link = match devpost_link.as_str() {
+						"" => None,
+						_ => Some(devpost_link)
+					}
+				},
+				"project_link" => {
+					let project_link = target.unchecked_into::<HtmlInputElement>().value();
+					new_project.project_link = match project_link.as_str() {
+						"" => None,
+						_ => Some(project_link)
+					}
+				}
+				_ => ()
+			}
+			edited_project.set(new_project);
+		})
+	};
+
+	let on_bool_change = Callback::from(move |e: Event| {
+		let edited_project = edited_project.clone();
+		let mut new_project = parsed_project.clone();
+		let target: EventTarget = e
+			.target()
+			.expect("Event should have a target when dispatched");
+		let name = target.clone().unchecked_into::<HtmlInputElement>().name();
+
+		match name.as_str() {
+			"featured" => new_project.featured = target.unchecked_into::<HtmlInputElement>().checked(),
+			_ => ()
+		}
+		edited_project.set(new_project);
+	});
+
 
 	let save_button: Callback<MouseEvent> = {
 		let slug = slug.clone();
@@ -69,7 +125,7 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 		<div class="edit_project">
 			<div>
 				<label for="name">{"Name: "}</label>
-				<input type="text" name="name" value={project.name.clone()}/>
+				<input type="text" name="name" value={project.name.clone()} onchange={on_text_change.clone()}/>
 			</div>
 			<div>
 				<label for="image">{"Image: "}</label	>
@@ -77,15 +133,15 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 			</div>
 			<div>
 				<label for="devpost_link">{"Devpost Link: "}</label>
-				<input type="text" name="devpost_link" value={project.devpost_link.clone()}/>
+				<input type="text" name="devpost_link" value={project.devpost_link.clone()} onchange={on_text_change.clone()}/>
 			</div>
 			<div>
 				<label for="project_link">{"Project Link: "}</label>
-				<input type="text" name="project_link" value={project.project_link.clone()}/>
+				<input type="text" name="project_link" value={project.project_link.clone()} onchange={on_text_change.clone()}/>
 			</div>
 			<div>
 				<label for="featured">{"Featured: "}</label>
-				<input type="checkbox" name="featured" checked={project.featured.clone()}/>
+				<input type="checkbox" name="featured" checked={project.featured.clone()} onchange={on_bool_change}/>
 			</div>
 			<div>
 				<label for="skills">{"Skills: "}</label>

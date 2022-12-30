@@ -42,12 +42,13 @@ class UsersController < ApplicationController
 
   def login_handler
     @user = User.new
-    db_user = User.find_by(email: params[:email])
+    login_body = JSON.parse(request.body.read)
+    db_user = User.find_by(email: login_body["email"])
     if !db_user 
       @user.errors.add(":email", ': User not found')
       render json: @user.errors, status: :bad_request
     else
-      if BCrypt::Password.new(db_user.password_digest) == params[:password]
+      if BCrypt::Password.new(db_user.password_digest) == login_body["password"]
         puts 'Success!'
         cookies[:token] = encode_jwt({
           user_id: db_user.id

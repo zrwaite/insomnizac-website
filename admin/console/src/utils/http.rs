@@ -1,4 +1,3 @@
-use log::info;
 use reqwasm::http::Request;
 use serde::Deserialize;
 
@@ -42,7 +41,7 @@ pub async fn http_request<T: for<'a> Deserialize<'a>>(endpoint: String, method: 
 				Ok(p) => HttpResponse::Success(p),
 				Err(_) => match error_response {
 					Ok(e) => HttpResponse::Error(e),
-					Err(e) => HttpResponse::Unknown(e.to_string())
+					Err(e) => HttpResponse::Unknown(format!("{}, {}", e.to_string(), text))
 				}
 			}
 		}

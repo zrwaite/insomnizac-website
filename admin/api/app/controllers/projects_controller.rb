@@ -24,6 +24,7 @@ class ProjectsController < ApplicationController
 
   # POST /projects
   def create
+    project_params = JSON.parse(request.body.read)
     @project = Project.new(project_params)
 
     if @project.save
@@ -35,6 +36,7 @@ class ProjectsController < ApplicationController
 
   # PATCH/PUT /projects/1
   def update
+    project_params = JSON.parse(request.body.read)
     if @project.update(project_params)
       render json: @project
     else
@@ -58,10 +60,10 @@ class ProjectsController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def project_params
-      # params.fetch(:project, {})
-      params.require(:project).permit(:name, :description, :github_name, :slug)
-    end
+    # def project_params
+    #   # params.fetch(:project, {})
+    #   params.require(:project).permit(:name, :description, :github_name, :slug)
+    # end
 
     def auth
       # get the Authorization header

@@ -1,11 +1,11 @@
 use yew::{html, Html, function_component};
-use yew_router::prelude::use_navigator;
+// use yew_router::prelude::use_navigator;
 
 
 #[function_component(SignUp)]
 pub fn signup() -> Html {
-
-	let navigator = use_navigator().unwrap();
+	
+	// let navigator = use_navigator().unwrap();
 	// let signup_button: Callback<MouseEvent> = {
 	// 	Callback::from(move |_| {
 	// 		navigator.push(&Route::Projects);

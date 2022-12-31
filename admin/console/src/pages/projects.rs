@@ -1,5 +1,5 @@
 use yew::{html, Html, function_component};
-use yew::{use_effect_with_deps, UseStateHandle};
+use yew::{use_effect_with_deps};
 use yew::prelude::use_state;
 use log::info;
 

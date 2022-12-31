@@ -18,4 +18,8 @@ impl LocalStorage {
 	pub fn get(&self, key: String) -> Option<String> {
 		self.storage.get_item(&key).ok()?
 	}
+	pub fn remove(&self, key: String) -> Result<(), JsValue> {
+		self.storage.remove_item(&key)?;
+		Ok(())
+	}
 }

@@ -50,10 +50,12 @@ class UsersController < ApplicationController
     else
       if BCrypt::Password.new(db_user.password_digest) == login_body["password"]
         puts 'Success!'
-        cookies[:token] = encode_jwt({
-          user_id: db_user.id
-        })
-        render json: @user, status: :created, location: @user
+        render json: {
+          user: filter_user_params(db_user),
+          token: encode_jwt({
+            user_id: db_user.id
+          })
+        }, status: :created, location: @user
       else
         @user.errors.add(":password", ': Invalid')
       render json: @user.errors, status: :bad_request

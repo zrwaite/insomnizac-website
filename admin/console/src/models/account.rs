@@ -21,3 +21,9 @@ pub struct User {
 	pub email: String,
 	pub confirmed: bool,
 }
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+pub struct LoginResponse {
+	pub user: User,
+	pub token: String,
+}

@@ -4,3 +4,5 @@ mod http;
 pub use http::*;
 mod state;
 pub use state::*;
+mod auth;
+pub use auth::*;

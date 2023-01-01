@@ -2,14 +2,16 @@ use yew::{html, Html, function_component};
 use yew::{use_effect_with_deps};
 use yew::prelude::use_state;
 use log::info;
+use yew_router::prelude::use_navigator;
 
 use crate::models::Project;
 use crate::components::ProjectPanel;
-use crate::utils::{HttpResponse, get_request};
+use crate::utils::{HttpResponse, get_request, auth_redirect};
 
 #[function_component(Projects)]
 pub fn projects() -> Html {
-
+	let navigator = use_navigator().unwrap();
+    auth_redirect(navigator);
     let error = Box::new(use_state(|| None));
     let projects = Box::new(use_state(|| vec![]));
 

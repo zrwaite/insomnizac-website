@@ -2,10 +2,11 @@ use yew::{html, Html, function_component, Properties};
 use yew::{use_effect_with_deps, UseStateHandle};
 use yew::prelude::use_state;
 use log::info;
+use yew_router::prelude::use_navigator;
 
 use crate::components::EditProjectForm;
 use crate::models::{Project, Skill};
-use crate::utils::{HttpResponse, get_request, parse_state};
+use crate::utils::{HttpResponse, get_request, parse_state, auth_redirect};
 
 #[derive(PartialEq, Properties)]
 pub struct EditProjectProps {
@@ -15,6 +16,8 @@ pub struct EditProjectProps {
 
 #[function_component(EditProject)]
 pub fn edit_project(props: &EditProjectProps) -> Html {
+    auth_redirect(use_navigator().unwrap());
+
     let error = Box::new(use_state(|| None));
     let project: Box<UseStateHandle<Option<Project>>> = Box::new(use_state(|| None));
     let skills: Box<UseStateHandle<Vec<Skill>>> = Box::new(use_state(|| vec![]));

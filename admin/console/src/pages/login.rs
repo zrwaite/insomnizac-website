@@ -9,7 +9,7 @@ use yew_router::prelude::use_navigator;
 use crate::models::account::LoginResponse;
 use crate::models::LoginBody;
 use crate::pages::Route;
-use crate::utils::{http_request, HttpResponse, parse_state, LocalStorage};
+use crate::utils::{http_request, HttpResponse, parse_state, LocalStorage, non_auth_redirect};
 
 #[function_component(Login)]
 pub fn login() -> Html {
@@ -17,6 +17,7 @@ pub fn login() -> Html {
 	let login_body_state = Box::new(use_state(|| LoginBody::new()));
 	let login_body = parse_state(login_body_state.clone());
 	let navigator = use_navigator().unwrap();
+	non_auth_redirect(navigator.clone());
 	
 	let login_button: Callback<MouseEvent> = {
 		let navigator = navigator.clone();

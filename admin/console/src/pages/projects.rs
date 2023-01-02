@@ -10,8 +10,7 @@ use crate::utils::{HttpResponse, get_request, auth_redirect};
 
 #[function_component(Projects)]
 pub fn projects() -> Html {
-	let navigator = use_navigator().unwrap();
-    auth_redirect(navigator);
+    auth_redirect(use_navigator().unwrap());
     let error = Box::new(use_state(|| None));
     let projects = Box::new(use_state(|| vec![]));
 

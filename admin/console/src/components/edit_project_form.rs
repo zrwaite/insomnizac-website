@@ -162,11 +162,42 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 							project_skills.set(new_skills)
 						})
 					};
+					let is_first = skill.id == parsed_project_skills.first().unwrap().id;
+					let is_last = skill.id == parsed_project_skills.last().unwrap().id;
+					let move_skill_up_button: Callback<MouseEvent> = {
+						let parsed_project_skills = parsed_project_skills.clone();
+						let project_skills = project_skills.clone();
+						let skill = skill.clone();
+						Callback::from(move |_| {
+							let mut new_skills = parsed_project_skills.clone();
+							let index = new_skills.iter().position(|s| s.id == skill.id.clone()).unwrap();
+							if index > 0 {
+								new_skills.swap(index, index - 1);
+							}
+							project_skills.set(new_skills)
+						})
+					};
+					let move_skill_down_button: Callback<MouseEvent> = {
+						let parsed_project_skills = parsed_project_skills.clone();
+						let project_skills = project_skills.clone();
+						let skill = skill.clone();
+						Callback::from(move |_| {
+							let mut new_skills = parsed_project_skills.clone();
+							let index = new_skills.iter().position(|s| s.id == skill.id.clone()).unwrap();
+							if index < new_skills.len() - 1 {
+								new_skills.swap(index, index + 1);
+							}
+							project_skills.set(new_skills)
+						})
+					};
 					html! {
 						<li>
+							<button onclick={delete_skill_button}>{"Delete"}</button>
+							{if !is_first {html!{<button onclick={move_skill_up_button}>{"Up"}</button>}} else {html!{}}}
+							{if !is_last {html!{<button onclick={move_skill_down_button}>{"Down"}</button>}} else {html!{}}}
+							
 							<img src={skill.image.to_owned()}/>
 							<p>{skill.name.to_owned()}</p>
-							<button onclick={delete_skill_button}>{"Delete"}</button>
 						</li>
 					}
 				})}

@@ -2,10 +2,9 @@ use web_sys::{EventTarget, HtmlInputElement};
 use yew::{function_component, Html, Properties, Callback, MouseEvent, UseStateHandle, use_state};
 use yew::html;
 use yew::html::onchange::Event;
-use log::info;
 use wasm_bindgen::JsCast;
 
-use crate::utils::parse_state;
+use crate::utils::{parse_state, alert_str};
 use crate::{models::{Project, Skill}, utils::{http_request, HttpResponse}};
 
 #[derive(PartialEq, Properties)]
@@ -95,7 +94,12 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 					crate::utils::HttpMethod::PUT, 
 					Some(serde_json::to_string(&saved_project).unwrap())
 				).await {
-					HttpResponse::Success(_p) => {info!("Success!")},
+					HttpResponse::Success(_p) => {
+						//alert: "Updated project!"
+						alert_str("Updated project!");
+
+						// info!("Success!")
+					},
 					HttpResponse::Error(e) => {
 						error.set(Some(
 							format!("Error: {}, {}, {}", e.status, e.error, e.exception)

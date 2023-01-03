@@ -3,6 +3,8 @@ use serde::Deserialize;
 
 use crate::models::RailsError;
 
+use super::LocalStorage;
+
 pub enum HttpMethod {
 	GET,
 	POST,
@@ -29,6 +31,10 @@ pub async fn http_request<T: for<'a> Deserialize<'a>>(endpoint: String, method: 
 	};
 	// update_request.header("Content-Type", "application/json");
 	request = request.body(body);
+	let token = LocalStorage::new().unwrap().get("token".to_string());
+	if token.is_some() {
+		request = request.header("Authorization", format!("Bearer {}", token.unwrap()).as_str());
+	}
 
 	let request = request.send().await;
 

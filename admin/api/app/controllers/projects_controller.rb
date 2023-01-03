@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
 
     if @project.save
-      render json: @project, status: :created, location: @project
+      render json: @project, status: :created, location: @project, methods: ['skills']
     else
       render json: @project.errors, status: :unprocessable_entity
     end
@@ -38,7 +38,7 @@ class ProjectsController < ApplicationController
   def update
     project_params = JSON.parse(request.body.read)
     if @project.update(project_params)
-      render json: @project
+      render json: @project, methods: ['skills']
     else
       render json: @project.errors, status: :unprocessable_entity
     end
@@ -74,7 +74,7 @@ class ProjectsController < ApplicationController
         raise "Invalid Authentication"
       end
 
-      helpers.authenticate_redirect(token)
+      helpers.authenticate(token)
     end
 
 end

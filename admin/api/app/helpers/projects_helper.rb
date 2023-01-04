@@ -3,11 +3,6 @@ require 'net/http'
 
 module ProjectsHelper
 	include Authentication
-	def get_github
-		uri = URI('https://jsonplaceholder.typicode.com/posts')
-		res = Net::HTTP.post_form(uri, 'title' => 'foo', 'body' => 'bar', 'userID' => 1)
-		puts res.body  if res.is_a?(Net::HTTPSuccess)
-	end
 
 	def authenticate(token)
 		jwt_result = decode_jwt(token)
@@ -27,4 +22,43 @@ module ProjectsHelper
 		return nil
 	end
 
+	def repository_query
+		return "
+		query ($name: String!, $owner: String!) { 
+			repository(name: $name, owner: $owner) {
+				description
+				languages(first: 10, orderBy: {
+					direction: DESC,
+					field: SIZE
+				}) 
+				{
+					totalSize
+					edges {
+						size
+						node {
+							color
+							name
+						}
+					}
+				}
+			}
+		}
+		"
+	end
+	def get_project_names(github_name)
+		username = nil
+		project_name = nil
+		if !github_name.include?("/")
+		  	username = "zrwaite"
+		  	project_name = github_name
+		else
+		  	names = github_name.split("/")
+		  	username = names[0]
+		  	project_name = names[1]
+		end
+		return {
+			"owner": username, 
+			"name": project_name
+		}
+	end
 end

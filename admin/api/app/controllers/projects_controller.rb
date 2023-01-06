@@ -28,6 +28,7 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
 
     if @project.save
+      add_github_skills(@project.slug)
       render json: @project, status: :created, location: @project, methods: ['skills']
     else
       render json: @project.errors, status: :unprocessable_entity
@@ -49,8 +50,8 @@ class ProjectsController < ApplicationController
     @project.destroy
   end
 
-  def load_from_github
-    @project = Project.find_by!(slug: params[:slug])
+  def add_github_skills(project_slug)
+    @project = Project.find_by!(slug: project_slug)
     all_skills = Skill.all
 
     github_data = http_graphql("https://api.github.com/graphql", helpers.repository_query, helpers.get_project_names(@project.github_name), ENV['GITHUB_ACCESS_TOKEN'])
@@ -66,6 +67,11 @@ class ProjectsController < ApplicationController
     end
 
     get_project_skills(@project)
+    return @project
+  end
+
+  def load_from_github
+    @project = add_github_skills(params[:slug])
 
     render json: @project, methods: ['skills']
   end

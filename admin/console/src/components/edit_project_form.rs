@@ -62,20 +62,23 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 		})
 	};
 
-	let on_bool_change = Callback::from(move |e: Event| {
+	let on_bool_change:Callback<Event> = {
 		let edited_project = edited_project.clone();
-		let mut new_project = parsed_project.clone();
-		let target: EventTarget = e
-			.target()
-			.expect("Event should have a target when dispatched");
-		let name = target.clone().unchecked_into::<HtmlInputElement>().name();
+		Callback::from(move |e: Event| {
+			let edited_project = edited_project.clone();
+			let mut new_project = parsed_project.clone();
+			let target: EventTarget = e
+				.target()
+				.expect("Event should have a target when dispatched");
+			let name = target.clone().unchecked_into::<HtmlInputElement>().name();
 
-		match name.as_str() {
-			"featured" => new_project.featured = target.unchecked_into::<HtmlInputElement>().checked(),
-			_ => ()
-		}
-		edited_project.set(new_project);
-	});
+			match name.as_str() {
+				"featured" => new_project.featured = target.unchecked_into::<HtmlInputElement>().checked(),
+				_ => ()
+			}
+			edited_project.set(new_project);
+		})
+	};
 
 
 	let save_button: Callback<MouseEvent> = {
@@ -95,10 +98,7 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 					Some(serde_json::to_string(&saved_project).unwrap())
 				).await {
 					HttpResponse::Success(_p) => {
-						//alert: "Updated project!"
 						alert_str("Updated project!");
-
-						// info!("Success!")
 					},
 					HttpResponse::Error(e) => {
 						error.set(Some(
@@ -123,6 +123,40 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 			new_skills.push(parsed_new_skill.clone());
 			project_skills.set(new_skills.to_vec());
 			new_skill.set(None);
+		})
+	};
+
+	let load_skills_from_github: Callback<MouseEvent> = {
+		let slug = slug.clone();
+		let edited_project = edited_project.clone();
+		let project_skills = project_skills.clone();
+		let error = error.clone();
+		Callback::from(move |_| {
+			let slug = slug.clone();
+			let edited_project = edited_project.clone();
+			let project_skills = project_skills.clone();
+			let error = error.clone();
+			wasm_bindgen_futures::spawn_local(async move {
+				match http_request::<Project>(
+					format!("http://localhost:3000/projects/{}/github", slug.clone()), 
+					crate::utils::HttpMethod::POST, 
+					None
+				).await {
+					HttpResponse::Success(p) => {
+						project_skills.set(p.skills.clone());
+						edited_project.set(p);
+						alert_str("Updated project!");
+					},
+					HttpResponse::Error(e) => {
+						error.set(Some(
+							format!("Error: {}, {}, {}", e.status, e.error, e.exception)
+						));
+					}
+					HttpResponse::Unknown(e) => {
+						error.set(Some(e.to_string()));
+					}
+				}
+			});
 		})
 	};
 
@@ -228,6 +262,7 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 					} else {
 						html! {}
 					}}
+					<button onclick={load_skills_from_github}>{"Load Skills from Github"}</button>
 				</div>
 
 			</div>

@@ -254,7 +254,6 @@ pub fn edit_project_form(props: &ProjectPanelProps) -> Html {
 						})}
 
 					</select>
-					// match (*project).as_ref() {
 					{if let Some(_skill) = (*new_skill).as_ref() {
 						html! {
 							<button onclick={add_skill_button}>{"Add Skill"}</button>

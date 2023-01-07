@@ -15,15 +15,22 @@ services:
             - '8011:8011'
         depends_on:
             - "redis"
-    admin:
-        build: 'admin'
+    admin_api:
+        build: 'admin/console'
         env_file: './.env'
         command: bundle exec rails s -p 8012 -b '0.0.0.0'
-        image: 'zrwaite/insomnizac_admin:1.0.7'
+        image: 'zrwaite/admin_api:1.0.0'
         ports:
             - '8012:8012'
         depends_on:
             - "redis"
+    admin_console:
+        build: 'admin/console'
+        image: 'zrwaite/admin_console:1.0.0'
+        ports:
+            - '8010:8010'
+        depends_on:
+            - "api"
     redis:
         build: 'redis'
         image: 'zrwaite/insomnizac_redis:1.1'
@@ -31,24 +38,10 @@ services:
             com.datadoghq.ad.logs: '[{"source": "redis", "service": "redis"}]'
         restart: 'always'
         ports:
-            - '6379:6379'
+            - '8013:6379'
         command: "redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}"
         volumes: 
             - redis:/data
-    # datadog:
-    #     build: 'datadog'
-    #     image: 'zrwaite/insomnizac_datadog:1.0.3'
-    #     pid: host
-    #     environment:
-    #         - DD_API_KEY=${DD_API_KEY}
-    #         - DD_SITE=datadoghq.com
-    #         - DD_LOGS_ENABLED=true
-    #         - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
-    #     volumes:
-    #         - /var/run/docker.sock:/var/run/docker.sock
-    #         - /proc/:/host/proc/:ro
-    #         - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
-    #         - /var/lib/docker/containers:/var/lib/docker/containers:ro
 volumes:
     redis:
         driver: local

@@ -9,7 +9,7 @@ import (
 
 func GetSkillArgs(skill *model.Skill) []interface{} {
 	filler := ""
-	return []interface{}{&filler, &skill.Name, &skill.Image, &filler, &filler}
+	return []interface{}{&skill.ID, &skill.Name, &skill.Image, &filler, &filler}
 }
 
 func GetSkills() (skills []*model.Skill, status int) {

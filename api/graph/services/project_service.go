@@ -142,13 +142,14 @@ func GetRepositoriesData(projects []*model.Project) error {
 func GetProjectSkills(obj *model.Project) ([]*model.Skill, error) {
 	skills := []*model.Skill{}
 	allSkills, status := GetSkills()
+	fmt.Println(allSkills)
 	if status != 200 {
 		return nil, errors.New("failed to get all skills")
 	}
 	for _, skillId := range obj.SkillIds {
 		found, index := utils.SkillBinarySearch(allSkills, &model.Skill{ID: skillId})
 		if !found {
-			return nil, errors.New("failed to find skill")
+			return nil, errors.New("failed to find skill with id: " + skillId + " in project: " + obj.Name)
 		}
 		skills = append(skills, allSkills[index])
 	}

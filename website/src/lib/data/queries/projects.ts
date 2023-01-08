@@ -11,6 +11,10 @@ query {
 		projectLink
 		image
 		featured
+		skills {
+			name
+			image
+		}
 	}
 }
 `;

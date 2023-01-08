@@ -13,6 +13,7 @@ export interface ProjectType {
 	projectLink?: string
 	image: string
 	featured: boolean
+	skills: SkillType[]
 }
 
 export interface SkillType {

@@ -1,24 +1,34 @@
 <script lang="ts">
-	import TitleRow from '$lib/components/TitleRow.svelte';
+	import Dots from '$lib/components/icons/dots.svelte';
 	import type { SkillType } from '$lib/types';
 	export let skills: SkillType[]
+	export let size = "50rem"
+	export let max: number|undefined = undefined
 </script>
 
-<TitleRow title={'Languages and Technologies'} />
 <section class="languagesSection">
 	{#each skills as skill}
-		<img
-			src={skill.image}
-			alt={skill.name}
-			height="50rem"
-			width="50rem"
-		/>
+		{#if !max || skills.indexOf(skill) < max}
+			<img
+				src={skill.image}
+				alt={skill.name}
+				height={size}
+				width={size}
+			/>
+		{/if}
 	{/each}
+	{#if max && skills.length >= max -1}
+		<img
+			src="https://img.icons8.com/ios-filled/50/000000/more.png"
+			alt="More"
+			height={size}
+			width={size}
+		/>
+	{/if}
 </section>
 
 <style lang="scss">
 	.languagesSection {
-		margin: 0 1rem 1rem;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;

@@ -28,6 +28,7 @@
 			<img src={construction} alt={'logo'} />
 		</div>
 	</section>
+	<TitleRow title={'Languages and Technologies'} />
 	<Skills skills={skills} />
 	<Graphs />
 	<TitleRow title={'Projects'} />

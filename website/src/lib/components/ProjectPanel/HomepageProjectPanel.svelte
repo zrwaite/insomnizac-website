@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Skills from "$lib/pages/home/Skills.svelte";
 	import type { ProjectType } from "$lib/types";
 
 	export let project: ProjectType;
@@ -13,6 +14,7 @@
 	<div class="projectDetails" style="flex:6">
 		<h3>{project.name}</h3>
 		<p>{project.description}</p>
+		<Skills skills={project.skills} size={"30rem"} max={8} />	
 	</div>
 </a>
 
@@ -51,6 +53,7 @@
 		margin-right: 1rem;
 	}
 	.projectDetails {
+		width: 100%;
 		h3 {
 			margin-bottom: 1rem;
 		}

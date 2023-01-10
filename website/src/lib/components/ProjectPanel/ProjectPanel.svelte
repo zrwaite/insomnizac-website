@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Skills from "$lib/pages/home/Skills.svelte";
 	import type { ProjectType } from "$lib/types";
 
 	export let project: ProjectType;
@@ -10,6 +11,7 @@
 	<div class="projectImage" >
 		<div>
 			<p>{project.description}</p>
+			<Skills skills={project.skills} size="30rem"/>
 		</div>
 		<!-- <img class={"backgroundImage"} src={project.image} alt={project.name} /> -->
 	</div>
@@ -58,7 +60,7 @@
 			transition: opacity 0.2s ease-in-out;
 		}
 		&:hover {
-		div {
+			div {
 				opacity: 1;
 			}
 		}

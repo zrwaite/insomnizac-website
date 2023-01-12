@@ -36,7 +36,6 @@ func GetProject(slug string) (project *model.Project, status int) {
 
 	row := db.DB.QueryRow("SELECT * FROM projects WHERE slug=$1", slug)
 	if row.Err() != nil {
-		fmt.Println(row.Err())
 		return nil, 400
 	}
 	err := row.Scan(GetProjectArgs(project)...)
@@ -142,7 +141,6 @@ func GetRepositoriesData(projects []*model.Project) error {
 func GetProjectSkills(obj *model.Project) ([]*model.Skill, error) {
 	skills := []*model.Skill{}
 	allSkills, status := GetSkills()
-	fmt.Println(allSkills)
 	if status != 200 {
 		return nil, errors.New("failed to get all skills")
 	}

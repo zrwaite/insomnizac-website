@@ -93,6 +93,9 @@
 	.allProjectsButtonText {
 		color: color('primary');
 	}
+	.buttonMargin {
+		margin: 1rem 0 2rem;
+	}
 	@media screen and (max-width: 40rem) {
 		.homeHeader {
 			flex-direction: column;

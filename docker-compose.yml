@@ -5,5 +5,3 @@ services:
         image: 'zrwaite/insomnizac_website:2.0.0'
         ports:
             - '8010:8010'
-        depends_on:
-            - "api"

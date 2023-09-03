@@ -4,7 +4,8 @@ on:
     push:
         branches: [main]
         paths:
-            - 'disabled-docker-compose.yml'
+            - 'docker-compose.yml'
+            - '.github/workflows/docker-compose-push.yml'
     pull_request:
         branches: [main]
 
@@ -17,7 +18,7 @@ jobs:
             - name: populate .env file
               run: |
                   touch .env
-                  echo "${{ secrets.ENV_FILE }}" >> .env
+                  echo "${{ secrets.ENV_FILE }}" > .env
             - name: docker login
               env:
                   DOCKER_USER: ${{secrets.DOCKER_USER}}

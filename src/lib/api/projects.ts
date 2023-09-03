@@ -1,12 +1,13 @@
 import { browser } from '$app/environment'
 import type { ProjectType, SkillType } from '$lib/types'
-import { poolOptions } from './database'
+import { error } from '@sveltejs/kit'
+import { pool } from './database'
 import { getRepositoriesData } from './github'
+import { getSkills } from './skills'
 
-export const getProjects = async (skills: SkillType[]): Promise<ProjectType[]> => {
-	if (browser) return []
-	const pg = await import('pg')
-	const pool = new pg.Pool(poolOptions)
+export const getProjects = async (skills?: SkillType[]): Promise<ProjectType[]> => {
+	if (browser) throw error(400, 'Ran on client')
+	const loadedSkills = skills || await getSkills()
 
 	const res = await pool.query('SELECT * FROM projects')
 	const projects: ProjectType[] = []
@@ -15,7 +16,7 @@ export const getProjects = async (skills: SkillType[]): Promise<ProjectType[]> =
 			...row,
 			created_at: row.created_at.toISOString(),
 			updated_at: row.updated_at.toISOString(),
-			skills: skills.filter((skill) => row.skill_ids.includes(skill.id))
+			skills: loadedSkills.filter((skill) => row.skill_ids.includes(skill.id))
 		}
 		projects.push(project)
 	})

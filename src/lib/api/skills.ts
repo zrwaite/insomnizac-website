@@ -1,11 +1,10 @@
 import type { SkillType } from '$lib/types'
-import { poolOptions } from './database'
+import { pool } from './database'
 import { browser } from '$app/environment'
+import { error } from '@sveltejs/kit'
 
 export const getSkills = async (): Promise<SkillType[]> => {
-	if (browser) return []
-	const pg = await import('pg')
-	const pool = new pg.Pool(poolOptions)
+	if (browser) throw error(400, 'Ran on client')
 	const res = await pool.query('SELECT * FROM skills')
 	const skills: SkillType[] = []
 	res.rows.forEach((row) => {

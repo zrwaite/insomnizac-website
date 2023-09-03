@@ -2,6 +2,6 @@ version: '3'
 services:
     website:
         build: '.'
-        image: 'zrwaite/insomnizac_website:2.0.0'
+        image: 'zrwaite/insomnizac_website:2.1.0'
         ports:
             - '8010:8010'

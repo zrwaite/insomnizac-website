@@ -5,9 +5,9 @@ import {
 	DATABASE_PASSWORD,
 	DATABASE_OPTIONS,
 } from '$env/static/private'
+import { Pool } from 'pg'
 
-
-export const poolOptions = {
+export const pool = new Pool({
 	user: DATABASE_USER,
 	host: DATABASE_HOST,
 	database: DATABASE_DB,
@@ -16,5 +16,5 @@ export const poolOptions = {
 	options: DATABASE_OPTIONS,
 	ssl: {
 		rejectUnauthorized: false
-	} as const
-} as const
+	}
+})

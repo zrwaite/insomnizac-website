@@ -18,10 +18,6 @@ jobs:
               run: |
                   touch .env
                   echo "${{ secrets.ENV_FILE }}" >> .env
-                  touch admin/.env
-                  echo "${{ secrets.ENV_FILE }}" >> admin/.env
-                  touch api/.env
-                  echo "${{ secrets.ENV_FILE }}" >> api/.env
             - name: docker login
               env:
                   DOCKER_USER: ${{secrets.DOCKER_USER}}

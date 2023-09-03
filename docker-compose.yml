@@ -1,47 +1,9 @@
 version: '3'
 services:
     website:
-        build: 'website'
-        image: 'zrwaite/insomnizac_website:1.1.2'
+        build: '.'
+        image: 'zrwaite/insomnizac_website:2.0.0'
         ports:
             - '8010:8010'
         depends_on:
             - "api"
-    api:
-        build: 'api'
-        env_file: './.env'
-        image: 'zrwaite/insomnizac_api:1.0.7'
-        ports:
-            - '8011:8011'
-        depends_on:
-            - "redis"
-    admin_api:
-        build: 'admin/console'
-        env_file: './.env'
-        command: bundle exec rails s -p 8012 -b '0.0.0.0'
-        image: 'zrwaite/admin_api:1.0.0'
-        ports:
-            - '8012:8012'
-        depends_on:
-            - "redis"
-    admin_console:
-        build: 'admin/console'
-        image: 'zrwaite/admin_console:1.0.0'
-        ports:
-            - '8010:8010'
-        depends_on:
-            - "api"
-    redis:
-        build: 'redis'
-        image: 'zrwaite/insomnizac_redis:1.1'
-        labels:
-            com.datadoghq.ad.logs: '[{"source": "redis", "service": "redis"}]'
-        restart: 'always'
-        ports:
-            - '8013:6379'
-        command: "redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}"
-        volumes: 
-            - redis:/data
-volumes:
-    redis:
-        driver: local

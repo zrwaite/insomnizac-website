@@ -5,7 +5,8 @@ import {
 	DATABASE_PASSWORD,
 	DATABASE_OPTIONS,
 } from '$env/static/private'
-import { Pool } from 'pg'
+import pg from 'pg'
+const { Pool } = pg
 
 export const pool = new Pool({
 	user: DATABASE_USER,

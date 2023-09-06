@@ -33,6 +33,7 @@
 	"type": "module",
 	"dependencies": {
 		"pg": "^8.11.3",
+		"redis": "^4.6.8",
 		"sass": "^1.64.2"
 	}
 }

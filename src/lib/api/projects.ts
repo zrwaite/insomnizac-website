@@ -9,9 +9,13 @@ import { redis } from './redis'
 export const getProjects = async (skills?: SkillType[]): Promise<ProjectType[]> => {
 	if (browser) throw error(400, 'Ran on client')
 	const loadedSkills = skills || await getSkills()
-	const projectCache = await redis.get('insomnizac-website-projects')
-	if (projectCache) {
-		return JSON.parse(projectCache)
+	try {
+		const projectCache = await redis.get('insomnizac-website-projects')
+		if (projectCache) {
+			return JSON.parse(projectCache)
+		}
+	} catch (e) {
+		console.log('Cache failed', e)
 	}
 
 	const res = await pool.query('SELECT * FROM projects')

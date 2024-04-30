@@ -14,6 +14,7 @@
 
 ```bash
 npm i
+./redis.sh
 npm run dev
 ```
 

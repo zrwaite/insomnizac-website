@@ -3,5 +3,6 @@ services:
     website:
         build: .
         image: zrwaite/insomnizac_website:2.2.0
+        network_mode: host
         ports:
             - 8010:8010

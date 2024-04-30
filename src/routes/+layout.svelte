@@ -25,7 +25,7 @@
 		height: 100vh;
 	}
 	#contentContainer {
-		width: 100%;
+		width: calc(100% - 5rem);
 		margin-left: 5rem;
 	}
 	main {
